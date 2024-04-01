@@ -9,4 +9,5 @@ public interface DepartmentDAO {
     void updateDepartment(Department department);
     List<Department> getAllDepartment();
     Department getDepartmentById(int id);
+    Long getDepartmentCount();
 }

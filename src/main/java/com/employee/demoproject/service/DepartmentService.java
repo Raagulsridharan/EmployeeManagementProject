@@ -9,4 +9,5 @@ public interface DepartmentService {
     void updateDept(Department department);
     List<Department> getAllDept();
     Department getDeptById(int id);
+    Long getDeptCount();
 }

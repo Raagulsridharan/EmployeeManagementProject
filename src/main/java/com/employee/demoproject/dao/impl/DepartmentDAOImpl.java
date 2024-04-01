@@ -40,4 +40,11 @@ public class DepartmentDAOImpl implements DepartmentDAO {
     public Department getDepartmentById(int id) {
         return sessionFactory.getCurrentSession().get(Department.class,id);
     }
+
+    @Override
+    public Long getDepartmentCount() {
+        Query<Long> query = sessionFactory.getCurrentSession()
+                .createQuery("select count(*) from Department", Long.class);
+        return query.uniqueResult();
+    }
 }

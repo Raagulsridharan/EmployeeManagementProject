@@ -40,4 +40,9 @@ public class DepartmentController {
     public Department getDeptById(@PathVariable int id){
         return departmentService.getDeptById(id);
     }
+
+    @GetMapping("/getDeptCount")
+    public Long getDeptCount(){
+        return departmentService.getDeptCount();
+    }
 }
