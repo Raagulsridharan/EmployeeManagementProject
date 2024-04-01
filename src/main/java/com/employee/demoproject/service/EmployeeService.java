@@ -8,4 +8,5 @@ public interface EmployeeService {
     List<EmployeeDTO> getEmp();
     EmployeeDTO getEmpById(int id);
     Long getEmpCount();
+    void deleteEmp(int id);
 }

@@ -31,4 +31,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Long getEmpCount() {
         return employeeDAO.getTotalEmployeeCount();
     }
+
+    @Override
+    public void deleteEmp(int id) {
+        employeeDAO.deleteEmployee(id);
+    }
 }

@@ -8,4 +8,5 @@ public interface EmployeeDAO {
     List<EmployeeDTO> getAllEmployee();
     EmployeeDTO getEmployeeById(int id);
     Long getTotalEmployeeCount();
+    void deleteEmployee(int id);
 }

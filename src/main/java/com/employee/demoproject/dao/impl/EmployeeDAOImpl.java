@@ -2,6 +2,8 @@ package com.employee.demoproject.dao.impl;
 
 import com.employee.demoproject.dao.EmployeeDAO;
 import com.employee.demoproject.dto.EmployeeDTO;
+import com.employee.demoproject.entity.Employee;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +45,13 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         Query<Long> query = sessionFactory.getCurrentSession()
                 .createQuery("select count(*) from Employee",Long.class);
         return query.uniqueResult();
+    }
+
+    @Override
+    public void deleteEmployee(int id) {
+        Session session = sessionFactory.getCurrentSession();
+        Employee employee = session.get(Employee.class,id);
+        session.remove(employee);
+        System.out.println("Successfully deleted");
     }
 }
