@@ -36,6 +36,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public Department getDeptByName(String name) {
+        return departmentDAO.getDepartmentByName(name);
+    }
+
+    @Override
     public Long getDeptCount() {
         return departmentDAO.getDepartmentCount();
     }

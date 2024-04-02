@@ -1,7 +1,5 @@
 package com.employee.demoproject.dto;
 
-import java.sql.Date;
-
 public class EmployeeDTO {
     private int id;
     private String emp_name;
@@ -10,10 +8,9 @@ public class EmployeeDTO {
     private String email;
     private String address;
     private String department;
-    private Date activated_on;
 
     public EmployeeDTO() {}
-    public EmployeeDTO(Integer id, String emp_name, String gender, Long mobile, String email, String address, String department, Date activated_on) {
+    public EmployeeDTO(Integer id, String emp_name, String gender, Long mobile, String email, String address, String department) {
         this.id = id;
         this.emp_name = emp_name;
         this.gender = gender;
@@ -21,7 +18,21 @@ public class EmployeeDTO {
         this.email = email;
         this.address = address;
         this.department = department;
-        this.activated_on = activated_on;
+    }
+    public EmployeeDTO(String emp_name, String gender, Long mobile, String email, String address, String department) {
+        this.emp_name = emp_name;
+        this.gender = gender;
+        this.mobile = mobile;
+        this.email = email;
+        this.address = address;
+        this.department = department;
+    }
+    public EmployeeDTO(String emp_name, Long mobile, String email, String address, String department) {
+        this.emp_name = emp_name;
+        this.mobile = mobile;
+        this.email = email;
+        this.address = address;
+        this.department = department;
     }
 
     public int getId() {
@@ -78,14 +89,6 @@ public class EmployeeDTO {
 
     public void setDepartment(String department) {
         this.department = department;
-    }
-
-    public Date getActivated_on() {
-        return activated_on;
-    }
-
-    public void setActivated_on(Date activated_on) {
-        this.activated_on = activated_on;
     }
 
     @Override

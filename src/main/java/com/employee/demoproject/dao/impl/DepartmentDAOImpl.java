@@ -42,6 +42,16 @@ public class DepartmentDAOImpl implements DepartmentDAO {
     }
 
     @Override
+    public Department getDepartmentByName(String name) {
+        Query<Department> query = sessionFactory.getCurrentSession()
+                .createQuery("select d from Department d where d.name = :deptName", Department.class)
+                .setParameter("deptName", name);
+        return query.uniqueResult();
+    }
+
+
+
+    @Override
     public Long getDepartmentCount() {
         Query<Long> query = sessionFactory.getCurrentSession()
                 .createQuery("select count(*) from Department", Long.class);

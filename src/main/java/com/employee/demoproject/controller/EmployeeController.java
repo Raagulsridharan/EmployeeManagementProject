@@ -1,6 +1,7 @@
 package com.employee.demoproject.controller;
 
 import com.employee.demoproject.dto.EmployeeDTO;
+import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,18 @@ import java.util.List;
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
+
+    @PostMapping("/saveEmp")
+    public String saveEmployee(@RequestBody EmployeeDTO employeeDTO){
+        employeeService.saveEmp(employeeDTO);
+        return "Employee created...!!!";
+    }
+
+    @PutMapping("/updateEmp/{id}")
+    public String updateEmployee(@PathVariable int id, @RequestBody EmployeeDTO employeeDTO){
+        employeeService.updateEmp(id,employeeDTO);
+        return "Successfully updated...";
+    }
 
     @GetMapping("/getAllEmp")
     public ResponseEntity<List<EmployeeDTO>> getEmployee(){

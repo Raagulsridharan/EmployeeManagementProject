@@ -14,4 +14,28 @@ public class LeavePolicy {
 
     @OneToMany(mappedBy = "leavePolicy")
     private List<LeaveApplied> leaveAppliedList;
+
+    public LeavePolicy() {
+    }
+
+    public LeavePolicy(int id, String leave_types) {
+        this.id = id;
+        this.leave_types = leave_types;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getLeave_types() {
+        return leave_types;
+    }
+
+    public void setLeave_types(String leave_types) {
+        this.leave_types = leave_types;
+    }
 }

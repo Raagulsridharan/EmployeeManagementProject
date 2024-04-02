@@ -20,7 +20,7 @@ public class EmpRoleSalary {
     @JoinColumn(name = "role_id")
     private Designation designation;
 
-    private int annual_salary_pack;
+    private double annual_salary_pack;
     private double basic_sal_month;
     private double tax_reduction_month;
     private double net_sal_month;

@@ -2,7 +2,6 @@ package com.employee.demoproject.entity;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -16,32 +15,33 @@ public class Employee {
     private long mobile;
     private String email;
     private String address;
-    private String password;
     @ManyToOne
     @JoinColumn(name = "dept_id")
     private Department department;
-    private Date activated_on;
+    private String status;
 
-    @OneToMany(mappedBy = "employee_role_salary")
+    @OneToMany(mappedBy = "employee_role_salary",cascade = CascadeType.ALL)
     private List<EmpRoleSalary> empRoleSalary;
 
-    @OneToMany(mappedBy = "employee_has_leave")
+    @OneToMany(mappedBy = "employee_has_leave",cascade = CascadeType.ALL)
     private List<EmployeeHasLeave> employeeHasLeaveList;
 
-    @OneToMany(mappedBy = "employee_leave_applied")
+    @OneToMany(mappedBy = "employee_leave_applied",cascade = CascadeType.ALL)
     private List<LeaveApplied> leaveAppliedList;
 
+    @OneToMany(mappedBy = "employee_login",cascade = CascadeType.ALL)
+    private List<LoginDetails> loginDetails;
+
     public Employee() {}
-    public Employee(int id, String name, String gender, long mobile, String email, String address, Department department, Date activated_on) {
+    public Employee(int id, String name, String gender, long mobile, String email, String address, Department department, String status) {
         this.id = id;
         this.name = name;
         this.gender = gender;
         this.mobile = mobile;
         this.email = email;
         this.address = address;
-        this.password = password;
         this.department = department;
-        this.activated_on = activated_on;
+        this.status = status;
     }
 
     public int getId() {
@@ -92,14 +92,6 @@ public class Employee {
         this.address = address;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public Department getDepartment() {
         return department;
     }
@@ -108,11 +100,11 @@ public class Employee {
         this.department = department;
     }
 
-    public Date getActivated_on() {
-        return activated_on;
+    public String getStatus() {
+        return status;
     }
 
-    public void setActivated_on(Date activated_on) {
-        this.activated_on = activated_on;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

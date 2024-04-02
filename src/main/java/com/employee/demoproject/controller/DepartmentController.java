@@ -36,9 +36,14 @@ public class DepartmentController {
         return new ResponseEntity<>(departmentList, HttpStatus.OK);
     }
 
-    @GetMapping("/getDept/{id}")
+    @GetMapping("/getDeptById/{id}")
     public Department getDeptById(@PathVariable int id){
         return departmentService.getDeptById(id);
+    }
+
+    @GetMapping("/getDeptByName/{name}")
+    public Department getDeptByName(@PathVariable String name){
+        return departmentService.getDeptByName(name);
     }
 
     @GetMapping("/getDeptCount")
