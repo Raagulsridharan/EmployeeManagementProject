@@ -39,6 +39,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public List<Employee> getEmpByDept(int deptId) {
+        return employeeDAO.getAllEmployeeByDept(deptId);
+    }
+
+    @Override
     public Long getEmpCount() {
         return employeeDAO.getTotalEmployeeCount();
     }

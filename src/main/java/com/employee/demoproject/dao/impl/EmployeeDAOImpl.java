@@ -42,9 +42,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         employee.setDepartment(department);
         employee.setStatus("Pending");
 
-        loginDetailsService.createLogin(employee);
-
         sessionFactory.getCurrentSession().persist(employee);
+
+        loginDetailsService.createLogin(employee);
 
         System.out.println("Employee created...!!!");
     }
@@ -87,6 +87,18 @@ public class EmployeeDAOImpl implements EmployeeDAO {
                         "where e.id =:emp_id",EmployeeDTO.class)
                 .setParameter("emp_id",id);
         return query.uniqueResult();
+    }
+
+    @Override
+    public List<Employee> getAllEmployeeByDept(int deptId) {
+        List<Employee> employeeList = sessionFactory.getCurrentSession().createQuery("SELECT e\n" +
+                "FROM Employee e\n" +
+                "LEFT JOIN EmpRoleSalary d \n" +
+                "ON e.id = d.employee_role_salary.id\n" +
+                "WHERE e.status = 'activated'\n" +
+                "AND e.department.id = :deptId\n" +
+                "AND d.employee_role_salary.id IS NULL").setParameter("deptId",deptId).getResultList();
+        return employeeList;
     }
 
     @Override

@@ -10,6 +10,7 @@ public interface EmployeeService {
     void updateEmp(int id, EmployeeDTO employeeDTO);
     List<EmployeeDTO> getEmp();
     EmployeeDTO getEmpById(int id);
+    List<Employee> getEmpByDept(int deptId);
     Long getEmpCount();
     void deleteEmp(int id);
 }
