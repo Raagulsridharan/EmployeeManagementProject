@@ -2,6 +2,7 @@ package com.employee.demoproject.dao.impl;
 
 import com.employee.demoproject.dao.EmpRoleSalaryDAO;
 import com.employee.demoproject.dto.EmpRoleSalaryDTO;
+import com.employee.demoproject.dto.EmployeePaymentDTO;
 import com.employee.demoproject.entity.Designation;
 import com.employee.demoproject.entity.EmpRoleSalary;
 import com.employee.demoproject.entity.Employee;
@@ -24,8 +25,16 @@ public class EmpRoleSalaryDAOImpl implements EmpRoleSalaryDAO {
     private DesignationService designationService;
 
     @Override
-    public List<EmpRoleSalary> getAllEmpRoleSalary() {
-        return sessionFactory.getCurrentSession().createQuery("SELECT e FROM EmpRoleSalary e").getResultList();
+    public List<EmployeePaymentDTO> getAllEmpRoleSalary() {
+        List<EmployeePaymentDTO> employeePaymentDTOS = (List<EmployeePaymentDTO>) sessionFactory.getCurrentSession().createNativeQuery("select e.id, e.name, d.name as dept, ds.role, ers.basic_sal_month, ers.tax_reduction_month, ers.net_sal_month\n" +
+                "from employee e\n" +
+                " join department d\n" +
+                "\ton e.dept_id = d.id\n" +
+                " join emp_role_salary ers\n" +
+                "\ton e.id = ers.employee_id\n" +
+                " join designations ds\n" +
+                "\ton ers.role_id = ds.id;").getResultList();
+        return employeePaymentDTOS;
     }
     @Override
     public void createEmpRoleSalary(int empId,EmpRoleSalaryDTO empRoleSalaryDTO){

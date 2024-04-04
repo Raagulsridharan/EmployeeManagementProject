@@ -2,6 +2,7 @@ package com.employee.demoproject.service.impl;
 
 import com.employee.demoproject.dao.EmpRoleSalaryDAO;
 import com.employee.demoproject.dto.EmpRoleSalaryDTO;
+import com.employee.demoproject.dto.EmployeePaymentDTO;
 import com.employee.demoproject.entity.EmpRoleSalary;
 import com.employee.demoproject.service.EmpRoleSalaryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class EmpRoleSalaryServiceImpl implements EmpRoleSalaryService {
     private EmpRoleSalaryDAO empRoleSalaryDAO;
 
     @Override
-    public List<EmpRoleSalary> getAllEmpRoleSalary() {
+    public List<EmployeePaymentDTO> getAllEmpRoleSalary() {
         return empRoleSalaryDAO.getAllEmpRoleSalary();
     }
 

@@ -1,6 +1,7 @@
 package com.employee.demoproject.controller;
 
 import com.employee.demoproject.dto.EmpRoleSalaryDTO;
+import com.employee.demoproject.dto.EmployeePaymentDTO;
 import com.employee.demoproject.entity.EmpRoleSalary;
 import com.employee.demoproject.service.EmpRoleSalaryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class EmpRoleSalaryController {
     private EmpRoleSalaryService empRoleSalaryService;
 
     @GetMapping("/getAllEmpRoleSalary")
-    public ResponseEntity<List<EmpRoleSalary>> getAllEmpRoleSalary(){
+    public ResponseEntity<List<EmployeePaymentDTO>> getAllEmpRoleSalary(){
         return new ResponseEntity<>(empRoleSalaryService.getAllEmpRoleSalary(), HttpStatus.OK);
     }
 
