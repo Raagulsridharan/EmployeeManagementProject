@@ -43,4 +43,12 @@ public class LeavePolicyDAOImpl implements LeavePolicyDAO {
                 .setParameter("leaveName", name);
         return query.uniqueResult();
     }
+
+    @Override
+    public Long getLeaveTypesCount() {
+        Long count = (Long) sessionFactory.getCurrentSession()
+                                        .createQuery("SELECT count(lp) FROM LeavePolicy lp")
+                                        .uniqueResult();
+        return count;
+    }
 }

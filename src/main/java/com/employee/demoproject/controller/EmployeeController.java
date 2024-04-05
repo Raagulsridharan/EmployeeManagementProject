@@ -44,6 +44,16 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.getEmpByDept(deptId),HttpStatus.OK);
     }
 
+    @GetMapping("/getAllEmpByDeptForPayroll/{deptId}")
+    public ResponseEntity<List<Employee>> getAllEmployeeByDeptForPayroll(@PathVariable int deptId){
+        return new ResponseEntity<>(employeeService.getAllEmployeeByDeptForPayroll(deptId),HttpStatus.OK);
+    }
+
+    @GetMapping("/getAllEmployeeByDeptForLeaveAssign/{deptId}")
+    public ResponseEntity<List<Employee>> getAllEmployeeByDeptForLeaveAssign(@PathVariable int deptId){
+        return new ResponseEntity<>(employeeService.getAllEmployeeByDeptForLeaveAssign(deptId),HttpStatus.OK);
+    }
+
     @GetMapping("/getEmpCount")
     public Long getEmployeeCount(){
         return employeeService.getEmpCount();

@@ -1,32 +1,30 @@
-package com.employee.demoproject.entity;
+package com.employee.demoproject.dto;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "payroll")
-public class Payroll {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class PayrollDTO {
     private int id;
+    private String name;
+    private Double net_sal_month;
     private String month;
-    private double paid_salary;
+    private Double paid_salary;
     private String description;
     private String status;
 
-    @ManyToOne
-    @JoinColumn(name = "salary_id")
-    private EmpRoleSalary empRoleSalary_payroll;
-
-    public Payroll() {
+    public PayrollDTO() {
     }
 
-    public Payroll(int id, String month, double paid_salary, String description, String status, EmpRoleSalary empRoleSalary_payroll) {
+    public PayrollDTO(int id, String name, Double net_sal_month, String month, Double paid_salary, String description, String status) {
         this.id = id;
+        this.name = name;
+        this.net_sal_month = net_sal_month;
         this.month = month;
         this.paid_salary = paid_salary;
         this.description = description;
         this.status = status;
-        this.empRoleSalary_payroll = empRoleSalary_payroll;
+    }
+
+    public PayrollDTO(String month, String description) {
+        this.month = month;
+        this.description = description;
     }
 
     public int getId() {
@@ -37,6 +35,22 @@ public class Payroll {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getNet_sal_month() {
+        return net_sal_month;
+    }
+
+    public void setNet_sal_month(Double net_sal_month) {
+        this.net_sal_month = net_sal_month;
+    }
+
     public String getMonth() {
         return month;
     }
@@ -45,11 +59,11 @@ public class Payroll {
         this.month = month;
     }
 
-    public double getPaid_salary() {
+    public Double getPaid_salary() {
         return paid_salary;
     }
 
-    public void setPaid_salary(double paid_salary) {
+    public void setPaid_salary(Double paid_salary) {
         this.paid_salary = paid_salary;
     }
 
@@ -67,13 +81,5 @@ public class Payroll {
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public EmpRoleSalary getEmpRoleSalary_payroll() {
-        return empRoleSalary_payroll;
-    }
-
-    public void setEmpRoleSalary_payroll(EmpRoleSalary empRoleSalary_payroll) {
-        this.empRoleSalary_payroll = empRoleSalary_payroll;
     }
 }

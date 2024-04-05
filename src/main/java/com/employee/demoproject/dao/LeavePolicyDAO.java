@@ -9,4 +9,5 @@ public interface LeavePolicyDAO {
     List<LeavePolicy> getAllLeavePolicy();
     LeavePolicy getLeavePolicyById(int id);
     LeavePolicy getLeavePolicyByName(String name);
+    Long getLeaveTypesCount();
 }

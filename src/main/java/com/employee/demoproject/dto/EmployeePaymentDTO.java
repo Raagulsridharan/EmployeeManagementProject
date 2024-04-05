@@ -1,7 +1,7 @@
 package com.employee.demoproject.dto;
 
 public class EmployeePaymentDTO {
-    private int id;
+    private Integer id;
     private String name;
     private String dept;
     private String role;
@@ -12,7 +12,7 @@ public class EmployeePaymentDTO {
     public EmployeePaymentDTO() {
     }
 
-    public EmployeePaymentDTO(int id, String name, String dept, String role, Double basic_sal_month, Double tax_reduction_month, Double net_sal_month) {
+    public EmployeePaymentDTO(Integer id, String name, String dept, String role, Double basic_sal_month, Double tax_reduction_month, Double net_sal_month) {
         this.id = id;
         this.name = name;
         this.dept = dept;
@@ -22,11 +22,11 @@ public class EmployeePaymentDTO {
         this.net_sal_month = net_sal_month;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

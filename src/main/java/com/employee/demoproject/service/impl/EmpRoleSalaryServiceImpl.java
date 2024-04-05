@@ -27,4 +27,14 @@ public class EmpRoleSalaryServiceImpl implements EmpRoleSalaryService {
     public void createEmpRoleSalary(int empId, EmpRoleSalaryDTO empRoleSalaryDTO) {
         empRoleSalaryDAO.createEmpRoleSalary(empId, empRoleSalaryDTO);
     }
+
+    @Override
+    public void updateEmpRoleSalary(int empId, EmpRoleSalaryDTO empRoleSalaryDTO) {
+        empRoleSalaryDAO.updateEmpRoleSalary(empId,empRoleSalaryDTO);
+    }
+
+    @Override
+    public EmployeePaymentDTO getRoleSalaryByEmployee(int empId) {
+        return empRoleSalaryDAO.getRoleSalaryByEmployee(empId);
+    }
 }

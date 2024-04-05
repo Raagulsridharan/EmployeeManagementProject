@@ -3,32 +3,44 @@ package com.employee.demoproject.dto;
 import java.sql.Date;
 
 public class EmployeeHasLeaveDTO {
-    private int id;
+    private Integer id;
     private String empName;
-    private String leaveType;
-    private int noOfDays;
+    private String department;
+    private String role;
     private Date activatedOn;
+
+    private Integer leaveId;
+    private String leaveType;
+    private Long noOfDays;
+    private Date updatedOn;
 
     public EmployeeHasLeaveDTO() {
     }
-    public EmployeeHasLeaveDTO(int id, String empName, String leaveType, int noOfDays, Date activatedOn) {
+
+    public EmployeeHasLeaveDTO(Integer id, String empName,String department, String role, Date activatedOn) {
         this.id = id;
         this.empName = empName;
-        this.leaveType = leaveType;
-        this.noOfDays = noOfDays;
+        this.department = department;
+        this.role = role;
         this.activatedOn = activatedOn;
     }
-    public EmployeeHasLeaveDTO(String empName, String leaveType, int noOfDays) {
-        this.empName = empName;
+
+    public EmployeeHasLeaveDTO(String leaveType, Long noOfDays,Date updatedOn) {
         this.leaveType = leaveType;
+        this.noOfDays = noOfDays;
+        this.updatedOn = updatedOn;
+    }
+
+    public EmployeeHasLeaveDTO(Integer leaveId, Long noOfDays) {
+        this.leaveId = leaveId;
         this.noOfDays = noOfDays;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -40,20 +52,20 @@ public class EmployeeHasLeaveDTO {
         this.empName = empName;
     }
 
-    public String getLeaveType() {
-        return leaveType;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setLeaveType(String leaveType) {
-        this.leaveType = leaveType;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
-    public int getNoOfDays() {
-        return noOfDays;
+    public String getRole() {
+        return role;
     }
 
-    public void setNoOfDays(int noOfDays) {
-        this.noOfDays = noOfDays;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Date getActivatedOn() {
@@ -63,4 +75,38 @@ public class EmployeeHasLeaveDTO {
     public void setActivatedOn(Date activatedOn) {
         this.activatedOn = activatedOn;
     }
+
+    public Integer getLeaveId() {
+        return leaveId;
+    }
+
+    public void setLeaveId(Integer leaveId) {
+        this.leaveId = leaveId;
+    }
+
+    public String getLeaveType() {
+        return leaveType;
+    }
+
+    public void setLeaveType(String leaveType) {
+        this.leaveType = leaveType;
+    }
+
+    public Long getNoOfDays() {
+        return noOfDays;
+    }
+
+    public void setNoOfDays(Long noOfDays) {
+        this.noOfDays = noOfDays;
+    }
+
+    public Date getUpdatedOn() {
+        return updatedOn;
+    }
+
+    public void setUpdatedOn(Date updatedOn) {
+        this.updatedOn = updatedOn;
+    }
+
+
 }

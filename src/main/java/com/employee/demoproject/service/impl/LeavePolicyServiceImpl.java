@@ -35,4 +35,9 @@ public class LeavePolicyServiceImpl implements LeavePolicyService {
     public LeavePolicy getLeavePolicyByName(String name) {
         return leavePolicyDAO.getLeavePolicyByName(name);
     }
+
+    @Override
+    public Long getLeaveTypesCount() {
+        return leavePolicyDAO.getLeaveTypesCount();
+    }
 }

@@ -34,4 +34,9 @@ public class LeavePolicyController {
     public LeavePolicy getLeavePolicyByName(@PathVariable String name){
         return leavePolicyService.getLeavePolicyByName(name);
     }
+
+    @GetMapping("/getLeaveTypesCount")
+    public Long getLeaveTypesCount(){
+        return leavePolicyService.getLeaveTypesCount();
+    }
 }

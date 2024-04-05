@@ -28,5 +28,16 @@ public class EmpRoleSalaryController {
         empRoleSalaryService.createEmpRoleSalary(empId,empRoleSalaryDTO);
         return "Saved...";
     }
+
+    @PutMapping("/update/{empId}")
+    public String updateEmpRoleSalary(@PathVariable int empId,@RequestBody EmpRoleSalaryDTO empRoleSalaryDTO){
+        empRoleSalaryService.updateEmpRoleSalary(empId,empRoleSalaryDTO);
+        return "Updated...";
+    }
+
+    @GetMapping("/getRoleSalaryByEmployee/{empId}")
+    public EmployeePaymentDTO getRoleSalaryByEmployee(@PathVariable int empId){
+        return empRoleSalaryService.getRoleSalaryByEmployee(empId);
+    }
 }
 

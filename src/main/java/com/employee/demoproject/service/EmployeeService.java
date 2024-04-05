@@ -11,6 +11,8 @@ public interface EmployeeService {
     List<EmployeeDTO> getEmp();
     EmployeeDTO getEmpById(int id);
     List<Employee> getEmpByDept(int deptId);
+    List<Employee> getAllEmployeeByDeptForPayroll(int deptId);
+    List<Employee> getAllEmployeeByDeptForLeaveAssign(int deptId);
     Long getEmpCount();
     void deleteEmp(int id);
 }

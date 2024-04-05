@@ -91,13 +91,52 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public List<Employee> getAllEmployeeByDept(int deptId) {
-        List<Employee> employeeList = sessionFactory.getCurrentSession().createQuery("SELECT e\n" +
-                "FROM Employee e\n" +
-                "LEFT JOIN EmpRoleSalary d \n" +
-                "ON e.id = d.employee_role_salary.id\n" +
-                "WHERE e.status = 'activated'\n" +
-                "AND e.department.id = :deptId\n" +
-                "AND d.employee_role_salary.id IS NULL").setParameter("deptId",deptId).getResultList();
+        List<Employee> employeeList = sessionFactory.getCurrentSession()
+                                                    .createQuery("SELECT e\n" +
+                                                            "FROM Employee e\n" +
+                                                            "LEFT JOIN EmpRoleSalary ers \n" +
+                                                            "ON e.id = ers.employee_role_salary.id\n" +
+                                                            "WHERE e.status = 'activated'\n" +
+                                                            "AND e.department.id = :deptId\n" +
+                                                            "AND ers.employee_role_salary.id IS NULL")
+                                                    .setParameter("deptId",deptId)
+                                                    .getResultList();
+        return employeeList;
+    }
+
+    @Override
+    public List<Employee> getAllEmployeeByDeptForPayroll(int deptId) {
+        List<Employee> employeeList = sessionFactory.getCurrentSession()
+                                                    .createQuery("SELECT e \n" +
+                                                            "FROM Employee e \n" +
+                                                            "LEFT JOIN EmpRoleSalary ers \n" +
+                                                            "ON e.id = ers.employee_role_salary.id \n" +
+                                                            "left join Payroll p \n" +
+                                                            "on p.empRoleSalary_payroll.id = ers.id \n" +
+                                                            "WHERE e.status = 'activated'\n" +
+                                                            "and e.department.id = :deptId \n" +
+                                                            "and ers.employee_role_salary.id is not null \n" +
+                                                            "AND p.empRoleSalary_payroll.id IS NULL")
+                                                    .setParameter("deptId",deptId)
+                                                    .getResultList();
+        return employeeList;
+    }
+
+    @Override
+    public List<Employee> getAllEmployeeByDeptForLeaveAssign(int deptId) {
+        List<Employee> employeeList = sessionFactory.getCurrentSession()
+                                                    .createQuery("select distinct e \n" +
+                                                            "from Employee e \n" +
+                                                            "left join EmpRoleSalary ers \n" +
+                                                            "on e.id = ers.employee_role_salary.id \n" +
+                                                            "left join EmployeeHasLeave ehl \n" +
+                                                            "on e.id = ehl.employee_has_leave.id \n" +
+                                                            "where e.department.id = :deptId \n" +
+                                                            "and e.status = 'activated' \n" +
+                                                            "and ers.employee_role_salary.id is not null \n" +
+                                                            "and ehl.employee_has_leave.id is null",Employee.class)
+                                                    .setParameter("deptId",deptId)
+                                                    .getResultList();
         return employeeList;
     }
 
