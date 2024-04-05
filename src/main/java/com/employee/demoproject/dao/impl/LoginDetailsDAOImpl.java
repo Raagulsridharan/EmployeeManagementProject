@@ -2,6 +2,7 @@ package com.employee.demoproject.dao.impl;
 
 import com.employee.demoproject.dao.LoginDetailsDAO;
 import com.employee.demoproject.dto.EmployeeDTO;
+import com.employee.demoproject.dto.LoginDetailsDTO;
 import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.LoginDetails;
 import org.hibernate.SessionFactory;
@@ -47,6 +48,19 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
         login.setPassword(password);
 
         sessionFactory.getCurrentSession().saveOrUpdate(login);
+    }
+
+    @Override
+    public Integer employeeLogin(LoginDetailsDTO loginDetailsDTO) {
+        LoginDetails loginDetails = sessionFactory.getCurrentSession()
+                .createQuery("SELECT ld \n" +
+                        "FROM LoginDetails ld \n" +
+                        "WHERE CAST(ld.username AS binary) = CAST(:username AS binary) \n" +
+                        "AND CAST(ld.password AS binary) = CAST(:password AS binary)",LoginDetails.class)
+                .setParameter("username",loginDetailsDTO.getUsername())
+                .setParameter("password",loginDetailsDTO.getPassword())
+                .uniqueResult();
+        return loginDetails.getFlag();
     }
 
 

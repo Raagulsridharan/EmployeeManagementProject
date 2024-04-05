@@ -2,6 +2,7 @@ package com.employee.demoproject.service.impl;
 
 import com.employee.demoproject.dao.LoginDetailsDAO;
 import com.employee.demoproject.dto.EmployeeDTO;
+import com.employee.demoproject.dto.LoginDetailsDTO;
 import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.service.LoginDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +28,10 @@ public class LoginDetailsServiceImpl implements LoginDetailsService {
     @Override
     public void updatePassword(int id, String password) {
         loginDetailsDAO.updatePassword(id,password);
+    }
+
+    @Override
+    public Integer employeeLogin(LoginDetailsDTO loginDetailsDTO) {
+        return loginDetailsDAO.employeeLogin(loginDetailsDTO);
     }
 }
