@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.security.SecureRandom;
+import java.sql.Date;
+import java.time.LocalDate;
 
 @Repository
 public class LoginDetailsDAOImpl implements LoginDetailsDAO {
@@ -61,6 +63,25 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
                 .setParameter("password",loginDetailsDTO.getPassword())
                 .uniqueResult();
         return loginDetails.getFlag();
+    }
+
+    @Override
+    public void activatingAccount(LoginDetailsDTO loginDetailsDTO) {
+        LoginDetails loginDetails = sessionFactory.getCurrentSession()
+                .createQuery("SELECT ld \n" +
+                        "FROM LoginDetails ld \n" +
+                        "WHERE CAST(ld.username AS binary) = CAST(:username AS binary) \n" +
+                        "AND CAST(ld.password AS binary) = CAST(:password AS binary)" +
+                        "AND ld.flag = 0",LoginDetails.class)
+                .setParameter("username",loginDetailsDTO.getUsername())
+                .setParameter("password",loginDetailsDTO.getPassword())
+                .uniqueResult();
+
+        loginDetails.setPassword(loginDetailsDTO.getNewPassword());
+        loginDetails.setFlag(1);
+        loginDetails.setActivated_on(Date.valueOf(LocalDate.now()));
+
+        sessionFactory.getCurrentSession().saveOrUpdate(loginDetails);
     }
 
 

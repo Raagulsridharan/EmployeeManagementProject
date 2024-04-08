@@ -16,7 +16,13 @@ public class DepartmentController {
     @Autowired
     public DepartmentService departmentService;
 
-    @PostMapping("/saveDept")
+    @GetMapping
+    public ResponseEntity<List<Department>> getAllDepartment(){
+        List<Department> departmentList = departmentService.getAllDept();
+        return new ResponseEntity<>(departmentList, HttpStatus.OK);
+    }
+
+    @PostMapping
     public String saveDepartment(@RequestBody Department department){
         departmentService.createDept(department);
         return "Successfully Department created";
@@ -28,12 +34,6 @@ public class DepartmentController {
         updateDept.setName(department.getName());
         departmentService.updateDept(updateDept);
         return "updated successfully";
-    }
-
-    @GetMapping("/getAllDept")
-    public ResponseEntity<List<Department>> getAllDepartment(){
-        List<Department> departmentList = departmentService.getAllDept();
-        return new ResponseEntity<>(departmentList, HttpStatus.OK);
     }
 
     @GetMapping("/getDeptById/{id}")

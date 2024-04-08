@@ -9,4 +9,5 @@ public interface LoginDetailsDAO {
     void updateUserName(int id, EmployeeDTO employeeDTO);
     void updatePassword(int id, String password);
     Integer employeeLogin(LoginDetailsDTO loginDetailsDTO);
+    void activatingAccount(LoginDetailsDTO loginDetailsDTO);
 }

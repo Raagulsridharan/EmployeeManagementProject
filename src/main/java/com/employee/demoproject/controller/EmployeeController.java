@@ -16,7 +16,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
-    @PostMapping("/saveEmp")
+    @PostMapping
     public String saveEmployee(@RequestBody EmployeeDTO employeeDTO){
         employeeService.saveEmp(employeeDTO);
         return "Employee created...!!!";
@@ -28,7 +28,7 @@ public class EmployeeController {
         return "Successfully updated...";
     }
 
-    @GetMapping("/getAllEmp")
+    @GetMapping
     public ResponseEntity<List<EmployeeDTO>> getEmployee(){
         List<EmployeeDTO> el = employeeService.getEmp();
         return new ResponseEntity<>(el, HttpStatus.OK);

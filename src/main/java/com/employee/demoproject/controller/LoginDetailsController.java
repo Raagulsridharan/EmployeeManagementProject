@@ -21,4 +21,10 @@ public class LoginDetailsController {
     public Integer employeeLogin(@RequestBody LoginDetailsDTO loginDetailsDTO) {
         return loginDetailsService.employeeLogin(loginDetailsDTO);
     }
+
+    @PutMapping
+    public String activatingAccount(@RequestBody LoginDetailsDTO loginDetailsDTO) {
+        loginDetailsService.activatingAccount(loginDetailsDTO);
+        return "Account activated successfully";
+    }
 }

@@ -34,4 +34,9 @@ public class LoginDetailsServiceImpl implements LoginDetailsService {
     public Integer employeeLogin(LoginDetailsDTO loginDetailsDTO) {
         return loginDetailsDAO.employeeLogin(loginDetailsDTO);
     }
+
+    @Override
+    public void activatingAccount(LoginDetailsDTO loginDetailsDTO) {
+        loginDetailsDAO.activatingAccount(loginDetailsDTO);
+    }
 }
