@@ -54,15 +54,15 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
 
     @Override
     public Integer employeeLogin(LoginDetailsDTO loginDetailsDTO) {
-        LoginDetails loginDetails = sessionFactory.getCurrentSession()
-                .createQuery("SELECT ld \n" +
-                        "FROM LoginDetails ld \n" +
-                        "WHERE CAST(ld.username AS binary) = CAST(:username AS binary) \n" +
-                        "AND CAST(ld.password AS binary) = CAST(:password AS binary)",LoginDetails.class)
-                .setParameter("username",loginDetailsDTO.getUsername())
-                .setParameter("password",loginDetailsDTO.getPassword())
-                .uniqueResult();
-        return loginDetails.getFlag();
+            LoginDetails loginDetails = sessionFactory.getCurrentSession()
+                    .createQuery("SELECT ld \n" +
+                            "FROM LoginDetails ld \n" +
+                            "WHERE CAST(ld.username AS binary) = CAST(:username AS binary) \n" +
+                            "AND CAST(ld.password AS binary) = CAST(:password AS binary)",LoginDetails.class)
+                    .setParameter("username",loginDetailsDTO.getUsername())
+                    .setParameter("password",loginDetailsDTO.getPassword())
+                    .uniqueResult();
+            return loginDetails.getFlag();
     }
 
     @Override
@@ -71,13 +71,11 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
                 .createQuery("SELECT ld \n" +
                         "FROM LoginDetails ld \n" +
                         "WHERE CAST(ld.username AS binary) = CAST(:username AS binary) \n" +
-                        "AND CAST(ld.password AS binary) = CAST(:password AS binary)" +
                         "AND ld.flag = 0",LoginDetails.class)
                 .setParameter("username",loginDetailsDTO.getUsername())
-                .setParameter("password",loginDetailsDTO.getPassword())
                 .uniqueResult();
 
-        loginDetails.setPassword(loginDetailsDTO.getNewPassword());
+        loginDetails.setPassword(loginDetailsDTO.getPassword());
         loginDetails.setFlag(1);
         loginDetails.setActivated_on(Date.valueOf(LocalDate.now()));
 

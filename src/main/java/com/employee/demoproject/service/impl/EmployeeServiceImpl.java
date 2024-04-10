@@ -18,29 +18,29 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeDAO employeeDAO;
 
     @Override
-    public void saveEmp(EmployeeDTO employeeDTO) {
+    public void createEmployee(EmployeeDTO employeeDTO) {
         employeeDAO.createEmployee(employeeDTO);
     }
 
     @Override
-    public void updateEmp(int id, EmployeeDTO employeeDTO) {
-        employeeDAO.updateEmployee(id,employeeDTO);
+    public void updateEmployee(int empId, EmployeeDTO employeeDTO){
+        employeeDAO.updateEmployee(empId,employeeDTO);
     }
 
     @Override
-    public List<EmployeeDTO> getEmp() {
+    public List<EmployeeDTO> getAllEmployee() {
         List<EmployeeDTO> employeeList = employeeDAO.getAllEmployee();
         return employeeList;
     }
 
     @Override
-    public EmployeeDTO getEmpById(int id) {
-        return employeeDAO.getEmployeeById(id);
+    public EmployeeDTO getEmployeeById(int empId) {
+        return employeeDAO.getEmployeeById(empId);
     }
 
     @Override
-    public List<Employee> getEmpByDept(int deptId) {
-        return employeeDAO.getAllEmployeeByDept(deptId);
+    public List<Employee> getAllEmployeeByDeptForRoleAssign(int deptId) {
+        return employeeDAO.getAllEmployeeByDeptForRoleAssign(deptId);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void deleteEmp(int id) {
-        employeeDAO.deleteEmployee(id);
+    public void deleteEmployee(int empId) {
+        employeeDAO.deleteEmployee(empId);
     }
 }

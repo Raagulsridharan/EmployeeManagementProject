@@ -16,32 +16,32 @@ public class DepartmentServiceImpl implements DepartmentService {
     public DepartmentDAO departmentDAO;
 
     @Override
-    public void createDept(Department department) {
+    public void createDepartment(Department department) {
         departmentDAO.createDepartment(department);
     }
 
     @Override
-    public void updateDept(Department department) {
+    public void updateDepartment(Department department) {
         departmentDAO.updateDepartment(department);
     }
 
     @Override
-    public List<Department> getAllDept() {
+    public List<Department> getAllDepartment() {
         return departmentDAO.getAllDepartment();
     }
 
     @Override
-    public Department getDeptById(int id) {
+    public Department getDepartmentById(int id) {
         return departmentDAO.getDepartmentById(id);
     }
 
     @Override
-    public Department getDeptByName(String name) {
+    public Department getDepartmentByName(String name) {
         return departmentDAO.getDepartmentByName(name);
     }
 
     @Override
-    public Long getDeptCount() {
+    public Long getDepartmentCount() {
         return departmentDAO.getDepartmentCount();
     }
 }

@@ -2,12 +2,16 @@ package com.employee.demoproject.service.impl;
 
 import com.employee.demoproject.dao.PayrollDAO;
 import com.employee.demoproject.dto.EmployeePaymentDTO;
+import com.employee.demoproject.dto.PaySlipDTO;
 import com.employee.demoproject.dto.PayrollDTO;
+import com.employee.demoproject.entity.Payroll;
 import com.employee.demoproject.service.PayrollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -35,5 +39,25 @@ public class PayrollServiceImpl implements PayrollService {
     @Override
     public void createPayroll(int empId) {
         payrollDAO.createPayroll(empId);
+    }
+
+    @Override
+    public PaySlipDTO getPAYSlipContent(Integer salaryId) {
+        return payrollDAO.getPAYSlipContent(salaryId);
+    }
+
+    @Override
+    public Payroll getPaySlip(int payrollId) {
+        return payrollDAO.getPaySlip(payrollId);
+    }
+
+    @Override
+    public void uploadPaySlip(Integer payrollId, MultipartFile multipartFile){
+        payrollDAO.uploadPaySlip(payrollId,multipartFile);
+    }
+
+    @Override
+    public void generatePaySlip() {
+        payrollDAO.generatePaySlip();
     }
 }

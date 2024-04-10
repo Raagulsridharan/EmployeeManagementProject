@@ -9,6 +9,7 @@ public interface DesignationService {
     void updateDesignation(int id, Designation designation);
     List<Designation> getAllDesignation();
     Designation getDesignationById(int id);
-    Designation getDesignationByName(String role);
+    Designation getDesignationByRole(String role);
     Long getDesignationCount();
+    String getDesignationByEmail(String email);
 }

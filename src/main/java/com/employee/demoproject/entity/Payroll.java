@@ -1,6 +1,7 @@
 package com.employee.demoproject.entity;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "payroll")
@@ -16,6 +17,10 @@ public class Payroll {
     @ManyToOne
     @JoinColumn(name = "salary_id")
     private EmpRoleSalary empRoleSalary_payroll;
+
+    @Lob
+    @Column(name = "pay_slip", columnDefinition = "LONGBLOB")
+    private byte[] paySlip;
 
     public Payroll() {
     }
@@ -75,5 +80,13 @@ public class Payroll {
 
     public void setEmpRoleSalary_payroll(EmpRoleSalary empRoleSalary_payroll) {
         this.empRoleSalary_payroll = empRoleSalary_payroll;
+    }
+
+    public byte[] getPaySlip() {
+        return paySlip;
+    }
+
+    public void setPaySlip(byte[] paySlip) {
+        this.paySlip = paySlip;
     }
 }

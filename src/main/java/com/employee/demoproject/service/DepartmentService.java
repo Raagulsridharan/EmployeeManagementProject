@@ -5,10 +5,10 @@ import com.employee.demoproject.entity.Department;
 import java.util.List;
 
 public interface DepartmentService {
-    void createDept(Department department);
-    void updateDept(Department department);
-    List<Department> getAllDept();
-    Department getDeptById(int id);
-    Department getDeptByName(String name);
-    Long getDeptCount();
+    void createDepartment(Department department);
+    void updateDepartment(Department department);
+    List<Department> getAllDepartment();
+    Department getDepartmentById(int id);
+    Department getDepartmentByName(String name);
+    Long getDepartmentCount();
 }

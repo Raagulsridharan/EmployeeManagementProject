@@ -7,6 +7,8 @@ import com.employee.demoproject.entity.LeavePolicy;
 import java.util.List;
 
 public interface EmployeeHasLeaveService {
-    void assignLeaveForEmployee(int id, List<EmployeeHasLeaveDTO> employeeHasLeaveDTO);
+    void assignLeaveForEmployee(int empId, List<EmployeeHasLeaveDTO> employeeHasLeaveDTO);
+    void updateLeaveForEmployee(int empId, EmployeeHasLeaveDTO employeeHasLeaveDTO);
     List<EmployeeHasLeaveDTO> getAllEmployeeLeaves();
+    List<EmployeeHasLeaveDTO> getEmployeeLeave(int empId);
 }

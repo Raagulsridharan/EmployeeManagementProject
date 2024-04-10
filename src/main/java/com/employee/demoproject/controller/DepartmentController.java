@@ -18,36 +18,36 @@ public class DepartmentController {
 
     @GetMapping
     public ResponseEntity<List<Department>> getAllDepartment(){
-        List<Department> departmentList = departmentService.getAllDept();
+        List<Department> departmentList = departmentService.getAllDepartment();
         return new ResponseEntity<>(departmentList, HttpStatus.OK);
     }
 
     @PostMapping
     public String saveDepartment(@RequestBody Department department){
-        departmentService.createDept(department);
+        departmentService.createDepartment(department);
         return "Successfully Department created";
     }
 
-    @PutMapping("/updateDept/{id}")
+    @PutMapping("/{id}")
     public String updateDepartment(@PathVariable int id, @RequestBody Department department){
-        Department updateDept = departmentService.getDeptById(id);
+        Department updateDept = departmentService.getDepartmentById(id);
         updateDept.setName(department.getName());
-        departmentService.updateDept(updateDept);
+        departmentService.updateDepartment(updateDept);
         return "updated successfully";
     }
 
-    @GetMapping("/getDeptById/{id}")
+    @GetMapping("/byId/{id}")
     public Department getDeptById(@PathVariable int id){
-        return departmentService.getDeptById(id);
+        return departmentService.getDepartmentById(id);
     }
 
-    @GetMapping("/getDeptByName/{name}")
+    @GetMapping("/byName/{name}")
     public Department getDeptByName(@PathVariable String name){
-        return departmentService.getDeptByName(name);
+        return departmentService.getDepartmentByName(name);
     }
 
     @GetMapping("/getDeptCount")
     public Long getDeptCount(){
-        return departmentService.getDeptCount();
+        return departmentService.getDepartmentCount();
     }
 }

@@ -19,12 +19,22 @@ public class EmployeeHasLeaveServiceImpl implements EmployeeHasLeaveService {
     private EmployeeHasLeaveDAO employeeHasLeaveDAO;
 
     @Override
-    public void assignLeaveForEmployee(int id, List<EmployeeHasLeaveDTO> employeeHasLeaveDTO) {
-        employeeHasLeaveDAO.assignLeaveForEmployee(id,employeeHasLeaveDTO);
+    public void assignLeaveForEmployee(int empId, List<EmployeeHasLeaveDTO> employeeHasLeaveDTO) {
+        employeeHasLeaveDAO.assignLeaveForEmployee(empId,employeeHasLeaveDTO);
+    }
+
+    @Override
+    public void updateLeaveForEmployee(int empId, EmployeeHasLeaveDTO employeeHasLeaveDTO) {
+        employeeHasLeaveDAO.updateLeaveForEmployee(empId,employeeHasLeaveDTO);
     }
 
     @Override
     public List<EmployeeHasLeaveDTO> getAllEmployeeLeaves() {
         return employeeHasLeaveDAO.getAllEmployeesLeaves();
+    }
+
+    @Override
+    public List<EmployeeHasLeaveDTO> getEmployeeLeave(int empId) {
+        return employeeHasLeaveDAO.getEmployeeLeave(empId);
     }
 }

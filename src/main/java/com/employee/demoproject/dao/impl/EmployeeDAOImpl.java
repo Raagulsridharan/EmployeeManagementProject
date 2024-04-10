@@ -4,7 +4,6 @@ import com.employee.demoproject.dao.EmployeeDAO;
 import com.employee.demoproject.dto.EmployeeDTO;
 import com.employee.demoproject.entity.Department;
 import com.employee.demoproject.entity.Employee;
-import com.employee.demoproject.entity.LoginDetails;
 import com.employee.demoproject.service.DepartmentService;
 import com.employee.demoproject.service.LoginDetailsService;
 import org.hibernate.Session;
@@ -13,7 +12,6 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.security.SecureRandom;
 import java.util.List;
 
 @Repository
@@ -38,7 +36,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         employee.setAddress(employeeDTO.getAddress());
 
         String departmentName = employeeDTO.getDepartment();
-        Department department = departmentService.getDeptByName(departmentName);
+        Department department = departmentService.getDepartmentByName(departmentName);
         employee.setDepartment(department);
         employee.setStatus("Pending");
 
@@ -50,20 +48,20 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public void updateEmployee(int id, EmployeeDTO employeeDTO) {
-        Employee updateEmployee = sessionFactory.getCurrentSession().get(Employee.class,id);
-        updateEmployee.setName(employeeDTO.getEmp_name());
-        updateEmployee.setMobile(employeeDTO.getMobile());
-        updateEmployee.setEmail(employeeDTO.getEmail());
-        updateEmployee.setAddress(employeeDTO.getAddress());
+    public void updateEmployee(int empId, EmployeeDTO employeeDTO){
+            Employee updateEmployee = sessionFactory.getCurrentSession().get(Employee.class,empId);
+            updateEmployee.setName(employeeDTO.getEmp_name());
+            updateEmployee.setMobile(employeeDTO.getMobile());
+            updateEmployee.setEmail(employeeDTO.getEmail());
+            updateEmployee.setAddress(employeeDTO.getAddress());
 
-        String departmentName = employeeDTO.getDepartment();
-        Department department = departmentService.getDeptByName(departmentName);
-        updateEmployee.setDepartment(department);
+            String departmentName = employeeDTO.getDepartment();
+            Department department = departmentService.getDepartmentByName(departmentName);
+            updateEmployee.setDepartment(department);
 
-        loginDetailsService.updateUserName(id,employeeDTO);
+            loginDetailsService.updateUserName(empId,employeeDTO);
 
-        sessionFactory.getCurrentSession().saveOrUpdate(updateEmployee);
+            sessionFactory.getCurrentSession().saveOrUpdate(updateEmployee);
     }
 
     @Override
@@ -78,19 +76,19 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     }
 
     @Override
-    public EmployeeDTO getEmployeeById(int id){
+    public EmployeeDTO getEmployeeById(int empId){
         Query<EmployeeDTO> query = sessionFactory.getCurrentSession()
                 .createQuery("select e.id,e.name as emp_name, e.gender, e.mobile, e.email, e.address, d.name as department \n" +
                         "from Employee e\n" +
                         "left join Department d\n" +
                         "on e.department.id = d.id\n" +
                         "where e.id =:emp_id",EmployeeDTO.class)
-                .setParameter("emp_id",id);
+                .setParameter("emp_id",empId);
         return query.uniqueResult();
     }
 
     @Override
-    public List<Employee> getAllEmployeeByDept(int deptId) {
+    public List<Employee> getAllEmployeeByDeptForRoleAssign(int deptId) {
         List<Employee> employeeList = sessionFactory.getCurrentSession()
                                                     .createQuery("SELECT e\n" +
                                                             "FROM Employee e\n" +
@@ -143,14 +141,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public Long getTotalEmployeeCount() {
         Query<Long> query = sessionFactory.getCurrentSession()
-                .createQuery("select count(*) from Employee",Long.class);
+                .createQuery("select count(e) from Employee e",Long.class);
         return query.uniqueResult();
     }
 
     @Override
-    public void deleteEmployee(int id) {
+    public void deleteEmployee(int empId) {
         Session session = sessionFactory.getCurrentSession();
-        Employee employee = session.get(Employee.class,id);
+        Employee employee = session.get(Employee.class,empId);
         session.remove(employee);
         System.out.println("Successfully deleted");
     }

@@ -13,35 +13,40 @@ public class DesignationController {
     @Autowired
     private DesignationService designationService;
 
-    @PostMapping("/saveDesignation")
+    @PostMapping
     public String createDesignation(@RequestBody Designation designation){
         designationService.createDesignation(designation);
         return "Designation saved...!";
     }
 
-    @PutMapping("/updateDesignation/{id}")
+    @PutMapping("/{id}")
     public String updateDesignation(@PathVariable int id, @RequestBody Designation designation){
         designationService.updateDesignation(id,designation);
         return "Designation updated...!!!";
     }
 
-    @GetMapping("/getAllDesignation")
+    @GetMapping
     public ResponseEntity getAllDesignation(){
         return new ResponseEntity<>(designationService.getAllDesignation(), HttpStatus.OK);
     }
 
-    @GetMapping("/getDesigById/{id}")
+    @GetMapping("/byId/{id}")
     public Designation getDesignationById(@PathVariable int id){
         return designationService.getDesignationById(id);
     }
 
-    @GetMapping("/getDesigByRole/{role}")
-    public Designation getDesignationByName(@PathVariable String role){
-        return designationService.getDesignationByName(role);
+    @GetMapping("/byRole/{role}")
+    public Designation getDesignationByRole(@PathVariable String role){
+        return designationService.getDesignationByRole(role);
     }
 
     @GetMapping("/getDesignationCount")
     public Long getDesignation(){
         return designationService.getDesignationCount();
+    }
+
+    @GetMapping("/{email}")
+    public String getDesignationByEmail(@PathVariable String email){
+        return designationService.getDesignationByEmail(email);
     }
 }

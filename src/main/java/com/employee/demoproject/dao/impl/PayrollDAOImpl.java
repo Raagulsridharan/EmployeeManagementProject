@@ -2,13 +2,22 @@ package com.employee.demoproject.dao.impl;
 
 import com.employee.demoproject.dao.PayrollDAO;
 import com.employee.demoproject.dto.EmployeePaymentDTO;
+import com.employee.demoproject.dto.PaySlipDTO;
 import com.employee.demoproject.dto.PayrollDTO;
 import com.employee.demoproject.entity.EmpRoleSalary;
 import com.employee.demoproject.entity.Payroll;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -96,4 +105,70 @@ public class PayrollDAOImpl implements PayrollDAO {
         sessionFactory.getCurrentSession().persist(payroll);
         System.out.println("Payroll created...");
     }
+
+    @Override
+    public PaySlipDTO getPAYSlipContent(Integer salaryId) {
+        Query<PaySlipDTO> query = sessionFactory.getCurrentSession()
+                .createQuery("select e.id,e.name,dep.name as dept, d.role, ers.annual_salary_pack, ers.basic_sal_month, ers.tax_reduction_month, ers.net_sal_month ,p.id, p.month \n" +
+                        "from Payroll p \n" +
+                        "join EmpRoleSalary ers \n" +
+                        "on p.empRoleSalary_payroll.id = ers.id\n" +
+                        "join Employee e \n" +
+                        "on e.id = ers.employee_role_salary.id\n" +
+                        "join Designation d \n" +
+                        "on ers.designation.id = d.id\n" +
+                        "join Department dep \n" +
+                        "on e.department.id = dep.id\n" +
+                        "where p.id = :salaryId",PaySlipDTO.class)
+                .setParameter("salaryId",salaryId);
+        PaySlipDTO paySlipDTO = query.uniqueResult();
+        return paySlipDTO;
+    }
+
+    @Override
+    public Payroll getPaySlip(int payrollId) {
+        Payroll payroll = sessionFactory.getCurrentSession().get(Payroll.class,payrollId);
+        //byte[] paySlip = payroll.getPaySlip();
+        return payroll;
+    }
+
+    @Override
+    public void uploadPaySlip(Integer payrollId, MultipartFile file){
+        String fileName = file.getOriginalFilename();
+        byte[] fileBytes = new byte[0];
+        try {
+            fileBytes = file.getBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Payroll payroll = sessionFactory.getCurrentSession().get(Payroll.class,payrollId);
+        payroll.setPaySlip(fileBytes);
+        sessionFactory.getCurrentSession().saveOrUpdate(payroll);
+
+    }
+
+    @Override
+    public void generatePaySlip() {
+        Document document = new Document();
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        try {
+            PdfWriter.getInstance(document, outputStream);
+            document.open();
+            Paragraph paragraph = new Paragraph("Content");
+            document.add(paragraph);
+            document.close();
+
+            byte[] pdfBytes = outputStream.toByteArray();
+            Payroll payroll = sessionFactory.getCurrentSession().get(Payroll.class,2);
+            payroll.setPaySlip(pdfBytes);
+            sessionFactory.getCurrentSession().saveOrUpdate(payroll);
+
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 }

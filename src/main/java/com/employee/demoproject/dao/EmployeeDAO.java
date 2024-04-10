@@ -7,12 +7,12 @@ import java.util.List;
 
 public interface EmployeeDAO {
     void createEmployee(EmployeeDTO employeeDTO);
-    void updateEmployee(int id,EmployeeDTO employeeDTO);
+    void updateEmployee(int empId,EmployeeDTO employeeDTO);
     List<EmployeeDTO> getAllEmployee();
-    EmployeeDTO getEmployeeById(int id);
-    List<Employee> getAllEmployeeByDept(int deptId);
+    EmployeeDTO getEmployeeById(int empId);
+    List<Employee> getAllEmployeeByDeptForRoleAssign(int deptId);
     List<Employee> getAllEmployeeByDeptForPayroll(int deptId);
     List<Employee> getAllEmployeeByDeptForLeaveAssign(int deptId);
     Long getTotalEmployeeCount();
-    void deleteEmployee(int id);
+    void deleteEmployee(int empId);
 }

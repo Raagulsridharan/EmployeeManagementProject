@@ -18,30 +18,30 @@ public class EmployeeController {
 
     @PostMapping
     public String saveEmployee(@RequestBody EmployeeDTO employeeDTO){
-        employeeService.saveEmp(employeeDTO);
+        employeeService.createEmployee(employeeDTO);
         return "Employee created...!!!";
     }
 
-    @PutMapping("/updateEmp/{id}")
-    public String updateEmployee(@PathVariable int id, @RequestBody EmployeeDTO employeeDTO){
-        employeeService.updateEmp(id,employeeDTO);
+    @PutMapping("/updateEmp/{empId}")
+    public String updateEmployee(@PathVariable int empId, @RequestBody EmployeeDTO employeeDTO) {
+        employeeService.updateEmployee(empId,employeeDTO);
         return "Successfully updated...";
     }
 
     @GetMapping
-    public ResponseEntity<List<EmployeeDTO>> getEmployee(){
-        List<EmployeeDTO> el = employeeService.getEmp();
+    public ResponseEntity<List<EmployeeDTO>> getAllEmployee(){
+        List<EmployeeDTO> el = employeeService.getAllEmployee();
         return new ResponseEntity<>(el, HttpStatus.OK);
     }
 
-    @GetMapping("/getEmp/{id}")
-    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable int id){
-        return new ResponseEntity<>(employeeService.getEmpById(id),HttpStatus.OK);
+    @GetMapping("/{empId}")
+    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable int empId){
+        return new ResponseEntity<>(employeeService.getEmployeeById(empId),HttpStatus.OK);
     }
 
-    @GetMapping("/getAllEmpByDept/{deptId}")
-    public ResponseEntity<List<Employee>> getAllEmployeeByDept(@PathVariable int deptId){
-        return new ResponseEntity<>(employeeService.getEmpByDept(deptId),HttpStatus.OK);
+    @GetMapping("/getAllEmployeeByDeptForRoleAssign/{deptId}")
+    public ResponseEntity<List<Employee>> getAllEmployeeByDeptForRoleAssign(@PathVariable int deptId){
+        return new ResponseEntity<>(employeeService.getAllEmployeeByDeptForRoleAssign(deptId),HttpStatus.OK);
     }
 
     @GetMapping("/getAllEmpByDeptForPayroll/{deptId}")
@@ -59,9 +59,9 @@ public class EmployeeController {
         return employeeService.getEmpCount();
     }
 
-    @DeleteMapping("/deleteEmp/{id}")
-    public String deleteEmployee(@PathVariable int id){
-        employeeService.deleteEmp(id);
+    @DeleteMapping("/{empId}")
+    public String deleteEmployee(@PathVariable int empId){
+        employeeService.deleteEmployee(empId);
         return "Employee deleted...!!!";
     }
 }

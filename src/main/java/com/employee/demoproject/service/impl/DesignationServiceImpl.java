@@ -37,12 +37,17 @@ public class DesignationServiceImpl implements DesignationService {
     }
 
     @Override
-    public Designation getDesignationByName(String role) {
-        return designationDAO.getDesignationByName(role);
+    public Designation getDesignationByRole(String role) {
+        return designationDAO.getDesignationByRole(role);
     }
 
     @Override
     public Long getDesignationCount() {
         return designationDAO.getDesignationCount();
+    }
+
+    @Override
+    public String getDesignationByEmail(String email) {
+        return designationDAO.getDesignationByEmail(email);
     }
 }

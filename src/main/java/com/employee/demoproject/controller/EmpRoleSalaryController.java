@@ -18,24 +18,24 @@ public class EmpRoleSalaryController {
     @Autowired
     private EmpRoleSalaryService empRoleSalaryService;
 
-    @GetMapping("/getAllEmpRoleSalary")
+    @GetMapping
     public ResponseEntity<List<EmployeePaymentDTO>> getAllEmpRoleSalary(){
         return new ResponseEntity<>(empRoleSalaryService.getAllEmpRoleSalary(), HttpStatus.OK);
     }
 
-    @PostMapping("/save/{empId}")
+    @PostMapping("/{empId}")
     public String createEmpRoleSalary(@PathVariable int empId,@RequestBody EmpRoleSalaryDTO empRoleSalaryDTO){
         empRoleSalaryService.createEmpRoleSalary(empId,empRoleSalaryDTO);
         return "Saved...";
     }
 
-    @PutMapping("/update/{empId}")
+    @PutMapping("/{empId}")
     public String updateEmpRoleSalary(@PathVariable int empId,@RequestBody EmpRoleSalaryDTO empRoleSalaryDTO){
         empRoleSalaryService.updateEmpRoleSalary(empId,empRoleSalaryDTO);
         return "Updated...";
     }
 
-    @GetMapping("/getRoleSalaryByEmployee/{empId}")
+    @GetMapping("/{empId}")
     public EmployeePaymentDTO getRoleSalaryByEmployee(@PathVariable int empId){
         return empRoleSalaryService.getRoleSalaryByEmployee(empId);
     }

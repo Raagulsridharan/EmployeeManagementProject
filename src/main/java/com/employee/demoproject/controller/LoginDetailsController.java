@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/empLogin")
+@CrossOrigin(origins = "http://localhost:4200")
 public class LoginDetailsController {
     @Autowired
     private LoginDetailsService loginDetailsService;
@@ -17,14 +18,14 @@ public class LoginDetailsController {
         return "Password updated...!!!";
     }
 
-    @GetMapping
+    @PostMapping
     public Integer employeeLogin(@RequestBody LoginDetailsDTO loginDetailsDTO) {
         return loginDetailsService.employeeLogin(loginDetailsDTO);
     }
 
     @PutMapping
-    public String activatingAccount(@RequestBody LoginDetailsDTO loginDetailsDTO) {
+    public void activatingAccount(@RequestBody LoginDetailsDTO loginDetailsDTO) {
         loginDetailsService.activatingAccount(loginDetailsDTO);
-        return "Account activated successfully";
+        System.out.println("Account activated successfully from controller");
     }
 }

@@ -18,23 +18,39 @@ public class EmployeeHasLeaveDAOImpl implements EmployeeHasLeaveDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
-    @Autowired
-    private LeavePolicyService leavePolicyService;
-
     @Override
-    public void assignLeaveForEmployee(int id, List<EmployeeHasLeaveDTO> employeeHasLeaveDTO) {
-        Employee employee = sessionFactory.getCurrentSession().get(Employee.class,id);
+    public void assignLeaveForEmployee(int empId, List<EmployeeHasLeaveDTO> employeeHasLeaveDTO) {
+        Employee employee = sessionFactory.getCurrentSession().get(Employee.class,empId);
+
         for(EmployeeHasLeaveDTO leavePolicy : employeeHasLeaveDTO){
+
             EmployeeHasLeave employeeHasLeave = new EmployeeHasLeave();
-            employeeHasLeave.setEmployee_has_leave(employee);
+              employeeHasLeave.setEmployee_has_leave(employee);
             LeavePolicy leavePolicy1 = sessionFactory.getCurrentSession().get(LeavePolicy.class,leavePolicy.getLeaveId());
-            employeeHasLeave.setLeavePolicy(leavePolicy1);
-            employeeHasLeave.setNo_of_days(leavePolicy.getNoOfDays());
+              employeeHasLeave.setLeavePolicy(leavePolicy1);
+              employeeHasLeave.setNo_of_days(leavePolicy.getNoOfDays());
             java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
-            employeeHasLeave.setUpdated_on(sqlDate);
+              employeeHasLeave.setUpdated_on(sqlDate);
             sessionFactory.getCurrentSession().persist(employeeHasLeave);
+
             System.out.println("Successfully Leave assigned");
         }
+    }
+
+    @Override
+    public void updateLeaveForEmployee(int empId, EmployeeHasLeaveDTO employeeHasLeaveDTO) {
+        EmployeeHasLeave employeeHasLeave = sessionFactory.getCurrentSession()
+                                                          .createQuery("select ehl \n" +
+                                                                  "from EmployeeHasLeave ehl \n" +
+                                                                  "where ehl.employee_has_leave.id = :empId\n" +
+                                                                  "and ehl.leavePolicy.id = :leaveId",EmployeeHasLeave.class)
+                                                          .setParameter("empId",empId)
+                                                          .setParameter("leaveId",employeeHasLeaveDTO.getLeaveId())
+                                                          .getSingleResult();
+        employeeHasLeave.setNo_of_days(employeeHasLeaveDTO.getNoOfDays());
+        java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
+        employeeHasLeave.setUpdated_on(sqlDate);
+        sessionFactory.getCurrentSession().saveOrUpdate(employeeHasLeave);
     }
 
     @Override
@@ -54,5 +70,18 @@ public class EmployeeHasLeaveDAOImpl implements EmployeeHasLeaveDAO {
                                                                      "on e.id = ehl.employee_has_leave.id",EmployeeHasLeaveDTO.class)
                                                              .getResultList();
         return leavePolicies;
+    }
+
+    @Override
+    public List<EmployeeHasLeaveDTO> getEmployeeLeave(int empId) {
+        List<EmployeeHasLeaveDTO> leaveDTOS = sessionFactory.getCurrentSession()
+                                                            .createQuery("SELECT lp.leave_types, ehl.no_of_days, ehl.updated_on \n" +
+                                                                    "FROM EmployeeHasLeave ehl \n" +
+                                                                    "join LeavePolicy lp \n" +
+                                                                    "on ehl.leavePolicy.id = lp.id \n" +
+                                                                    "where ehl.employee_has_leave.id = :empId",EmployeeHasLeaveDTO.class)
+                                                            .setParameter("empId",empId)
+                                                            .getResultList();
+        return leaveDTOS;
     }
 }

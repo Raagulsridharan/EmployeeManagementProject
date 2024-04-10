@@ -1,7 +1,6 @@
 package com.employee.demoproject.dao.impl;
 
 import com.employee.demoproject.dao.DesignationDAO;
-import com.employee.demoproject.entity.Department;
 import com.employee.demoproject.entity.Designation;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -46,17 +45,33 @@ public class DesignationDAOImpl implements DesignationDAO {
     }
 
     @Override
-    public Designation getDesignationByName(String role) {
+    public Designation getDesignationByRole(String role) {
         Query<Designation> query = sessionFactory.getCurrentSession()
-                .createQuery("select d from Designation d where d.role = :desigName", Designation.class)
-                .setParameter("desigName", role);
+                .createQuery("select d from Designation d where d.role = :role", Designation.class)
+                .setParameter("role", role);
         return query.uniqueResult();
     }
 
     @Override
     public Long getDesignationCount() {
         Query<Long> query = sessionFactory.getCurrentSession()
-                .createQuery("select count(*) from Designation ", Long.class);
+                .createQuery("select count(d) from Designation d", Long.class);
         return query.uniqueResult();
+    }
+
+    @Override
+    public String getDesignationByEmail(String email) {
+        Object obj = sessionFactory.getCurrentSession()
+                                    .createQuery("select ds.role\n" +
+                                            "from Employee e \n" +
+                                            "join EmpRoleSalary ers \n" +
+                                            "on e.id = ers.employee_role_salary.id \n" +
+                                            "join Designation ds \n" +
+                                            "on ers.designation.id = ds.id \n" +
+                                            "where CAST(e.email AS binary) = CAST(:email AS binary)")
+                                    .setParameter("email",email)
+                                    .uniqueResult();
+        String role  = String.valueOf(obj);
+        return role;
     }
 }

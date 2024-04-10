@@ -2,13 +2,11 @@ package com.employee.demoproject.dao.impl;
 
 import com.employee.demoproject.dao.DepartmentDAO;
 import com.employee.demoproject.entity.Department;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -54,7 +52,7 @@ public class DepartmentDAOImpl implements DepartmentDAO {
     @Override
     public Long getDepartmentCount() {
         Query<Long> query = sessionFactory.getCurrentSession()
-                .createQuery("select count(*) from Department", Long.class);
+                .createQuery("select count(d) from Department d", Long.class);
         return query.uniqueResult();
     }
 }
