@@ -19,7 +19,7 @@ public class LoginDetailsController {
     }
 
     @PostMapping
-    public Integer employeeLogin(@RequestBody LoginDetailsDTO loginDetailsDTO) {
+    public LoginDetailsDTO employeeLogin(@RequestBody LoginDetailsDTO loginDetailsDTO) {
         return loginDetailsService.employeeLogin(loginDetailsDTO);
     }
 

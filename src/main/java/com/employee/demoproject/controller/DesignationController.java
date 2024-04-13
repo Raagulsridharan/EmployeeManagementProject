@@ -9,14 +9,15 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/designations")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class DesignationController {
     @Autowired
     private DesignationService designationService;
 
     @PostMapping
-    public String createDesignation(@RequestBody Designation designation){
+    public void createDesignation(@RequestBody Designation designation){
         designationService.createDesignation(designation);
-        return "Designation saved...!";
+        //return "Designation saved...!";
     }
 
     @PutMapping("/{id}")

@@ -28,14 +28,16 @@ public class EmpRoleSalaryDAOImpl implements EmpRoleSalaryDAO {
 
     @Override
     public List<EmployeePaymentDTO> getAllEmpRoleSalary() {
-        List<EmployeePaymentDTO> employeePaymentDTOS = (List<EmployeePaymentDTO>) sessionFactory.getCurrentSession().createNativeQuery("select e.id, e.name, d.name as dept, ds.role, ers.basic_sal_month, ers.tax_reduction_month, ers.net_sal_month\n" +
-                "from employee e\n" +
-                " join department d\n" +
-                "\ton e.dept_id = d.id\n" +
-                " join emp_role_salary ers\n" +
-                "\ton e.id = ers.employee_id\n" +
-                " join designations ds\n" +
-                "\ton ers.role_id = ds.id;").getResultList();
+        List<EmployeePaymentDTO> employeePaymentDTOS = (List<EmployeePaymentDTO>) sessionFactory.getCurrentSession()
+                                    .createNativeQuery("select ers.id, e.name, d.name as dept, ds.role, ers.annual_salary_pack\n" +
+                                            "from employee e\n" +
+                                            "join department d\n" +
+                                            "on e.dept_id = d.id\n" +
+                                            "join emp_role_salary ers\n" +
+                                            "on e.id = ers.employee_id\n" +
+                                            "join designations ds\n" +
+                                            "on ers.role_id = ds.id;")
+                                    .getResultList();
         return employeePaymentDTOS;
     }
     @Override

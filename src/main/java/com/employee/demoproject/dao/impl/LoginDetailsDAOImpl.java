@@ -53,7 +53,7 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
     }
 
     @Override
-    public Integer employeeLogin(LoginDetailsDTO loginDetailsDTO) {
+    public LoginDetailsDTO employeeLogin(LoginDetailsDTO loginDetailsDTO) {
             LoginDetails loginDetails = sessionFactory.getCurrentSession()
                     .createQuery("SELECT ld \n" +
                             "FROM LoginDetails ld \n" +
@@ -62,7 +62,8 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
                     .setParameter("username",loginDetailsDTO.getUsername())
                     .setParameter("password",loginDetailsDTO.getPassword())
                     .uniqueResult();
-            return loginDetails.getFlag();
+            LoginDetailsDTO loginDetailsDTO1 = new LoginDetailsDTO(loginDetails.getEmployee_login().getId(),loginDetails.getFlag());
+            return loginDetailsDTO1;
     }
 
     @Override
@@ -70,9 +71,9 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
         LoginDetails loginDetails = sessionFactory.getCurrentSession()
                 .createQuery("SELECT ld \n" +
                         "FROM LoginDetails ld \n" +
-                        "WHERE CAST(ld.username AS binary) = CAST(:username AS binary) \n" +
+                        "WHERE ld.employee_login.id = :empId \n" +
                         "AND ld.flag = 0",LoginDetails.class)
-                .setParameter("username",loginDetailsDTO.getUsername())
+                .setParameter("empId",loginDetailsDTO.getEmpId())
                 .uniqueResult();
 
         loginDetails.setPassword(loginDetailsDTO.getPassword());

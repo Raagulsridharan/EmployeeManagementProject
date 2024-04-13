@@ -8,6 +8,6 @@ public interface LoginDetailsService {
     void createLogin(Employee employee);
     void updateUserName(int id, EmployeeDTO employeeDTO);
     void updatePassword(int id, String password);
-    Integer employeeLogin(LoginDetailsDTO loginDetailsDTO);
+    LoginDetailsDTO employeeLogin(LoginDetailsDTO loginDetailsDTO);
     void activatingAccount(LoginDetailsDTO loginDetailsDTO);
 }

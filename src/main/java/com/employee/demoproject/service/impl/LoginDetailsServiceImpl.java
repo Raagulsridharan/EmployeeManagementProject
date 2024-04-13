@@ -31,7 +31,7 @@ public class LoginDetailsServiceImpl implements LoginDetailsService {
     }
 
     @Override
-    public Integer employeeLogin(LoginDetailsDTO loginDetailsDTO) {
+    public LoginDetailsDTO employeeLogin(LoginDetailsDTO loginDetailsDTO) {
         return loginDetailsDAO.employeeLogin(loginDetailsDTO);
     }
 

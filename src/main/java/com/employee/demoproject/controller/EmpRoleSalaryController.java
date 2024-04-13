@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/empRoleSalary")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class EmpRoleSalaryController {
 
     @Autowired

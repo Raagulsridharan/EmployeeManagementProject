@@ -12,10 +12,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/departments")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class DepartmentController {
     @Autowired
     public DepartmentService departmentService;
 
+    /**
+     *
+     * @return
+     */
     @GetMapping
     public ResponseEntity<List<Department>> getAllDepartment(){
         List<Department> departmentList = departmentService.getAllDepartment();
@@ -23,9 +28,9 @@ public class DepartmentController {
     }
 
     @PostMapping
-    public String saveDepartment(@RequestBody Department department){
+    public void saveDepartment(@RequestBody Department department){
         departmentService.createDepartment(department);
-        return "Successfully Department created";
+        //return "Successfully Department created";
     }
 
     @PutMapping("/{id}")

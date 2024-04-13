@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/leaveApplied")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class LeaveAppliedController {
 
     @Autowired
