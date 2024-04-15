@@ -2,6 +2,7 @@ package com.employee.demoproject.entity;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -11,6 +12,7 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    private Date birthday;
     private String gender;
     private long mobile;
     private String email;
@@ -33,9 +35,10 @@ public class Employee {
     private List<LoginDetails> loginDetails;
 
     public Employee() {}
-    public Employee(int id, String name, String gender, long mobile, String email, String address, Department department, String status) {
+    public Employee(int id, String name, Date birthday, String gender, long mobile, String email, String address, Department department, String status) {
         this.id = id;
         this.name = name;
+        this.birthday = birthday;
         this.gender = gender;
         this.mobile = mobile;
         this.email = email;
@@ -58,6 +61,14 @@ public class Employee {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getGender() {

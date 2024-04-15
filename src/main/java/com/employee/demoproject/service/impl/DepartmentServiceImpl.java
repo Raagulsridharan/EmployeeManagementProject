@@ -16,8 +16,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     public DepartmentDAO departmentDAO;
 
     @Override
-    public void createDepartment(Department department) {
-        departmentDAO.createDepartment(department);
+    public String createDepartment(Department department) {
+        return departmentDAO.createDepartment(department);
     }
 
     @Override

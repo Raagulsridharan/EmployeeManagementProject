@@ -48,7 +48,7 @@ public class LeaveAppliedController {
         return new ResponseEntity<>(leaveAppliedService.getAllRequestedLeaves(), HttpStatus.OK);
     }
 
-    @GetMapping("employeeLeaveHistory/{empId}")
+    @GetMapping("/{empId}")
     public ResponseEntity<List<LeaveApplied>> getLeaveHistoryBYEmployee(@PathVariable int empId){
         return new ResponseEntity<>(leaveAppliedService.getLeaveHistoryBYEmployee(empId),HttpStatus.OK);
     }

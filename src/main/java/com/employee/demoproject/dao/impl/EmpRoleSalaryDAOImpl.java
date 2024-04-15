@@ -54,8 +54,7 @@ public class EmpRoleSalaryDAOImpl implements EmpRoleSalaryDAO {
     @Override
     public void updateEmpRoleSalary(int empId, EmpRoleSalaryDTO empRoleSalaryDTO) {
         EmpRoleSalary empRoleSalary = (EmpRoleSalary) sessionFactory.getCurrentSession()
-                                                    .createQuery("select ers\n" +
-                                                            "from EmpRoleSalary ers\n" +
+                                                    .createQuery("from EmpRoleSalary ers\n" +
                                                             "where ers.employee_role_salary.id =:empId")
                                                     .setParameter("empId",empId)
                                                     .uniqueResult();

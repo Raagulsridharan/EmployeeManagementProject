@@ -1,5 +1,6 @@
 package com.employee.demoproject.config;
 
+import com.employee.demoproject.dataRetrieve.DataRetrieve;
 import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
@@ -79,5 +80,10 @@ public class SessionFactoryBean {
         props.put("mail.debug", "true");
 
         return mailSender;
+    }
+
+    @Bean
+    public DataRetrieve getDataRetrieve(){
+        return new DataRetrieve();
     }
 }

@@ -16,9 +16,13 @@ public class DepartmentDAOImpl implements DepartmentDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public void createDepartment(Department department) {
-        sessionFactory.getCurrentSession().persist(department);
-        System.out.println("Department successfully persisted...!!!");
+    public String createDepartment(Department department) {
+        try {
+            sessionFactory.getCurrentSession().persist(department);
+            return "Department successfully persisted...!!!";
+        }catch (Exception e){
+            return "Failed to create department: " + e.getMessage();
+        }
     }
 
     @Override
@@ -29,8 +33,8 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 
     @Override
     public List<Department> getAllDepartment() {
-        NativeQuery nativeQuery = sessionFactory.getCurrentSession().createNativeQuery("select * from department");
-        List<Department> departmentList = nativeQuery.getResultList();
+        Query query = sessionFactory.getCurrentSession().createQuery("FROM Department");
+        List<Department> departmentList = query.list();
         return departmentList;
     }
 
@@ -42,7 +46,7 @@ public class DepartmentDAOImpl implements DepartmentDAO {
     @Override
     public Department getDepartmentByName(String name) {
         Query<Department> query = sessionFactory.getCurrentSession()
-                .createQuery("select d from Department d where d.name = :deptName", Department.class)
+                .createQuery("from Department d where d.name = :deptName")
                 .setParameter("deptName", name);
         return query.uniqueResult();
     }

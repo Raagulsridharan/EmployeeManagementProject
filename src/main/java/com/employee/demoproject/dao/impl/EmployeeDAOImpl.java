@@ -1,9 +1,11 @@
 package com.employee.demoproject.dao.impl;
 
 import com.employee.demoproject.dao.EmployeeDAO;
+import com.employee.demoproject.dataRetrieve.DataRetrieve;
 import com.employee.demoproject.dto.EmployeeDTO;
 import com.employee.demoproject.entity.Department;
 import com.employee.demoproject.entity.Employee;
+import com.employee.demoproject.exceptions.DataAccessException;
 import com.employee.demoproject.service.DepartmentService;
 import com.employee.demoproject.service.LoginDetailsService;
 import org.hibernate.Session;
@@ -25,6 +27,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Autowired
     private LoginDetailsService loginDetailsService;
+
+    @Autowired
+    private DataRetrieve dataRetrieve;
 
     @Override
     public void createEmployee(EmployeeDTO employeeDTO) {
@@ -66,32 +71,34 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public List<EmployeeDTO> getAllEmployee(){
-        Query<EmployeeDTO> query = sessionFactory.getCurrentSession()
-                .createNativeQuery("select e.id,e.name as emp_name, e.gender, e.mobile, e.email, e.address, d.name as department \n" +
-                "from employee e\n" +
-                "left join department d\n" +
-                "on e.dept_id = d.id;",EmployeeDTO.class);
-        List<EmployeeDTO> empList = query.getResultList();
+        String query = "select e.id,e.name as emp_name, e.birthday, e.gender, e.mobile, e.email, e.address, d.name as department \n" +
+                "from Employee e\n" +
+                "left join Department d\n" +
+                "on e.department.id = d.id";
+        List<EmployeeDTO> empList = dataRetrieve.processList(query,EmployeeDTO.class);
         return empList;
     }
 
     @Override
-    public EmployeeDTO getEmployeeById(int empId){
-        Query<EmployeeDTO> query = sessionFactory.getCurrentSession()
-                .createQuery("select e.id,e.name as emp_name, e.gender, e.mobile, e.email, e.address, d.name as department \n" +
-                        "from Employee e\n" +
-                        "left join Department d\n" +
-                        "on e.department.id = d.id\n" +
-                        "where e.id =:emp_id",EmployeeDTO.class)
-                .setParameter("emp_id",empId);
-        return query.uniqueResult();
+    public EmployeeDTO getEmployeeById(int empId) {
+        try {
+            Query<EmployeeDTO> query = sessionFactory.getCurrentSession()
+                    .createQuery("select e.id,e.name as emp_name, e.birthday, e.gender, e.mobile, e.email, e.address, d.name as department \n" +
+                            "from Employee e\n" +
+                            "left join Department d\n" +
+                            "on e.department.id = d.id\n" +
+                            "where e.id =:emp_id", EmployeeDTO.class)
+                    .setParameter("emp_id", empId);
+            return query.uniqueResult();
+        } catch (DataAccessException ex) {
+            throw new DataAccessException("Error fetching employee data by ID: " + empId, ex);
+        }
     }
 
     @Override
     public List<Employee> getAllEmployeeByDeptForRoleAssign(int deptId) {
         List<Employee> employeeList = sessionFactory.getCurrentSession()
-                                                    .createQuery("SELECT e\n" +
-                                                            "FROM Employee e\n" +
+                                                    .createQuery("FROM Employee e\n" +
                                                             "LEFT JOIN EmpRoleSalary ers \n" +
                                                             "ON e.id = ers.employee_role_salary.id\n" +
                                                             "WHERE e.status = 'activated'\n" +
@@ -105,8 +112,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public List<Employee> getAllEmployeeByDeptForPayroll(int deptId) {
         List<Employee> employeeList = sessionFactory.getCurrentSession()
-                                                    .createQuery("SELECT e \n" +
-                                                            "FROM Employee e \n" +
+                                                    .createQuery("FROM Employee e \n" +
                                                             "LEFT JOIN EmpRoleSalary ers \n" +
                                                             "ON e.id = ers.employee_role_salary.id \n" +
                                                             "left join Payroll p \n" +
@@ -140,9 +146,10 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Override
     public Long getTotalEmployeeCount() {
-        Query<Long> query = sessionFactory.getCurrentSession()
-                .createQuery("select count(e) from Employee e",Long.class);
-        return query.uniqueResult();
+//        Query<Long> query1 = sessionFactory.getCurrentSession()
+//                .createQuery("select count(e) from Employee e",Long.class);
+        String query = "select count(e) from Employee e";
+        return dataRetrieve.getCount(query);
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.employee.demoproject.controller;
 
 import com.employee.demoproject.dto.EmployeeDTO;
+import com.employee.demoproject.endPoints.BaseAPI;
 import com.employee.demoproject.entity.Employee;
+import com.employee.demoproject.entity.HttpStatusEntity;
 import com.employee.demoproject.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,16 +13,16 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/employees")
+@RequestMapping(BaseAPI.EMPLOYEES)
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
     @PostMapping
-    public String saveEmployee(@RequestBody EmployeeDTO employeeDTO){
+    public ResponseEntity<HttpStatusEntity> saveEmployee(@RequestBody EmployeeDTO employeeDTO){
         employeeService.createEmployee(employeeDTO);
-        return "Employee created...!!!";
+        return ResponseEntity.ok(new HttpStatusEntity(employeeDTO,HttpStatus.CREATED.value(), "Successfully employee created"));
     }
 
     @PutMapping("/updateEmp/{empId}")
@@ -30,9 +32,9 @@ public class EmployeeController {
     }
 
     @GetMapping
-    public ResponseEntity<List<EmployeeDTO>> getAllEmployee(){
-        List<EmployeeDTO> el = employeeService.getAllEmployee();
-        return new ResponseEntity<>(el, HttpStatus.OK);
+    public ResponseEntity<HttpStatusEntity> getAllEmployee(){
+        List<EmployeeDTO> employeeList = employeeService.getAllEmployee();
+        return ResponseEntity.ok(new HttpStatusEntity(employeeList, HttpStatus.CREATED.value(),"Employees retrieving Successfully"));
     }
 
     @GetMapping("/{empId}")

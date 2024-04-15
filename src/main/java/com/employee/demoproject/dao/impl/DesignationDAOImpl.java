@@ -33,7 +33,7 @@ public class DesignationDAOImpl implements DesignationDAO {
     @Override
     public List<Designation> getAllDesignation() {
         List<Designation> designationList = sessionFactory.getCurrentSession()
-                                                        .createQuery("select d from Designation d")
+                                                        .createQuery("from Designation d")
                                                         .getResultList();
         return designationList;
     }
@@ -47,7 +47,7 @@ public class DesignationDAOImpl implements DesignationDAO {
     @Override
     public Designation getDesignationByRole(String role) {
         Query<Designation> query = sessionFactory.getCurrentSession()
-                .createQuery("select d from Designation d where d.role = :role", Designation.class)
+                .createQuery("from Designation d where d.role = :role", Designation.class)
                 .setParameter("role", role);
         return query.uniqueResult();
     }

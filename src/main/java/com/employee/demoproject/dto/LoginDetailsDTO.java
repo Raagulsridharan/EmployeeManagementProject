@@ -1,14 +1,26 @@
 package com.employee.demoproject.dto;
 
 
+import java.sql.Date;
+
 public class LoginDetailsDTO {
-    private Integer empId;
+    private Integer id;
     private String username;
     private String password;
-    private String newPassword;
     private Integer flag;
+    private Date activatedOn;
+    private Integer empId;
 
     public LoginDetailsDTO(){}
+
+    public LoginDetailsDTO(Integer id, String username, String password, Integer flag, Date activatedOn, Integer empId) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.flag = flag;
+        this.activatedOn = activatedOn;
+        this.empId = empId;
+    }
 
     public LoginDetailsDTO(String username, String password){
         this.username = username;
@@ -49,19 +61,27 @@ public class LoginDetailsDTO {
         return password;
     }
 
-    public String getNewPassword() {
-        return newPassword;
-    }
-
-    public void setNewPassword(String newPassword) {
-        this.newPassword = newPassword;
-    }
-
     public Integer getFlag() {
         return flag;
     }
 
     public void setFlag(Integer flag) {
         this.flag = flag;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Date getActivatedOn() {
+        return activatedOn;
+    }
+
+    public void setActivatedOn(Date activatedOn) {
+        this.activatedOn = activatedOn;
     }
 }

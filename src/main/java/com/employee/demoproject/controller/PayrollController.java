@@ -26,6 +26,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/payroll")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PayrollController {
 
     @Autowired
@@ -36,7 +37,7 @@ public class PayrollController {
         return new ResponseEntity<>(payrollService.getEmployeePayroll(empId), HttpStatus.OK);
     }
 
-    @GetMapping("/getAllEmployeePayroll")
+    @GetMapping
     public ResponseEntity<List<EmployeePaymentDTO>> getEmployeePayroll(){
         return new ResponseEntity<>(payrollService.getAllEmployeePayroll(), HttpStatus.OK);
     }

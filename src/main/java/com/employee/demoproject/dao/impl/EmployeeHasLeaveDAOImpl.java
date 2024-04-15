@@ -40,8 +40,7 @@ public class EmployeeHasLeaveDAOImpl implements EmployeeHasLeaveDAO {
     @Override
     public void updateLeaveForEmployee(int empId, EmployeeHasLeaveDTO employeeHasLeaveDTO) {
         EmployeeHasLeave employeeHasLeave = sessionFactory.getCurrentSession()
-                                                          .createQuery("select ehl \n" +
-                                                                  "from EmployeeHasLeave ehl \n" +
+                                                          .createQuery("from EmployeeHasLeave ehl \n" +
                                                                   "where ehl.employee_has_leave.id = :empId\n" +
                                                                   "and ehl.leavePolicy.id = :leaveId",EmployeeHasLeave.class)
                                                           .setParameter("empId",empId)

@@ -1,7 +1,10 @@
 package com.employee.demoproject.dto;
 
+import java.sql.Date;
+
 public class EmployeeDTO {
     private int id;
+    private Date birthday;
     private String emp_name;
     private String gender;
     private Long mobile;
@@ -10,17 +13,19 @@ public class EmployeeDTO {
     private String department;
 
     public EmployeeDTO() {}
-    public EmployeeDTO(Integer id, String emp_name, String gender, Long mobile, String email, String address, String department) {
+    public EmployeeDTO(Integer id, String emp_name,Date birthday, String gender, Long mobile, String email, String address, String department) {
         this.id = id;
         this.emp_name = emp_name;
+        this.birthday = birthday;
         this.gender = gender;
         this.mobile = mobile;
         this.email = email;
         this.address = address;
         this.department = department;
     }
-    public EmployeeDTO(String emp_name, String gender, Long mobile, String email, String address, String department) {
+    public EmployeeDTO(String emp_name,Date birthday, String gender, Long mobile, String email, String address, String department) {
         this.emp_name = emp_name;
+        this.birthday = birthday;
         this.gender = gender;
         this.mobile = mobile;
         this.email = email;
@@ -49,6 +54,14 @@ public class EmployeeDTO {
 
     public void setEmp_name(String name) {
         this.emp_name = name;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     public String getGender() {

@@ -83,6 +83,12 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
         sessionFactory.getCurrentSession().saveOrUpdate(loginDetails);
     }
 
+    @Override
+    public LoginDetailsDTO getEmployeeLoginByUsername(String username) {
+
+        return null;
+    }
+
 
     public static String generatePassword() {
         final String CHAR_LOWER = "abcdefghijklmnopqrstuvwxyz";
