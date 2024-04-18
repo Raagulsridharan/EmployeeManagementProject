@@ -2,12 +2,13 @@ package com.employee.demoproject.dao;
 
 import com.employee.demoproject.dto.EmployeeDTO;
 import com.employee.demoproject.entity.Employee;
+import com.employee.demoproject.entity.LoginDetails;
 
 import java.util.List;
 
 public interface EmployeeDAO {
-    void createEmployee(EmployeeDTO employeeDTO);
-    void updateEmployee(int empId,EmployeeDTO employeeDTO);
+    LoginDetails createEmployee(EmployeeDTO employeeDTO);
+    Employee updateEmployee(int empId,EmployeeDTO employeeDTO);
     List<EmployeeDTO> getAllEmployee();
     EmployeeDTO getEmployeeById(int empId);
     List<Employee> getAllEmployeeByDeptForRoleAssign(int deptId);

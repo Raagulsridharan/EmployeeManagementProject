@@ -10,6 +10,7 @@ public class LoginDetailsDTO {
     private Integer flag;
     private Date activatedOn;
     private Integer empId;
+    private Integer deptId;
 
     public LoginDetailsDTO(){}
 
@@ -22,9 +23,10 @@ public class LoginDetailsDTO {
         this.empId = empId;
     }
 
-    public LoginDetailsDTO(String username, String password){
+    public LoginDetailsDTO(String username, String password, Integer deptId){
         this.username = username;
         this.password = password;
+        this.deptId = deptId;
     }
 
     public LoginDetailsDTO(Integer empId,String password){
@@ -83,5 +85,13 @@ public class LoginDetailsDTO {
 
     public void setActivatedOn(Date activatedOn) {
         this.activatedOn = activatedOn;
+    }
+
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
     }
 }

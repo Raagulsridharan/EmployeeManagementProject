@@ -10,10 +10,11 @@ public class EmployeeDTO {
     private Long mobile;
     private String email;
     private String address;
+    private Integer departmentId;
     private String department;
 
     public EmployeeDTO() {}
-    public EmployeeDTO(Integer id, String emp_name,Date birthday, String gender, Long mobile, String email, String address, String department) {
+    public EmployeeDTO(Integer id, String emp_name,Date birthday, String gender, Long mobile, String email, String address, Integer departmentId,String department) {
         this.id = id;
         this.emp_name = emp_name;
         this.birthday = birthday;
@@ -21,6 +22,7 @@ public class EmployeeDTO {
         this.mobile = mobile;
         this.email = email;
         this.address = address;
+        this.departmentId = departmentId;
         this.department = department;
     }
     public EmployeeDTO(String emp_name,Date birthday, String gender, Long mobile, String email, String address, String department) {
@@ -94,6 +96,14 @@ public class EmployeeDTO {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 
     public String getDepartment() {

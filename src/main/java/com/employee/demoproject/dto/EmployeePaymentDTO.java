@@ -5,6 +5,7 @@ public class EmployeePaymentDTO {
     private String name;
     private String dept;
     private String role;
+    private Double salaryPack;
     private Double basic_sal_month;
     private Double tax_reduction_month;
     private Double net_sal_month;
@@ -12,11 +13,20 @@ public class EmployeePaymentDTO {
     public EmployeePaymentDTO() {
     }
 
-    public EmployeePaymentDTO(Integer id, String name, String dept, String role, Double basic_sal_month, Double tax_reduction_month, Double net_sal_month) {
+    public EmployeePaymentDTO(Integer id, String name, String dept, String role, Double salaryPack){
         this.id = id;
         this.name = name;
         this.dept = dept;
         this.role = role;
+        this.salaryPack = salaryPack;
+    }
+
+    public EmployeePaymentDTO(Integer id, String name, String dept, String role, Double salaryPack, Double basic_sal_month, Double tax_reduction_month, Double net_sal_month) {
+        this.id = id;
+        this.name = name;
+        this.dept = dept;
+        this.role = role;
+        this.salaryPack = salaryPack;
         this.basic_sal_month = basic_sal_month;
         this.tax_reduction_month = tax_reduction_month;
         this.net_sal_month = net_sal_month;
@@ -76,6 +86,14 @@ public class EmployeePaymentDTO {
 
     public void setNet_sal_month(Double net_sal_month) {
         this.net_sal_month = net_sal_month;
+    }
+
+    public Double getSalaryPack() {
+        return salaryPack;
+    }
+
+    public void setSalaryPack(Double salaryPack) {
+        this.salaryPack = salaryPack;
     }
 
     @Override

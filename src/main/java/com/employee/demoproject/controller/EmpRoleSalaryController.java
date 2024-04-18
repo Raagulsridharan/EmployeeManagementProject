@@ -3,6 +3,7 @@ package com.employee.demoproject.controller;
 import com.employee.demoproject.dto.EmpRoleSalaryDTO;
 import com.employee.demoproject.dto.EmployeePaymentDTO;
 import com.employee.demoproject.entity.EmpRoleSalary;
+import com.employee.demoproject.entity.HttpStatusEntity;
 import com.employee.demoproject.service.EmpRoleSalaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,14 +21,14 @@ public class EmpRoleSalaryController {
     private EmpRoleSalaryService empRoleSalaryService;
 
     @GetMapping
-    public ResponseEntity<List<EmployeePaymentDTO>> getAllEmpRoleSalary(){
-        return new ResponseEntity<>(empRoleSalaryService.getAllEmpRoleSalary(), HttpStatus.OK);
+    public ResponseEntity<HttpStatusEntity> getAllEmpRoleSalary(){
+        return ResponseEntity.ok(new HttpStatusEntity(empRoleSalaryService.getAllEmpRoleSalary(), HttpStatus.OK.value(),"Employees are fetched with role & salary details"));
     }
 
     @PostMapping("/{empId}")
-    public String createEmpRoleSalary(@PathVariable int empId,@RequestBody EmpRoleSalaryDTO empRoleSalaryDTO){
+    public void createEmpRoleSalary(@PathVariable int empId,@RequestBody EmpRoleSalaryDTO empRoleSalaryDTO){
         empRoleSalaryService.createEmpRoleSalary(empId,empRoleSalaryDTO);
-        return "Saved...";
+        //return "Saved...";
     }
 
     @PutMapping("/{empId}")

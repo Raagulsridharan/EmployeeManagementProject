@@ -88,8 +88,8 @@ public class DesignationController {
 //        return designationService.getDesignationByRole(role);
 //    }
 //
-//    @GetMapping("/{email}")
-//    public String getDesignationByEmail(@PathVariable String email){
-//        return designationService.getDesignationByEmail(email);
-//    }
+    @GetMapping("/getUserType/{email}")
+    public ResponseEntity<HttpStatusEntity> getDesignationByEmail(@PathVariable String email){
+        return ResponseEntity.ok(new HttpStatusEntity(designationService.getDesignationByEmail(email),HttpStatus.OK.value(),"Getting user type"));
+    }
 }

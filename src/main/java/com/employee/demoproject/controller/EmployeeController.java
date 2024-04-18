@@ -2,15 +2,12 @@ package com.employee.demoproject.controller;
 
 import com.employee.demoproject.dto.EmployeeDTO;
 import com.employee.demoproject.endPoints.BaseAPI;
-import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.HttpStatusEntity;
 import com.employee.demoproject.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping(BaseAPI.EMPLOYEES)
@@ -21,40 +18,37 @@ public class EmployeeController {
 
     @PostMapping
     public ResponseEntity<HttpStatusEntity> saveEmployee(@RequestBody EmployeeDTO employeeDTO){
-        employeeService.createEmployee(employeeDTO);
-        return ResponseEntity.ok(new HttpStatusEntity(employeeDTO,HttpStatus.CREATED.value(), "Successfully employee created"));
+        return ResponseEntity.ok(new HttpStatusEntity(employeeService.createEmployee(employeeDTO),HttpStatus.CREATED.value(), "Successfully employee created"));
     }
 
-    @PutMapping("/updateEmp/{empId}")
-    public String updateEmployee(@PathVariable int empId, @RequestBody EmployeeDTO employeeDTO) {
-        employeeService.updateEmployee(empId,employeeDTO);
-        return "Successfully updated...";
+    @PutMapping("/{empId}")
+    public ResponseEntity<HttpStatusEntity> updateEmployee(@PathVariable int empId, @RequestBody EmployeeDTO employeeDTO) {
+        return ResponseEntity.ok(new HttpStatusEntity(employeeService.updateEmployee(empId,employeeDTO),HttpStatus.OK.value(),"Successfully updated"));
     }
 
     @GetMapping
     public ResponseEntity<HttpStatusEntity> getAllEmployee(){
-        List<EmployeeDTO> employeeList = employeeService.getAllEmployee();
-        return ResponseEntity.ok(new HttpStatusEntity(employeeList, HttpStatus.CREATED.value(),"Employees retrieving Successfully"));
+        return ResponseEntity.ok(new HttpStatusEntity(employeeService.getAllEmployee(), HttpStatus.CREATED.value(),"Employees retrieving Successfully"));
     }
 
     @GetMapping("/{empId}")
-    public ResponseEntity<EmployeeDTO> getEmployeeById(@PathVariable int empId){
-        return new ResponseEntity<>(employeeService.getEmployeeById(empId),HttpStatus.OK);
+    public ResponseEntity<HttpStatusEntity> getEmployeeById(@PathVariable int empId){
+        return ResponseEntity.ok(new HttpStatusEntity(employeeService.getEmployeeById(empId),HttpStatus.OK.value(),"Employee retrieved"));
     }
 
     @GetMapping("/getAllEmployeeByDeptForRoleAssign/{deptId}")
-    public ResponseEntity<List<Employee>> getAllEmployeeByDeptForRoleAssign(@PathVariable int deptId){
-        return new ResponseEntity<>(employeeService.getAllEmployeeByDeptForRoleAssign(deptId),HttpStatus.OK);
+    public ResponseEntity<HttpStatusEntity> getAllEmployeeByDeptForRoleAssign(@PathVariable int deptId){
+        return ResponseEntity.ok(new HttpStatusEntity(employeeService.getAllEmployeeByDeptForRoleAssign(deptId),HttpStatus.OK.value(),"Fetching employees by department for role assigning"));
     }
 
     @GetMapping("/getAllEmpByDeptForPayroll/{deptId}")
-    public ResponseEntity<List<Employee>> getAllEmployeeByDeptForPayroll(@PathVariable int deptId){
-        return new ResponseEntity<>(employeeService.getAllEmployeeByDeptForPayroll(deptId),HttpStatus.OK);
+    public ResponseEntity<HttpStatusEntity> getAllEmployeeByDeptForPayroll(@PathVariable int deptId){
+        return ResponseEntity.ok(new HttpStatusEntity(employeeService.getAllEmployeeByDeptForPayroll(deptId),HttpStatus.OK.value(),"Fetching employees by department for payroll"));
     }
 
     @GetMapping("/getAllEmployeeByDeptForLeaveAssign/{deptId}")
-    public ResponseEntity<List<Employee>> getAllEmployeeByDeptForLeaveAssign(@PathVariable int deptId){
-        return new ResponseEntity<>(employeeService.getAllEmployeeByDeptForLeaveAssign(deptId),HttpStatus.OK);
+    public ResponseEntity<HttpStatusEntity> getAllEmployeeByDeptForLeaveAssign(@PathVariable int deptId){
+        return ResponseEntity.ok(new HttpStatusEntity(employeeService.getAllEmployeeByDeptForLeaveAssign(deptId),HttpStatus.OK.value(),"Fetching employees by department for leave assigning"));
     }
 
     @GetMapping("/getEmpCount")
@@ -63,8 +57,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{empId}")
-    public String deleteEmployee(@PathVariable int empId){
+    public void deleteEmployee(@PathVariable int empId){
         employeeService.deleteEmployee(empId);
-        return "Employee deleted...!!!";
     }
 }

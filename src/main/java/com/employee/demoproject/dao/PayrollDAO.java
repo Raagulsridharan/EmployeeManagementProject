@@ -12,8 +12,8 @@ import java.util.List;
 public interface PayrollDAO {
     List<PayrollDTO> getEmployeePayroll(int empId);
     List<EmployeePaymentDTO> getAllEmployeePayroll();
-    void makePayment(int empId, PayrollDTO payrollDTO);
-    void createPayroll(int empId);
+    Payroll makePayment(int empId, PayrollDTO payrollDTO);
+    Payroll createPayroll(int empId);
     PaySlipDTO getPAYSlipContent(Integer salaryId);
 
 

@@ -20,7 +20,7 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
     private SessionFactory sessionFactory;
 
     @Override
-    public void createLogin(Employee employee) {
+    public LoginDetails createLogin(Employee employee) {
         LoginDetails loginDetails = new LoginDetails();
         loginDetails.setUsername(employee.getEmail());
         loginDetails.setPassword(generatePassword());
@@ -28,6 +28,8 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
         loginDetails.setEmployee_login(employee);
 
         sessionFactory.getCurrentSession().persist(loginDetails);
+
+        return loginDetails;
     }
 
     @Override
@@ -80,12 +82,15 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
         loginDetails.setFlag(1);
         loginDetails.setActivated_on(Date.valueOf(LocalDate.now()));
 
+        Employee employee = sessionFactory.getCurrentSession().get(Employee.class,loginDetailsDTO.getEmpId());
+        employee.setStatus("Activated");
+
+        sessionFactory.getCurrentSession().merge(employee);
         sessionFactory.getCurrentSession().saveOrUpdate(loginDetails);
     }
 
     @Override
     public LoginDetailsDTO getEmployeeLoginByUsername(String username) {
-
         return null;
     }
 

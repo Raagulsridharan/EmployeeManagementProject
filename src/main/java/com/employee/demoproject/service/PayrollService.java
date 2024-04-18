@@ -12,9 +12,9 @@ import java.util.List;
 public interface PayrollService {
     List<PayrollDTO> getEmployeePayroll(int empId);
     List<EmployeePaymentDTO> getAllEmployeePayroll();
-    void makePayment(int empId, PayrollDTO payrollDTO);
-    void createPayroll(int empId);
-    PaySlipDTO getPAYSlipContent(Integer salaryId);
+    Payroll makePayment(int empId, PayrollDTO payrollDTO);
+    Payroll createPayroll(int empId);
+    PaySlipDTO getPAYSlipContent(Integer payrollId);
 
 
 

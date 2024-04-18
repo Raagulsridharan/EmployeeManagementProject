@@ -4,6 +4,7 @@ import com.employee.demoproject.dao.LoginDetailsDAO;
 import com.employee.demoproject.dto.EmployeeDTO;
 import com.employee.demoproject.dto.LoginDetailsDTO;
 import com.employee.demoproject.entity.Employee;
+import com.employee.demoproject.entity.LoginDetails;
 import com.employee.demoproject.service.LoginDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,8 @@ public class LoginDetailsServiceImpl implements LoginDetailsService {
     private LoginDetailsDAO loginDetailsDAO;
 
     @Override
-    public void createLogin(Employee employee) {
-        loginDetailsDAO.createLogin(employee);
+    public LoginDetails createLogin(Employee employee) {
+        return loginDetailsDAO.createLogin(employee);
     }
 
     @Override

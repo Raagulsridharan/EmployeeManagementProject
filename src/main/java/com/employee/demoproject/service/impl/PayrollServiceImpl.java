@@ -32,13 +32,13 @@ public class PayrollServiceImpl implements PayrollService {
     }
 
     @Override
-    public void makePayment(int empId, PayrollDTO payrollDTO) {
-        payrollDAO.makePayment(empId,payrollDTO);
+    public Payroll makePayment(int empId, PayrollDTO payrollDTO) {
+        return payrollDAO.makePayment(empId,payrollDTO);
     }
 
     @Override
-    public void createPayroll(int empId) {
-        payrollDAO.createPayroll(empId);
+    public Payroll createPayroll(int empId) {
+        return payrollDAO.createPayroll(empId);
     }
 
     @Override

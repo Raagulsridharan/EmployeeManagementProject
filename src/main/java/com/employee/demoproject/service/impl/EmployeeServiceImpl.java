@@ -3,6 +3,7 @@ package com.employee.demoproject.service.impl;
 import com.employee.demoproject.dao.EmployeeDAO;
 import com.employee.demoproject.dto.EmployeeDTO;
 import com.employee.demoproject.entity.Employee;
+import com.employee.demoproject.entity.LoginDetails;
 import com.employee.demoproject.exceptions.DataServiceException;
 import com.employee.demoproject.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +20,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeDAO employeeDAO;
 
     @Override
-    public void createEmployee(EmployeeDTO employeeDTO) {
+    public LoginDetails createEmployee(EmployeeDTO employeeDTO) {
         try{
-            employeeDAO.createEmployee(employeeDTO);
+            return employeeDAO.createEmployee(employeeDTO);
         }catch (DataServiceException ex){
             throw new DataServiceException("Error saving employee data", ex);
         }
     }
 
     @Override
-    public void updateEmployee(int empId, EmployeeDTO employeeDTO){
-        employeeDAO.updateEmployee(empId,employeeDTO);
+    public Employee updateEmployee(int empId, EmployeeDTO employeeDTO){
+        return employeeDAO.updateEmployee(empId,employeeDTO);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.employee.demoproject.dao.impl;
 
 import com.employee.demoproject.dao.EmpRoleSalaryDAO;
+import com.employee.demoproject.dataRetrieve.DataRetrieve;
 import com.employee.demoproject.dto.EmpRoleSalaryDTO;
 import com.employee.demoproject.dto.EmployeeDTO;
 import com.employee.demoproject.dto.EmployeePaymentDTO;
@@ -26,18 +27,21 @@ public class EmpRoleSalaryDAOImpl implements EmpRoleSalaryDAO {
     @Autowired
     private DesignationService designationService;
 
+    @Autowired
+    private DataRetrieve dataRetrieve;
+
     @Override
     public List<EmployeePaymentDTO> getAllEmpRoleSalary() {
-        List<EmployeePaymentDTO> employeePaymentDTOS = (List<EmployeePaymentDTO>) sessionFactory.getCurrentSession()
-                                    .createNativeQuery("select ers.id, e.name, d.name as dept, ds.role, ers.annual_salary_pack\n" +
-                                            "from employee e\n" +
-                                            "join department d\n" +
-                                            "on e.dept_id = d.id\n" +
-                                            "join emp_role_salary ers\n" +
-                                            "on e.id = ers.employee_id\n" +
-                                            "join designations ds\n" +
-                                            "on ers.role_id = ds.id;")
-                                    .getResultList();
+        String query = "select ers.id, e.name, d.name as dept, ds.role, ers.annual_salary_pack, ers.basic_sal_month, ers.tax_reduction_month, ers.net_sal_month\n" +
+                "from Employee e\n" +
+                "join Department d\n" +
+                "on e.department.id = d.id\n" +
+                "join EmpRoleSalary ers\n" +
+                "on e.id = ers.employee_role_salary.id\n" +
+                "join Designation ds\n" +
+                "on ers.designation.id = ds.id";
+
+        List<EmployeePaymentDTO> employeePaymentDTOS = dataRetrieve.processList(query,EmployeePaymentDTO.class);
         return employeePaymentDTOS;
     }
     @Override

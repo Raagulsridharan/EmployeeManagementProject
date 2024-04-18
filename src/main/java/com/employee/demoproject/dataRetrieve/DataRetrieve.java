@@ -30,4 +30,11 @@ public class DataRetrieve {
                 .setParameter("id",id);
         return hibernateQuery.getResultList();
     }
+
+    public <T> T getObjectById(String query, Integer id, Class<T> clazz){
+        Query<T> hibernateQuery = sessionFactory.getCurrentSession()
+                .createQuery(query, clazz)
+                .setParameter("id",id);
+        return hibernateQuery.uniqueResult();
+    }
 }
