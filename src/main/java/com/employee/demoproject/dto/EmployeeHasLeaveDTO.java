@@ -11,13 +11,25 @@ public class EmployeeHasLeaveDTO {
 
     private Integer leaveId;
     private String leaveType;
-    private Long noOfDays;
+    private Integer noOfdays;
     private Date updatedOn;
 
     public EmployeeHasLeaveDTO() {
     }
 
-    public EmployeeHasLeaveDTO(Integer id, String empName,String department, String role, Date activatedOn) {
+    public EmployeeHasLeaveDTO(Integer id, String empName, String department, String role, Date activatedOn, Integer leaveId, String leaveType, Integer noOfdays, Date updatedOn) {
+        this.id = id;
+        this.empName = empName;
+        this.department = department;
+        this.role = role;
+        this.activatedOn = activatedOn;
+        this.leaveId = leaveId;
+        this.leaveType = leaveType;
+        this.noOfdays = noOfdays;
+        this.updatedOn = updatedOn;
+    }
+
+    public EmployeeHasLeaveDTO(Integer id, String empName, String department, String role, Date activatedOn) {
         this.id = id;
         this.empName = empName;
         this.department = department;
@@ -25,15 +37,15 @@ public class EmployeeHasLeaveDTO {
         this.activatedOn = activatedOn;
     }
 
-    public EmployeeHasLeaveDTO(String leaveType, Long noOfDays,Date updatedOn) {
+    public EmployeeHasLeaveDTO(String leaveType, Integer noOfdays, Date updatedOn) {
         this.leaveType = leaveType;
-        this.noOfDays = noOfDays;
+        this.noOfdays = noOfdays;
         this.updatedOn = updatedOn;
     }
 
-    public EmployeeHasLeaveDTO(Integer leaveId, Long noOfDays) {
+    public EmployeeHasLeaveDTO(Integer leaveId, Integer noOfdays) {
         this.leaveId = leaveId;
-        this.noOfDays = noOfDays;
+        this.noOfdays = noOfdays;
     }
 
     public Integer getId() {
@@ -92,12 +104,12 @@ public class EmployeeHasLeaveDTO {
         this.leaveType = leaveType;
     }
 
-    public Long getNoOfDays() {
-        return noOfDays;
+    public Integer getNoOfdays() {
+        return noOfdays;
     }
 
-    public void setNoOfDays(Long noOfDays) {
-        this.noOfDays = noOfDays;
+    public void setNoOfdays(Integer noOfdays) {
+        this.noOfdays = noOfdays;
     }
 
     public Date getUpdatedOn() {

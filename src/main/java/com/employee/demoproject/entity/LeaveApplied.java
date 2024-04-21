@@ -20,7 +20,7 @@ public class LeaveApplied {
     private LeavePolicy leavePolicy;
 
     private String note;
-    private Long no_of_days;
+    private Integer no_of_days;
     private Date from_date;
     private Date to_date;
     private String status;
@@ -29,7 +29,7 @@ public class LeaveApplied {
     public LeaveApplied() {
     }
 
-    public LeaveApplied(int id, Employee employee_leave_applied, LeavePolicy leavePolicy, String note, Long no_of_days, Date from_date, Date to_date, String status, Date submitted_on) {
+    public LeaveApplied(int id, Employee employee_leave_applied, LeavePolicy leavePolicy, String note, Integer no_of_days, Date from_date, Date to_date, String status, Date submitted_on) {
         this.id = id;
         this.employee_leave_applied = employee_leave_applied;
         this.leavePolicy = leavePolicy;
@@ -73,11 +73,11 @@ public class LeaveApplied {
         this.note = note;
     }
 
-    public Long getNo_of_days() {
+    public Integer getNo_of_days() {
         return no_of_days;
     }
 
-    public void setNo_of_days(Long no_of_days) {
+    public void setNo_of_days(Integer no_of_days) {
         this.no_of_days = no_of_days;
     }
 

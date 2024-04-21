@@ -20,13 +20,13 @@ public class EmployeeHasLeave {
     @JoinColumn(name = "leave_id")
     private LeavePolicy leavePolicy;
 
-    private Long no_of_days;
+    private Integer no_of_days;
     private Date updated_on;
 
     public EmployeeHasLeave() {
     }
 
-    public EmployeeHasLeave(int id, Employee employee_has_leave, LeavePolicy leavePolicy, Long no_of_days, Date updated_on) {
+    public EmployeeHasLeave(int id, Employee employee_has_leave, LeavePolicy leavePolicy, Integer no_of_days, Date updated_on) {
         this.id = id;
         this.employee_has_leave = employee_has_leave;
         this.leavePolicy = leavePolicy;
@@ -58,11 +58,11 @@ public class EmployeeHasLeave {
         this.leavePolicy = leavePolicy;
     }
 
-    public Long getNo_of_days() {
+    public Integer getNo_of_days() {
         return no_of_days;
     }
 
-    public void setNo_of_days(Long no_of_days) {
+    public void setNo_of_days(Integer no_of_days) {
         this.no_of_days = no_of_days;
     }
 

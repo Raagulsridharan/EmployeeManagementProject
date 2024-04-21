@@ -13,9 +13,9 @@ public class LoginDetailsController {
     private LoginDetailsService loginDetailsService;
 
     @PutMapping("/updatePassword/{id}")
-    public String updatePassword(@PathVariable int id, @RequestBody String password){
+    public void updatePassword(@PathVariable int id, @RequestBody String password){
         loginDetailsService.updatePassword(id,password);
-        return "Password updated...!!!";
+        //return "Password updated...!!!";
     }
 
     @PostMapping

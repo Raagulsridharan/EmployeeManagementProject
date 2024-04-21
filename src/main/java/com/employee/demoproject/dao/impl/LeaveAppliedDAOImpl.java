@@ -86,8 +86,9 @@ public class LeaveAppliedDAOImpl implements LeaveAppliedDAO {
         if(leaveApplied==null){
             Employee employee = sessionFactory.getCurrentSession().get(Employee.class,empId);
             LeavePolicy leavePolicy = sessionFactory.getCurrentSession().get(LeavePolicy.class,leaveAppliedDTO.getLeaveType());
-            Long noOfDays = ChronoUnit.DAYS.between(leaveAppliedDTO.getFromDate().toLocalDate(),
-                    leaveAppliedDTO.getToDate().toLocalDate());
+            long daysBetween = ChronoUnit.DAYS.between(leaveAppliedDTO.getFromDate().toLocalDate(), leaveAppliedDTO.getToDate().toLocalDate());
+            int daysBetweenAsInt = Math.toIntExact(daysBetween); // Convert long to int
+            Integer noOfDays = Integer.valueOf(daysBetweenAsInt); // Create Integer object from int value
 
             leaveApplied.setEmployee_leave_applied(employee);
             leaveApplied.setLeavePolicy(leavePolicy);

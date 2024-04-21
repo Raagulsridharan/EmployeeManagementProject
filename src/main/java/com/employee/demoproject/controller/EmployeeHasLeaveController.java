@@ -2,6 +2,7 @@ package com.employee.demoproject.controller;
 
 import com.employee.demoproject.dto.EmployeeHasLeaveDTO;
 import com.employee.demoproject.entity.EmployeeHasLeave;
+import com.employee.demoproject.entity.HttpStatusEntity;
 import com.employee.demoproject.entity.LeavePolicy;
 import com.employee.demoproject.service.EmployeeHasLeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +14,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/employeeHasLeave")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class EmployeeHasLeaveController {
 
     @Autowired
     private EmployeeHasLeaveService employeeHasLeaveService;
 
     @PostMapping("/{empId}")
-    public String assignLeaveForEmployee(@PathVariable int empId, @RequestBody List<EmployeeHasLeaveDTO> employeeHasLeaveDTOS){
+    public void assignLeaveForEmployee(@PathVariable int empId, @RequestBody List<EmployeeHasLeaveDTO> employeeHasLeaveDTOS){
         employeeHasLeaveService.assignLeaveForEmployee(empId,employeeHasLeaveDTOS);
-        return "successfully assigned";
     }
 
     @PutMapping("/{empId}")
@@ -31,8 +32,8 @@ public class EmployeeHasLeaveController {
     }
 
     @GetMapping
-    public ResponseEntity<List<EmployeeHasLeaveDTO>> getAllEmployeeLeaves(){
-        return new ResponseEntity<>(employeeHasLeaveService.getAllEmployeeLeaves(), HttpStatus.OK);
+    public ResponseEntity<HttpStatusEntity> getAllEmployeeLeaves(){
+        return ResponseEntity.ok(new HttpStatusEntity(employeeHasLeaveService.getAllEmployeeLeaves(), HttpStatus.OK.value(),"Fetching All Employees Has Leave"));
     }
 
     @GetMapping("/{empId}")

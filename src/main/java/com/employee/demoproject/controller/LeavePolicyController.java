@@ -1,14 +1,18 @@
 package com.employee.demoproject.controller;
 
+import com.employee.demoproject.endPoints.BaseAPI;
+import com.employee.demoproject.entity.HttpStatusEntity;
 import com.employee.demoproject.entity.LeavePolicy;
 import com.employee.demoproject.service.LeavePolicyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/leavePolicy")
+@RequestMapping(BaseAPI.LEAVE_POLICY)
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class LeavePolicyController {
 
@@ -21,9 +25,9 @@ public class LeavePolicyController {
         return "Successfully leavePolicy created...!";
     }
 
-    @GetMapping("/getAllLeavePolicy")
-    public List<LeavePolicy> getAllLeavePolicy(){
-        return leavePolicyService.getAllLeavePolicy();
+    @GetMapping
+    public ResponseEntity<HttpStatusEntity> getAllLeavePolicy(){
+        return ResponseEntity.ok(new HttpStatusEntity(leavePolicyService.getAllLeavePolicy(), HttpStatus.OK.value(), "Fetching All leave types"));
     }
 
     @GetMapping("/getLeavePolicyById/{id}")

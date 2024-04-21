@@ -28,13 +28,14 @@ public class EmployeeHasLeaveDAOImpl implements EmployeeHasLeaveDAO {
               employeeHasLeave.setEmployee_has_leave(employee);
             LeavePolicy leavePolicy1 = sessionFactory.getCurrentSession().get(LeavePolicy.class,leavePolicy.getLeaveId());
               employeeHasLeave.setLeavePolicy(leavePolicy1);
-              employeeHasLeave.setNo_of_days(leavePolicy.getNoOfDays());
+              employeeHasLeave.setNo_of_days(leavePolicy.getNoOfdays());
             java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
               employeeHasLeave.setUpdated_on(sqlDate);
             sessionFactory.getCurrentSession().persist(employeeHasLeave);
 
             System.out.println("Successfully Leave assigned");
         }
+
     }
 
     @Override
@@ -46,7 +47,7 @@ public class EmployeeHasLeaveDAOImpl implements EmployeeHasLeaveDAO {
                                                           .setParameter("empId",empId)
                                                           .setParameter("leaveId",employeeHasLeaveDTO.getLeaveId())
                                                           .getSingleResult();
-        employeeHasLeave.setNo_of_days(employeeHasLeaveDTO.getNoOfDays());
+        employeeHasLeave.setNo_of_days(employeeHasLeaveDTO.getNoOfdays());
         java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
         employeeHasLeave.setUpdated_on(sqlDate);
         sessionFactory.getCurrentSession().saveOrUpdate(employeeHasLeave);
