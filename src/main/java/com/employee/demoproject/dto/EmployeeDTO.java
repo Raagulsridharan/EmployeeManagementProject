@@ -42,6 +42,12 @@ public class EmployeeDTO {
         this.department = department;
     }
 
+    public EmployeeDTO(Long mobile, String address, Integer departmentId) {
+        this.mobile = mobile;
+        this.address = address;
+        this.departmentId = departmentId;
+    }
+
     public int getId() {
         return id;
     }

@@ -59,16 +59,15 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     @Override
     public Employee updateEmployee(int empId, EmployeeDTO employeeDTO){
             Employee updateEmployee = sessionFactory.getCurrentSession().get(Employee.class,empId);
-            updateEmployee.setName(employeeDTO.getEmp_name());
+//            updateEmployee.setName(employeeDTO.getEmp_name());
             updateEmployee.setMobile(employeeDTO.getMobile());
-            updateEmployee.setEmail(employeeDTO.getEmail());
+//            updateEmployee.setEmail(employeeDTO.getEmail());
             updateEmployee.setAddress(employeeDTO.getAddress());
 
-            String departmentName = employeeDTO.getDepartment();
-            Department department = departmentService.getDepartmentByName(departmentName);
+            Department department = departmentService.getDepartmentById(employeeDTO.getDepartmentId());
             updateEmployee.setDepartment(department);
 
-            loginDetailsService.updateUserName(empId,employeeDTO);
+//            loginDetailsService.updateUserName(empId,employeeDTO);
 
             sessionFactory.getCurrentSession().saveOrUpdate(updateEmployee);
 

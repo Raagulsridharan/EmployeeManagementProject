@@ -32,9 +32,9 @@ public class EmpRoleSalaryController {
     }
 
     @PutMapping("/{empId}")
-    public String updateEmpRoleSalary(@PathVariable int empId,@RequestBody EmpRoleSalaryDTO empRoleSalaryDTO){
+    public void updateEmpRoleSalary(@PathVariable int empId,@RequestBody EmpRoleSalaryDTO empRoleSalaryDTO){
         empRoleSalaryService.updateEmpRoleSalary(empId,empRoleSalaryDTO);
-        return "Updated...";
+        //return "Updated...";
     }
 
     @GetMapping("/{empId}")

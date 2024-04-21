@@ -23,7 +23,7 @@ public class EmployeeController {
 
     @PutMapping("/{empId}")
     public ResponseEntity<HttpStatusEntity> updateEmployee(@PathVariable int empId, @RequestBody EmployeeDTO employeeDTO) {
-        return ResponseEntity.ok(new HttpStatusEntity(employeeService.updateEmployee(empId,employeeDTO),HttpStatus.OK.value(),"Successfully updated"));
+        return ResponseEntity.ok(new HttpStatusEntity(employeeService.updateEmployee(empId,employeeDTO),HttpStatus.OK.value(),"Employee Successfully updated"));
     }
 
     @GetMapping
