@@ -30,6 +30,13 @@ public class LeaveAppliedDTO {
         this.status = status;
     }
 
+    public LeaveAppliedDTO(Integer id, Integer empId, Integer leaveType, String status){
+        this.id = id;
+        this.empId = empId;
+        this.leaveType = leaveType;
+        this.status = status;
+    }
+
     public Integer getId() {
         return id;
     }

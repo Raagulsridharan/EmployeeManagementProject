@@ -1,6 +1,7 @@
 package com.employee.demoproject.controller;
 
 import com.employee.demoproject.dto.LeaveAppliedDTO;
+import com.employee.demoproject.entity.HttpStatusEntity;
 import com.employee.demoproject.entity.LeaveApplied;
 import com.employee.demoproject.service.LeaveAppliedService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,18 +35,18 @@ public class LeaveAppliedController {
     }
 
     @GetMapping("/getAllApprovedLeaves")
-    public ResponseEntity<List<LeaveApplied>> getAllApprovedLeaves(){
-        return new ResponseEntity<>(leaveAppliedService.getAllApprovedLeaves(), HttpStatus.OK);
+    public ResponseEntity<HttpStatusEntity> getAllApprovedLeaves(){
+        return ResponseEntity.ok(new HttpStatusEntity(leaveAppliedService.getAllApprovedLeaves(), HttpStatus.OK.value(),"Fetching all approved leaves"));
     }
 
     @GetMapping("/getAllRejectedLeaves")
-    public ResponseEntity<List<LeaveApplied>> getAllRejectedLeaves(){
-        return new ResponseEntity<>(leaveAppliedService.getAllRejectedLeaves(), HttpStatus.OK);
+    public ResponseEntity<HttpStatusEntity> getAllRejectedLeaves(){
+        return ResponseEntity.ok(new HttpStatusEntity(leaveAppliedService.getAllRejectedLeaves(), HttpStatus.OK.value(),"Fetching all rejected leaves"));
     }
 
     @GetMapping("/getAllRequestedLeaves")
-    public ResponseEntity<List<LeaveApplied>> getAllRequestedLeaves(){
-        return new ResponseEntity<>(leaveAppliedService.getAllRequestedLeaves(), HttpStatus.OK);
+    public ResponseEntity<HttpStatusEntity> getAllRequestedLeaves(){
+        return ResponseEntity.ok(new HttpStatusEntity(leaveAppliedService.getAllRequestedLeaves(), HttpStatus.OK.value(),"Fetching all requested leaves"));
     }
 
     @GetMapping("/{empId}")
@@ -58,9 +59,9 @@ public class LeaveAppliedController {
         return leaveAppliedService.empApplyingLeave(empId,leaveAppliedDTO);
     }
 
-    @PutMapping("/updateLeaveStatus")
-    public String updateLeaveStatus(@RequestBody LeaveAppliedDTO leaveAppliedDTO){
+    @PutMapping
+    public void updateLeaveStatus(@RequestBody LeaveAppliedDTO leaveAppliedDTO){
         leaveAppliedService.updateLeaveStatus(leaveAppliedDTO);
-        return "Your Leave "+leaveAppliedDTO.getStatus();
+        //return "Your Leave "+leaveAppliedDTO.getStatus();
     }
 }

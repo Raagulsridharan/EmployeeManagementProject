@@ -33,17 +33,17 @@ public class PayrollController {
     @Autowired
     private PayrollService payrollService;
 
-    @GetMapping("/getEmployeePayroll/{empId}")
+    @GetMapping("/{empId}")
     public ResponseEntity<HttpStatusEntity> getEmployeePayroll(@PathVariable int empId){
         return ResponseEntity.ok(new HttpStatusEntity(payrollService.getEmployeePayroll(empId), HttpStatus.OK.value(),"Payroll for employee"));
     }
 
     @GetMapping
-    public ResponseEntity<HttpStatusEntity> getEmployeePayroll(){
+    public ResponseEntity<HttpStatusEntity> getAllEmployeePayroll(){
         return ResponseEntity.ok(new HttpStatusEntity(payrollService.getAllEmployeePayroll(), HttpStatus.OK.value(),"Payroll of All the employees"));
     }
 
-    @PostMapping("/makePayment/{empId}")
+    @PostMapping("/{empId}")
     public ResponseEntity<HttpStatusEntity> makePayment(@PathVariable int empId, @RequestBody PayrollDTO payrollDTO){
         return ResponseEntity.ok(new HttpStatusEntity(payrollService.makePayment(empId,payrollDTO),HttpStatus.OK.value(), "Successfully payment done"));
     }

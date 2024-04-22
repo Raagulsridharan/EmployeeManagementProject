@@ -33,7 +33,7 @@ public class PayrollDAOImpl implements PayrollDAO {
 
     @Override
     public List<PayrollDTO> getEmployeePayroll(int empId) {
-        String query = "select e.id, e.name, ers.net_sal_month, p.month, p.paid_salary, p.description, p.status \n" +
+        String query = "select p.id, e.name, ers.net_sal_month, p.month, p.paid_salary, p.description, p.status \n" +
                 "from Employee e\n" +
                 " join Department d\n" +
                 "\ton e.department.id = d.id \n" +

@@ -109,17 +109,7 @@ public class LeaveAppliedDAOImpl implements LeaveAppliedDAO {
     @Override
     public void updateLeaveStatus(LeaveAppliedDTO leaveAppliedDTO) {
         LeaveApplied leaveApplied  = sessionFactory.getCurrentSession()
-                .createQuery("FROM LeaveApplied l " +
-                        "WHERE l.status IN ('rejected','requested') " +
-                        "AND l.employee_leave_applied.id = :empId " +
-                        "AND l.leavePolicy.id = :leaveTypeId " +
-                        "AND l.from_date = :fromDate " +
-                        "AND l.to_date = :toDate" , LeaveApplied.class)
-                .setParameter("empId",leaveAppliedDTO.getEmpId())
-                .setParameter("leaveTypeId",leaveAppliedDTO.getLeaveType())
-                .setParameter("fromDate",leaveAppliedDTO.getFromDate())
-                .setParameter("toDate",leaveAppliedDTO.getToDate())
-                .uniqueResult();
+                .get(LeaveApplied.class,leaveAppliedDTO.getId());
 
         leaveApplied.setStatus(leaveAppliedDTO.getStatus());
         sessionFactory.getCurrentSession().saveOrUpdate(leaveApplied);
