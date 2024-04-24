@@ -53,6 +53,11 @@ public class PayrollController {
         return ResponseEntity.ok(new HttpStatusEntity(payrollService.createPayroll(empId),HttpStatus.OK.value(),"Payroll created...!"));
     }
 
+    @PutMapping("/{empId}")
+    public ResponseEntity<HttpStatusEntity> updatePayroll(@PathVariable int empId,@RequestBody PayrollDTO payrollDTO){
+        return ResponseEntity.ok(new HttpStatusEntity(payrollService.updatePayroll(empId,payrollDTO),HttpStatus.OK.value(),"Payroll updated...!"));
+    }
+
     @GetMapping("/getPaySlipcontent/{payrollId}")
     public ResponseEntity<PayrollDTO> getPaySlipContent(@PathVariable Integer payrollId){
         return new ResponseEntity(payrollService.getPAYSlipContent(payrollId),HttpStatus.OK);

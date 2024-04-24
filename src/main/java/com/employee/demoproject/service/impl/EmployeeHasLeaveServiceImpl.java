@@ -2,6 +2,7 @@ package com.employee.demoproject.service.impl;
 
 import com.employee.demoproject.dao.EmployeeHasLeaveDAO;
 import com.employee.demoproject.dto.EmployeeHasLeaveDTO;
+import com.employee.demoproject.dto.LeaveAssignDTO;
 import com.employee.demoproject.entity.EmployeeHasLeave;
 import com.employee.demoproject.entity.LeavePolicy;
 import com.employee.demoproject.service.EmployeeHasLeaveService;
@@ -24,12 +25,12 @@ public class EmployeeHasLeaveServiceImpl implements EmployeeHasLeaveService {
     }
 
     @Override
-    public void updateLeaveForEmployee(int empId, EmployeeHasLeaveDTO employeeHasLeaveDTO) {
-        employeeHasLeaveDAO.updateLeaveForEmployee(empId,employeeHasLeaveDTO);
+    public void updateLeaveForEmployee(int empId, List<EmployeeHasLeaveDTO> employeeHasLeaveDTOList) {
+        employeeHasLeaveDAO.updateLeaveForEmployee(empId,employeeHasLeaveDTOList);
     }
 
     @Override
-    public List<EmployeeHasLeaveDTO> getAllEmployeeLeaves() {
+    public List<LeaveAssignDTO> getAllEmployeeLeaves() {
         return employeeHasLeaveDAO.getAllEmployeesLeaves();
     }
 

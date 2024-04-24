@@ -2,6 +2,7 @@ package com.employee.demoproject.dao.impl;
 
 import com.employee.demoproject.dao.EmployeeHasLeaveDAO;
 import com.employee.demoproject.dto.EmployeeHasLeaveDTO;
+import com.employee.demoproject.dto.LeaveAssignDTO;
 import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.EmployeeHasLeave;
 import com.employee.demoproject.entity.LeavePolicy;
@@ -39,23 +40,25 @@ public class EmployeeHasLeaveDAOImpl implements EmployeeHasLeaveDAO {
     }
 
     @Override
-    public void updateLeaveForEmployee(int empId, EmployeeHasLeaveDTO employeeHasLeaveDTO) {
-        EmployeeHasLeave employeeHasLeave = sessionFactory.getCurrentSession()
-                                                          .createQuery("from EmployeeHasLeave ehl \n" +
-                                                                  "where ehl.employee_has_leave.id = :empId\n" +
-                                                                  "and ehl.leavePolicy.id = :leaveId",EmployeeHasLeave.class)
-                                                          .setParameter("empId",empId)
-                                                          .setParameter("leaveId",employeeHasLeaveDTO.getLeaveId())
-                                                          .getSingleResult();
-        employeeHasLeave.setNo_of_days(employeeHasLeaveDTO.getNoOfdays());
-        java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
-        employeeHasLeave.setUpdated_on(sqlDate);
-        sessionFactory.getCurrentSession().saveOrUpdate(employeeHasLeave);
+    public void updateLeaveForEmployee(int empId, List<EmployeeHasLeaveDTO> employeeHasLeaveDTOList) {
+        for(EmployeeHasLeaveDTO employeeHasLeaveDTO: employeeHasLeaveDTOList){
+            EmployeeHasLeave employeeHasLeave = sessionFactory.getCurrentSession()
+                    .createQuery("from EmployeeHasLeave ehl \n" +
+                            "where ehl.employee_has_leave.id = :empId\n" +
+                            "and ehl.leavePolicy.id = :leaveId",EmployeeHasLeave.class)
+                    .setParameter("empId",empId)
+                    .setParameter("leaveId",employeeHasLeaveDTO.getLeaveId())
+                    .getSingleResult();
+              employeeHasLeave.setNo_of_days(employeeHasLeaveDTO.getNoOfdays());
+            java.sql.Date sqlDate = new java.sql.Date(new java.util.Date().getTime());
+              employeeHasLeave.setUpdated_on(sqlDate);
+            sessionFactory.getCurrentSession().saveOrUpdate(employeeHasLeave);
+        }
     }
 
     @Override
-    public List<EmployeeHasLeaveDTO> getAllEmployeesLeaves() {
-        List<EmployeeHasLeaveDTO> leavePolicies = sessionFactory.getCurrentSession()
+    public List<LeaveAssignDTO> getAllEmployeesLeaves() {
+        List<LeaveAssignDTO> leavePolicies = sessionFactory.getCurrentSession()
                                                              .createQuery("select distinct e.id, e.name, d.name as dept, ds.role, ld.activated_on\n" +
                                                                      "from Employee e \n" +
                                                                      "join Department d \n" +
@@ -67,7 +70,7 @@ public class EmployeeHasLeaveDAOImpl implements EmployeeHasLeaveDAO {
                                                                      "join Designation ds \n" +
                                                                      "on ers.designation.id = ds.id\n" +
                                                                      "join EmployeeHasLeave ehl \n" +
-                                                                     "on e.id = ehl.employee_has_leave.id",EmployeeHasLeaveDTO.class)
+                                                                     "on e.id = ehl.employee_has_leave.id",LeaveAssignDTO.class)
                                                              .getResultList();
         return leavePolicies;
     }
@@ -75,7 +78,7 @@ public class EmployeeHasLeaveDAOImpl implements EmployeeHasLeaveDAO {
     @Override
     public List<EmployeeHasLeaveDTO> getEmployeeLeave(int empId) {
         List<EmployeeHasLeaveDTO> leaveDTOS = sessionFactory.getCurrentSession()
-                                                            .createQuery("SELECT lp.leave_types, ehl.no_of_days, ehl.updated_on \n" +
+                                                            .createQuery("SELECT lp.id, lp.leave_types, ehl.no_of_days, ehl.updated_on\n" +
                                                                     "FROM EmployeeHasLeave ehl \n" +
                                                                     "join LeavePolicy lp \n" +
                                                                     "on ehl.leavePolicy.id = lp.id \n" +

@@ -42,6 +42,11 @@ public class PayrollServiceImpl implements PayrollService {
     }
 
     @Override
+    public Payroll updatePayroll(int empId, PayrollDTO payrollDTO) {
+        return payrollDAO.updatePayroll(empId,payrollDTO);
+    }
+
+    @Override
     public PaySlipDTO getPAYSlipContent(Integer salaryId) {
         return payrollDAO.getPAYSlipContent(salaryId);
     }

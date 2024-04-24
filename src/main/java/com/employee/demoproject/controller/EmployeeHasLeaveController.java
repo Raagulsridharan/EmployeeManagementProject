@@ -26,9 +26,9 @@ public class EmployeeHasLeaveController {
     }
 
     @PutMapping("/{empId}")
-    public String updateLeaveForEmployee(@PathVariable int empId, @RequestBody EmployeeHasLeaveDTO employeeHasLeaveDTO){
-        employeeHasLeaveService.updateLeaveForEmployee(empId,employeeHasLeaveDTO);
-        return "leave updated...";
+    public void updateLeaveForEmployee(@PathVariable int empId, @RequestBody List<EmployeeHasLeaveDTO> employeeHasLeaveDTOList){
+        employeeHasLeaveService.updateLeaveForEmployee(empId,employeeHasLeaveDTOList);
+        //return "leave updated...";
     }
 
     @GetMapping
@@ -37,8 +37,8 @@ public class EmployeeHasLeaveController {
     }
 
     @GetMapping("/{empId}")
-    public ResponseEntity<List<EmployeeHasLeaveDTO>> getEmployeeLeave(@PathVariable int empId){
-        return new ResponseEntity<>(employeeHasLeaveService.getEmployeeLeave(empId),HttpStatus.OK);
+    public ResponseEntity<HttpStatusEntity> getEmployeeLeave(@PathVariable int empId){
+        return ResponseEntity.ok(new HttpStatusEntity(employeeHasLeaveService.getEmployeeLeave(empId),HttpStatus.OK.value(),"Fetching employee leave details"));
     }
 
 }

@@ -33,7 +33,7 @@ public class PayrollDAOImpl implements PayrollDAO {
 
     @Override
     public List<PayrollDTO> getEmployeePayroll(int empId) {
-        String query = "select p.id, e.name, ers.net_sal_month, p.month, p.paid_salary, p.description, p.status \n" +
+        String query = "select p.id, e.id, e.name, ers.net_sal_month, p.month, p.paid_salary, p.description, p.status \n" +
                 "from Employee e\n" +
                 " join Department d\n" +
                 "\ton e.department.id = d.id \n" +
@@ -80,7 +80,7 @@ public class PayrollDAOImpl implements PayrollDAO {
         payroll.setDescription(payrollDTO.getDescription());
         payroll.setStatus("Paid");
 
-        sessionFactory.getCurrentSession().persist(payroll);
+        sessionFactory.getCurrentSession().save(payroll);
         System.out.println("Salary credited...");
         return payroll;
     }
@@ -104,6 +104,24 @@ public class PayrollDAOImpl implements PayrollDAO {
 
         sessionFactory.getCurrentSession().persist(payroll);
         System.out.println("Payroll created...");
+        return payroll;
+    }
+
+    @Override
+    public Payroll updatePayroll(int empId, PayrollDTO payrollDTO) {
+
+        String query =  "from EmpRoleSalary ers\n" +
+                        "where ers.employee_role_salary.id = :id";
+        EmpRoleSalary empRoleSalary = dataRetrieve.getObjectById(query,empId,EmpRoleSalary.class);
+
+
+        Payroll payroll = sessionFactory.getCurrentSession().get(Payroll.class,payrollDTO.getId());
+        payroll.setPaid_salary(empRoleSalary.getNet_sal_month());
+        payroll.setDescription(payrollDTO.getDescription());
+        payroll.setStatus("Paid");
+
+        sessionFactory.getCurrentSession().saveOrUpdate(payroll);
+        System.out.println("Payroll updated...");
         return payroll;
     }
 
