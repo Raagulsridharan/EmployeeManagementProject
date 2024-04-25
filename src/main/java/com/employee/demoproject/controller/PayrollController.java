@@ -1,17 +1,14 @@
 package com.employee.demoproject.controller;
 
-import com.employee.demoproject.dto.EmployeePaymentDTO;
 import com.employee.demoproject.dto.PaySlipDTO;
 import com.employee.demoproject.dto.PayrollDTO;
-import com.employee.demoproject.entity.HttpStatusEntity;
+import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.entity.Payroll;
 import com.employee.demoproject.service.PDFExporter;
 import com.employee.demoproject.service.PayrollService;
 import com.itextpdf.text.DocumentException;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -23,7 +20,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 @RestController
 @RequestMapping("/payroll")
@@ -34,28 +30,28 @@ public class PayrollController {
     private PayrollService payrollService;
 
     @GetMapping("/{empId}")
-    public ResponseEntity<HttpStatusEntity> getEmployeePayroll(@PathVariable int empId){
-        return ResponseEntity.ok(new HttpStatusEntity(payrollService.getEmployeePayroll(empId), HttpStatus.OK.value(),"Payroll for employee"));
+    public ResponseEntity<HttpStatusResponse> getEmployeePayroll(@PathVariable int empId){
+        return ResponseEntity.ok(new HttpStatusResponse(payrollService.getEmployeePayroll(empId), HttpStatus.OK.value(),"Payroll for employee"));
     }
 
     @GetMapping
-    public ResponseEntity<HttpStatusEntity> getAllEmployeePayroll(){
-        return ResponseEntity.ok(new HttpStatusEntity(payrollService.getAllEmployeePayroll(), HttpStatus.OK.value(),"Payroll of All the employees"));
+    public ResponseEntity<HttpStatusResponse> getAllEmployeePayroll(){
+        return ResponseEntity.ok(new HttpStatusResponse(payrollService.getAllEmployeePayroll(), HttpStatus.OK.value(),"Payroll of All the employees"));
     }
 
     @PostMapping("/{empId}")
-    public ResponseEntity<HttpStatusEntity> makePayment(@PathVariable int empId, @RequestBody PayrollDTO payrollDTO){
-        return ResponseEntity.ok(new HttpStatusEntity(payrollService.makePayment(empId,payrollDTO),HttpStatus.OK.value(), "Successfully payment done"));
+    public ResponseEntity<HttpStatusResponse> makePayment(@PathVariable int empId, @RequestBody PayrollDTO payrollDTO){
+        return ResponseEntity.ok(new HttpStatusResponse(payrollService.makePayment(empId,payrollDTO),HttpStatus.OK.value(), "Successfully payment done"));
     }
 
     @PostMapping("/createPayroll/{empId}")
-    public ResponseEntity<HttpStatusEntity> createPayroll(@PathVariable int empId){
-        return ResponseEntity.ok(new HttpStatusEntity(payrollService.createPayroll(empId),HttpStatus.OK.value(),"Payroll created...!"));
+    public ResponseEntity<HttpStatusResponse> createPayroll(@PathVariable int empId){
+        return ResponseEntity.ok(new HttpStatusResponse(payrollService.createPayroll(empId),HttpStatus.OK.value(),"Payroll created...!"));
     }
 
     @PutMapping("/{empId}")
-    public ResponseEntity<HttpStatusEntity> updatePayroll(@PathVariable int empId,@RequestBody PayrollDTO payrollDTO){
-        return ResponseEntity.ok(new HttpStatusEntity(payrollService.updatePayroll(empId,payrollDTO),HttpStatus.OK.value(),"Payroll updated...!"));
+    public ResponseEntity<HttpStatusResponse> updatePayroll(@PathVariable int empId, @RequestBody PayrollDTO payrollDTO){
+        return ResponseEntity.ok(new HttpStatusResponse(payrollService.updatePayroll(empId,payrollDTO),HttpStatus.OK.value(),"Payroll updated...!"));
     }
 
     @GetMapping("/getPaySlipcontent/{payrollId}")
@@ -64,7 +60,7 @@ public class PayrollController {
     }
 
     @GetMapping("/exportPDF/{payrollId}")
-    public ResponseEntity<HttpStatusEntity> exportToPDF(@PathVariable Integer payrollId, HttpServletResponse response) throws DocumentException, IOException {
+    public ResponseEntity<HttpStatusResponse> exportToPDF(@PathVariable Integer payrollId, HttpServletResponse response) throws DocumentException, IOException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
@@ -77,7 +73,7 @@ public class PayrollController {
 
         PDFExporter exporter = new PDFExporter(paySlipDTO);
         exporter.export(response);
-        return ResponseEntity.ok(new HttpStatusEntity(paySlipDTO,HttpStatus.OK.value(), "Pdf exported"));
+        return ResponseEntity.ok(new HttpStatusResponse(paySlipDTO,HttpStatus.OK.value(), "Pdf exported"));
     }
 
 

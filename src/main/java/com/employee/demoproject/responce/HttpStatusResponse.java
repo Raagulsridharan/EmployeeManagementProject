@@ -1,13 +1,13 @@
-package com.employee.demoproject.entity;
+package com.employee.demoproject.responce;
 
-public class HttpStatusEntity {
+public class HttpStatusResponse {
     private Object data;
     private Integer statusCode;
     private String description;
 
-    public HttpStatusEntity() {
+    public HttpStatusResponse() {
     }
-    public HttpStatusEntity(Object data, Integer statusCode, String description){
+    public HttpStatusResponse(Object data, Integer statusCode, String description){
         this.data = data;
         this.statusCode = statusCode;
         this.description = description;

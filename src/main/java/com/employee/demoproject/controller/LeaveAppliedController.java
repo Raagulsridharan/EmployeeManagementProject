@@ -1,7 +1,7 @@
 package com.employee.demoproject.controller;
 
 import com.employee.demoproject.dto.LeaveAppliedDTO;
-import com.employee.demoproject.entity.HttpStatusEntity;
+import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.entity.LeaveApplied;
 import com.employee.demoproject.service.LeaveAppliedService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,18 +35,18 @@ public class LeaveAppliedController {
     }
 
     @GetMapping("/getAllApprovedLeaves")
-    public ResponseEntity<HttpStatusEntity> getAllApprovedLeaves(){
-        return ResponseEntity.ok(new HttpStatusEntity(leaveAppliedService.getAllApprovedLeaves(), HttpStatus.OK.value(),"Fetching all approved leaves"));
+    public ResponseEntity<HttpStatusResponse> getAllApprovedLeaves(){
+        return ResponseEntity.ok(new HttpStatusResponse(leaveAppliedService.getAllApprovedLeaves(), HttpStatus.OK.value(),"Fetching all approved leaves"));
     }
 
     @GetMapping("/getAllRejectedLeaves")
-    public ResponseEntity<HttpStatusEntity> getAllRejectedLeaves(){
-        return ResponseEntity.ok(new HttpStatusEntity(leaveAppliedService.getAllRejectedLeaves(), HttpStatus.OK.value(),"Fetching all rejected leaves"));
+    public ResponseEntity<HttpStatusResponse> getAllRejectedLeaves(){
+        return ResponseEntity.ok(new HttpStatusResponse(leaveAppliedService.getAllRejectedLeaves(), HttpStatus.OK.value(),"Fetching all rejected leaves"));
     }
 
     @GetMapping("/getAllRequestedLeaves")
-    public ResponseEntity<HttpStatusEntity> getAllRequestedLeaves(){
-        return ResponseEntity.ok(new HttpStatusEntity(leaveAppliedService.getAllRequestedLeaves(), HttpStatus.OK.value(),"Fetching all requested leaves"));
+    public ResponseEntity<HttpStatusResponse> getAllRequestedLeaves(){
+        return ResponseEntity.ok(new HttpStatusResponse(leaveAppliedService.getAllRequestedLeaves(), HttpStatus.OK.value(),"Fetching all requested leaves"));
     }
 
     @GetMapping("/{empId}")

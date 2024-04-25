@@ -1,13 +1,20 @@
 package com.employee.demoproject.service.impl;
 
 import com.employee.demoproject.dao.DepartmentDAO;
+import com.employee.demoproject.dto.DepartmentDTO;
 import com.employee.demoproject.entity.Department;
+import com.employee.demoproject.exceptions.BusinessServiceException;
+import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.pagination.FilterOption;
 import com.employee.demoproject.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -43,5 +50,27 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Long getDepartmentCount() {
         return departmentDAO.getDepartmentCount();
+    }
+
+    @Override
+    public List<DepartmentDTO> filterDepartment(FilterOption filterOption) throws BusinessServiceException{
+        try{
+            List<Department> departmentList = departmentDAO.filterDepartment(filterOption);
+            return Optional.ofNullable(departmentList)
+                    .map(list -> list.stream()
+                            .map(this::mapToDTO)
+                            .collect(Collectors.toList()))
+                    .orElse(null);
+        }catch (DataServiceException e){
+            throw new BusinessServiceException("Exception in service layer",e);
+        }
+
+    }
+
+    private DepartmentDTO mapToDTO(Department department) {
+        DepartmentDTO departmentDTO = new DepartmentDTO();
+        departmentDTO.setId(department.getId());
+        departmentDTO.setName(department.getName());
+        return departmentDTO;
     }
 }

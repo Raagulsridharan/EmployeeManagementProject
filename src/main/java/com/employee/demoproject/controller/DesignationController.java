@@ -2,7 +2,7 @@ package com.employee.demoproject.controller;
 
 import com.employee.demoproject.endPoints.BaseAPI;
 import com.employee.demoproject.entity.Designation;
-import com.employee.demoproject.entity.HttpStatusEntity;
+import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.service.DesignationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,10 +24,10 @@ public class DesignationController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<HttpStatusEntity> createDesignation(@RequestBody Designation designation){
+    public ResponseEntity<HttpStatusResponse> createDesignation(@RequestBody Designation designation){
         designationService.createDesignation(designation);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new HttpStatusEntity(designation, HttpStatus.CREATED.value(),"Designation successfully created"));    }
+                .body(new HttpStatusResponse(designation, HttpStatus.CREATED.value(),"Designation successfully created"));    }
 
     /**
      * update/alter the designation or salary_package with respect to the corresponding id
@@ -37,10 +37,10 @@ public class DesignationController {
      * @return
      */
     @PutMapping("/{id}")
-    public ResponseEntity<HttpStatusEntity> updateDesignation(@PathVariable int id, @RequestBody Designation designation){
+    public ResponseEntity<HttpStatusResponse> updateDesignation(@PathVariable int id, @RequestBody Designation designation){
         designationService.updateDesignation(id,designation);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(new HttpStatusEntity(designationService.getDesignationById(id), HttpStatus.OK.value(),"Designation updated"));
+                .body(new HttpStatusResponse(designationService.getDesignationById(id), HttpStatus.OK.value(),"Designation updated"));
     }
 
     /**
@@ -48,14 +48,14 @@ public class DesignationController {
      * @return
      */
     @GetMapping
-    public ResponseEntity<HttpStatusEntity> getAllDesignation(){
+    public ResponseEntity<HttpStatusResponse> getAllDesignation(){
         List<Designation> designationList = designationService.getAllDesignation();
         if(designationList!=null){
-            return ResponseEntity.ok(new HttpStatusEntity(designationList,HttpStatus.OK.value(),"Designation retrieved Successfully"));
+            return ResponseEntity.ok(new HttpStatusResponse(designationList,HttpStatus.OK.value(),"Designation retrieved Successfully"));
         }
         else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new HttpStatusEntity(null,HttpStatus.NOT_FOUND.value(),"Not found"));
+                    .body(new HttpStatusResponse(null,HttpStatus.NOT_FOUND.value(),"Not found"));
         }
     }
 
@@ -65,13 +65,13 @@ public class DesignationController {
      * @return
      */
     @GetMapping("/{id}")
-    public ResponseEntity<HttpStatusEntity> getDesignationById(@PathVariable int id){
+    public ResponseEntity<HttpStatusResponse> getDesignationById(@PathVariable int id){
         Designation designation = designationService.getDesignationById(id);
         if(designation!=null){
-            return ResponseEntity.ok(new HttpStatusEntity(designation,HttpStatus.OK.value(),"Department retrieved Successfully"));
+            return ResponseEntity.ok(new HttpStatusResponse(designation,HttpStatus.OK.value(),"Department retrieved Successfully"));
         }else{
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new HttpStatusEntity(null,HttpStatus.NOT_FOUND.value(),"Department Not found"));
+                    .body(new HttpStatusResponse(null,HttpStatus.NOT_FOUND.value(),"Department Not found"));
         }    }
 
     /**
@@ -89,7 +89,7 @@ public class DesignationController {
 //    }
 //
     @GetMapping("/getUserType/{email}")
-    public ResponseEntity<HttpStatusEntity> getDesignationByEmail(@PathVariable String email){
-        return ResponseEntity.ok(new HttpStatusEntity(designationService.getDesignationByEmail(email),HttpStatus.OK.value(),"Getting user type"));
+    public ResponseEntity<HttpStatusResponse> getDesignationByEmail(@PathVariable String email){
+        return ResponseEntity.ok(new HttpStatusResponse(designationService.getDesignationByEmail(email),HttpStatus.OK.value(),"Getting user type"));
     }
 }

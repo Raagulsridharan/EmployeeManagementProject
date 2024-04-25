@@ -2,15 +2,12 @@ package com.employee.demoproject.controller;
 
 import com.employee.demoproject.dto.EmpRoleSalaryDTO;
 import com.employee.demoproject.dto.EmployeePaymentDTO;
-import com.employee.demoproject.entity.EmpRoleSalary;
-import com.employee.demoproject.entity.HttpStatusEntity;
+import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.service.EmpRoleSalaryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/empRoleSalary")
@@ -21,8 +18,8 @@ public class EmpRoleSalaryController {
     private EmpRoleSalaryService empRoleSalaryService;
 
     @GetMapping
-    public ResponseEntity<HttpStatusEntity> getAllEmpRoleSalary(){
-        return ResponseEntity.ok(new HttpStatusEntity(empRoleSalaryService.getAllEmpRoleSalary(), HttpStatus.OK.value(),"Employees are fetched with role & salary details"));
+    public ResponseEntity<HttpStatusResponse> getAllEmpRoleSalary(){
+        return ResponseEntity.ok(new HttpStatusResponse(empRoleSalaryService.getAllEmpRoleSalary(), HttpStatus.OK.value(),"Employees are fetched with role & salary details"));
     }
 
     @PostMapping("/{empId}")

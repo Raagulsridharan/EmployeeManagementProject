@@ -2,6 +2,9 @@ package com.employee.demoproject.dao.impl;
 
 import com.employee.demoproject.dao.DepartmentDAO;
 import com.employee.demoproject.entity.Department;
+import com.employee.demoproject.exceptions.DataAccessException;
+import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.pagination.FilterOption;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
@@ -59,4 +62,31 @@ public class DepartmentDAOImpl implements DepartmentDAO {
                 .createQuery("select count(d) from Department d", Long.class);
         return query.uniqueResult();
     }
+
+    @Override
+    public List<Department> filterDepartment(FilterOption filterOption) {
+        try {
+            Integer firstResult = (filterOption.getPageNo() * filterOption.getPageSize()) - filterOption.getPageSize();
+
+            StringBuilder queryParam = new StringBuilder("FROM Department d");
+            if (filterOption.getSearchKey() != null && !filterOption.getSearchKey().isEmpty()) {
+                queryParam.append(" WHERE d.name LIKE :searchKey");
+            }
+
+            Query query = sessionFactory.getCurrentSession().createQuery(queryParam.toString());
+            if (filterOption.getSearchKey() != null && !filterOption.getSearchKey().isEmpty()) {
+                query.setParameter("searchKey", "%"+filterOption.getSearchKey()+ "%");
+            }
+            query.setFirstResult(firstResult);
+            query.setMaxResults(filterOption.getPageSize());
+
+            List<Department> departmentList = query.list();
+
+            return departmentList;
+        }catch (DataAccessException e){
+            throw new DataServiceException("Exception in accessing the department for filtering", e);
+        }
+    }
+
+
 }

@@ -1,9 +1,7 @@
 package com.employee.demoproject.controller;
 
 import com.employee.demoproject.dto.EmployeeHasLeaveDTO;
-import com.employee.demoproject.entity.EmployeeHasLeave;
-import com.employee.demoproject.entity.HttpStatusEntity;
-import com.employee.demoproject.entity.LeavePolicy;
+import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.service.EmployeeHasLeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,13 +30,13 @@ public class EmployeeHasLeaveController {
     }
 
     @GetMapping
-    public ResponseEntity<HttpStatusEntity> getAllEmployeeLeaves(){
-        return ResponseEntity.ok(new HttpStatusEntity(employeeHasLeaveService.getAllEmployeeLeaves(), HttpStatus.OK.value(),"Fetching All Employees Has Leave"));
+    public ResponseEntity<HttpStatusResponse> getAllEmployeeLeaves(){
+        return ResponseEntity.ok(new HttpStatusResponse(employeeHasLeaveService.getAllEmployeeLeaves(), HttpStatus.OK.value(),"Fetching All Employees Has Leave"));
     }
 
     @GetMapping("/{empId}")
-    public ResponseEntity<HttpStatusEntity> getEmployeeLeave(@PathVariable int empId){
-        return ResponseEntity.ok(new HttpStatusEntity(employeeHasLeaveService.getEmployeeLeave(empId),HttpStatus.OK.value(),"Fetching employee leave details"));
+    public ResponseEntity<HttpStatusResponse> getEmployeeLeave(@PathVariable int empId){
+        return ResponseEntity.ok(new HttpStatusResponse(employeeHasLeaveService.getEmployeeLeave(empId),HttpStatus.OK.value(),"Fetching employee leave details"));
     }
 
 }
