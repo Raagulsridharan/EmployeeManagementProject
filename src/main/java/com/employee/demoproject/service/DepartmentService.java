@@ -8,11 +8,11 @@ import com.employee.demoproject.pagination.FilterOption;
 import java.util.List;
 
 public interface DepartmentService {
-    String createDepartment(Department department);
-    void updateDepartment(Department department);
-    List<Department> getAllDepartment();
-    Department getDepartmentById(int id);
-    Department getDepartmentByName(String name);
-    Long getDepartmentCount();
+    DepartmentDTO createDepartment(DepartmentDTO departmentDTO) throws BusinessServiceException;
+    DepartmentDTO updateDepartment(Integer id, DepartmentDTO departmentDTO) throws BusinessServiceException;
+    List<DepartmentDTO> getAllDepartment() throws BusinessServiceException;
+    Department getDepartmentById(int id) throws BusinessServiceException;
+    Department getDepartmentByName(String name) throws BusinessServiceException;
+    Long getDepartmentCount() throws BusinessServiceException;
     List<DepartmentDTO> filterDepartment(FilterOption filterOption) throws BusinessServiceException;
 }

@@ -1,12 +1,13 @@
 package com.employee.demoproject.dao.impl;
 
 import com.employee.demoproject.dao.DepartmentDAO;
+import com.employee.demoproject.dataRetrieve.DataRetrieve;
 import com.employee.demoproject.entity.Department;
 import com.employee.demoproject.exceptions.DataAccessException;
 import com.employee.demoproject.exceptions.DataServiceException;
 import com.employee.demoproject.pagination.FilterOption;
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
-import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -18,54 +19,99 @@ public class DepartmentDAOImpl implements DepartmentDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Autowired
+    private DataRetrieve dataRetrieve;
+
+    static Logger logger = Logger.getLogger(DepartmentDAOImpl.class);
+
     @Override
-    public String createDepartment(Department department) {
+    public Department createDepartment(String name) throws DataServiceException {
         try {
+            logger.info("Create Department initialized...");
+            Department department = new Department();
+            department.setName(name);
             sessionFactory.getCurrentSession().persist(department);
-            return "Department successfully persisted...!!!";
-        }catch (Exception e){
-            return "Failed to create department: " + e.getMessage();
+            return department;
+        } catch (Exception e) {
+            logger.error("Error in creating department..." + e);
+            throw new DataServiceException("Exception in Creating department", e);
         }
     }
 
     @Override
-    public void updateDepartment(Department department) {
-        sessionFactory.getCurrentSession().saveOrUpdate(department);
-        System.out.println("updated... Department");
+    public Department updateDepartment(Integer id, String name) throws DataServiceException {
+        try {
+            logger.info("Update department initialized");
+            String query = "From Department d where d.id = :id";
+            Department updatedDepartment = dataRetrieve.getObjectById(query, id, Department.class);
+            updatedDepartment.setName(name);
+            sessionFactory.getCurrentSession().saveOrUpdate(updatedDepartment);
+            System.out.println("updated... Department");
+            return updatedDepartment;
+        } catch (Exception e) {
+            logger.error("Error in updating department " + e);
+            throw new DataServiceException("Exception in updating", e);
+        }
     }
 
     @Override
-    public List<Department> getAllDepartment() {
-        Query query = sessionFactory.getCurrentSession().createQuery("FROM Department");
-        List<Department> departmentList = query.list();
-        return departmentList;
+    public List<Department> getAllDepartment() throws DataServiceException {
+        try {
+            logger.info("All departments will retrieving!");
+            String query = "FROM Department";
+            List<Department> departmentList = dataRetrieve.processList(query, Department.class);
+            return departmentList;
+        } catch (DataAccessException e) {
+            logger.error("Error in retrieving all departments! " + e);
+            throw new DataServiceException("Exception in getting all department", e);
+        }
     }
 
     @Override
-    public Department getDepartmentById(int id) {
-        return sessionFactory.getCurrentSession().get(Department.class,id);
+    public Department getDepartmentById(int id) throws DataServiceException{
+        try {
+            logger.info("Initialize the getting department by it's ID.");
+            return sessionFactory.getCurrentSession().get(Department.class, id);
+        }catch (Exception e){
+            logger.error("Error in getting department by it's ID. "+e);
+            throw new DataServiceException("Exception in getting department by it's id. "+e);
+        }
+
     }
 
     @Override
-    public Department getDepartmentByName(String name) {
-        Query<Department> query = sessionFactory.getCurrentSession()
-                .createQuery("from Department d where d.name = :deptName")
-                .setParameter("deptName", name);
-        return query.uniqueResult();
+    public Department getDepartmentByName(String name) throws DataServiceException{
+        try{
+            logger.info("Getting department by it's name");
+            Query<Department> query = sessionFactory.getCurrentSession()
+                    .createQuery("from Department d where d.name = :deptName")
+                    .setParameter("deptName", name);
+            return query.uniqueResult();
+        }catch (Exception e){
+            logger.error("Error in getting department by it's name. "+e);
+            throw new DataServiceException("Exception in getting department by name. ", e);
+        }
+
     }
-
-
 
     @Override
     public Long getDepartmentCount() {
-        Query<Long> query = sessionFactory.getCurrentSession()
-                .createQuery("select count(d) from Department d", Long.class);
-        return query.uniqueResult();
+        try {
+            logger.info("Entering Department count method...");
+            Query<Long> query = sessionFactory.getCurrentSession()
+                    .createQuery("select count(d) from Department d", Long.class);
+            return query.uniqueResult();
+        } catch (Exception e) {
+            logger.error("Error in getting department count. " + e);
+            throw new DataServiceException("Exception in getting department count. ", e);
+        }
+
     }
 
     @Override
-    public List<Department> filterDepartment(FilterOption filterOption) {
+    public List<Department> filterDepartment(FilterOption filterOption) throws DataServiceException {
         try {
+            logger.info("Entering the method of fetch department by filtering");
             Integer firstResult = (filterOption.getPageNo() * filterOption.getPageSize()) - filterOption.getPageSize();
 
             StringBuilder queryParam = new StringBuilder("FROM Department d");
@@ -75,7 +121,7 @@ public class DepartmentDAOImpl implements DepartmentDAO {
 
             Query query = sessionFactory.getCurrentSession().createQuery(queryParam.toString());
             if (filterOption.getSearchKey() != null && !filterOption.getSearchKey().isEmpty()) {
-                query.setParameter("searchKey", "%"+filterOption.getSearchKey()+ "%");
+                query.setParameter("searchKey", "%" + filterOption.getSearchKey() + "%");
             }
             query.setFirstResult(firstResult);
             query.setMaxResults(filterOption.getPageSize());
@@ -83,7 +129,8 @@ public class DepartmentDAOImpl implements DepartmentDAO {
             List<Department> departmentList = query.list();
 
             return departmentList;
-        }catch (DataAccessException e){
+        } catch (Exception e) {
+            logger.error("Error found in filter departments"+e);
             throw new DataServiceException("Exception in accessing the department for filtering", e);
         }
     }
