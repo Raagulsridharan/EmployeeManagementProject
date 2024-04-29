@@ -1,19 +1,22 @@
 package com.employee.demoproject.service;
 
 import com.employee.demoproject.dto.EmployeeDTO;
+import com.employee.demoproject.dto.LeaveAssignDTO;
 import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.LoginDetails;
+import com.employee.demoproject.exceptions.BusinessServiceException;
 
 import java.util.List;
 
 public interface EmployeeService {
-    LoginDetails createEmployee(EmployeeDTO employeeDTO);
-    Employee updateEmployee(int empId, EmployeeDTO employeeDTO);
-    List<EmployeeDTO> getAllEmployee();
-    EmployeeDTO getEmployeeById(int id);
-    List<Employee> getAllEmployeeByDeptForRoleAssign(int deptId);
-    List<Employee> getAllEmployeeByDeptForPayroll(int deptId);
-    List<Employee> getAllEmployeeByDeptForLeaveAssign(int deptId);
-    Long getEmpCount();
-    void deleteEmployee(int empId);
+    LoginDetails createEmployee(EmployeeDTO employeeDTO) throws BusinessServiceException ;
+    EmployeeDTO updateEmployee(int empId, EmployeeDTO employeeDTO) throws BusinessServiceException ;
+    List<EmployeeDTO> getAllEmployee() throws BusinessServiceException;
+    EmployeeDTO getEmployeeById(int id) throws BusinessServiceException ;
+    List<EmployeeDTO> getAllEmployeeByDeptForRoleAssign(int deptId) throws BusinessServiceException ;
+    List<EmployeeDTO> getAllEmployeeByDeptForPayroll(int deptId) throws BusinessServiceException ;
+    List<EmployeeDTO> getAllEmployeeByDeptForLeaveAssign(int deptId) throws BusinessServiceException ;
+    Long getEmpCount() throws BusinessServiceException ;
+    void deleteEmployee(int empId) throws BusinessServiceException ;
+    LeaveAssignDTO getEmployeeDetailCard(int empId) throws BusinessServiceException;
 }

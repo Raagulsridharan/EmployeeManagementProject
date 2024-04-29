@@ -15,7 +15,6 @@ public class FilterOption {
     @Min(value = 5)
     @Max(value = 20, message = "Page size must be greater than 5 and lesser than 20")
     private Integer pageSize;
-
     private String searchKey;
 
     public FilterOption(){}

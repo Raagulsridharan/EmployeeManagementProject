@@ -7,7 +7,7 @@ public class LeaveAppliedDTO {
     private Integer empId;
     private Integer leaveType;
     private String note;
-    private Long noOfDays;
+    private Integer noOfDays;
     private Date fromDate;
     private Date toDate;
     private String status;
@@ -69,11 +69,11 @@ public class LeaveAppliedDTO {
         this.note = note;
     }
 
-    public Long getNoOfDays() {
+    public Integer getNoOfDays() {
         return noOfDays;
     }
 
-    public void setNoOfDays(Long noOfDays) {
+    public void setNoOfDays(Integer noOfDays) {
         this.noOfDays = noOfDays;
     }
 

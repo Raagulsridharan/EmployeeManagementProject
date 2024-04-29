@@ -11,16 +11,16 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(BaseAPI.EMAIL)
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public class EmailSenderController {
     @Autowired
     private EmailSenderService emailSenderService;
 
     @PostMapping
-    @CrossOrigin(origins = "http://localhost:4200")
+//    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<HttpStatusResponse> sendEmail(@RequestBody LoginDetailsDTO emailRequest){
         emailSenderService.sendEmail(emailRequest.getUsername(),emailRequest.getPassword(),emailRequest.getDeptId());
         System.out.println("Email sent successfully...!");
-        return ResponseEntity.ok()
-                .body(new HttpStatusResponse(emailRequest, HttpStatus.OK.value(), "Email sent successfully"));
+        return new ResponseEntity<>(new HttpStatusResponse(emailRequest, HttpStatus.OK.value(), "Email sent successfully"),HttpStatus.OK);
     }
 }

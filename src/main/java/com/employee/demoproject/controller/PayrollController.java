@@ -1,5 +1,6 @@
 package com.employee.demoproject.controller;
 
+import com.employee.demoproject.dto.EmployeePaymentDTO;
 import com.employee.demoproject.dto.PaySlipDTO;
 import com.employee.demoproject.dto.PayrollDTO;
 import com.employee.demoproject.responce.HttpStatusResponse;
@@ -76,9 +77,16 @@ public class PayrollController {
         return ResponseEntity.ok(new HttpStatusResponse(paySlipDTO,HttpStatus.OK.value(), "Pdf exported"));
     }
 
+    @GetMapping("detail/{empId}")
+    public ResponseEntity<HttpStatusResponse> employeeSalaryDetails(@PathVariable Integer empId){
+        EmployeePaymentDTO employeePaymentDTO = payrollService.getEmployeeSalaryDetails(empId);
+        return new ResponseEntity<>(new HttpStatusResponse(employeePaymentDTO,HttpStatus.OK.value(),"Employee salary details Fetched"),HttpStatus.OK);
+    }
 
 
 
+
+    //------------------------------------------------------
 
     @GetMapping("/download/payslip/{payslipId}")
     public ResponseEntity<byte[]> downloadFile(@PathVariable Integer payslipId){

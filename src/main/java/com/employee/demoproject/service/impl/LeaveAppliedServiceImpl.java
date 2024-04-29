@@ -3,7 +3,10 @@ package com.employee.demoproject.service.impl;
 import com.employee.demoproject.dao.LeaveAppliedDAO;
 import com.employee.demoproject.dto.LeaveAppliedDTO;
 import com.employee.demoproject.entity.LeaveApplied;
+import com.employee.demoproject.exceptions.BusinessServiceException;
+import com.employee.demoproject.exceptions.DataServiceException;
 import com.employee.demoproject.service.LeaveAppliedService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +19,8 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
 
     @Autowired
     private LeaveAppliedDAO leaveAppliedDAO;
+
+    static Logger logger = Logger.getLogger(LeaveAppliedServiceImpl.class);
 
     @Override
     public Long getApprovedLeaveCount() {
@@ -53,12 +58,45 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
     }
 
     @Override
-    public String empApplyingLeave(int empId, LeaveAppliedDTO leaveAppliedDTO) {
-        return leaveAppliedDAO.empApplyingLeave(empId,leaveAppliedDTO);
+    public LeaveAppliedDTO empApplyingLeave(int empId, LeaveAppliedDTO leaveAppliedDTO) {
+        try{
+            logger.info("Leave applying in service");
+            return mapToDTO(leaveAppliedDAO.empApplyingLeave(empId,leaveAppliedDTO));
+        }catch (DataServiceException e){
+            logger.error("Error in leave apply from service. "+e);
+            throw new BusinessServiceException("Exception in service layer in leave apply.",e);
+        }
     }
 
     @Override
     public void updateLeaveStatus(LeaveAppliedDTO leaveAppliedDTO) {
         leaveAppliedDAO.updateLeaveStatus(leaveAppliedDTO);
+    }
+
+    @Override
+    public Long getEmployeeLeaveHistoryCount(int empId) throws BusinessServiceException {
+        try{
+            logger.info("Getting employee history count by id in service layer");
+            return leaveAppliedDAO.getEmployeeLeaveHistoryCount(empId);
+        }catch (DataServiceException e) {
+            logger.error("Error in service layer for getting employee history count. " + e);
+            throw new BusinessServiceException("Exception in service layer for getting employee history count", e);
+        }
+    }
+
+    private LeaveAppliedDTO mapToDTO(LeaveApplied leaveApplied){
+        LeaveAppliedDTO leaveAppliedDTO = new LeaveAppliedDTO();
+
+        leaveAppliedDTO.setId(leaveApplied.getId());
+        leaveAppliedDTO.setEmpId(leaveApplied.getEmployee_leave_applied().getId());
+        leaveAppliedDTO.setLeaveType(leaveApplied.getLeavePolicy().getId());
+        leaveAppliedDTO.setNote(leaveApplied.getNote());
+        leaveAppliedDTO.setFromDate(leaveApplied.getFrom_date());
+        leaveAppliedDTO.setToDate(leaveApplied.getTo_date());
+        leaveAppliedDTO.setStatus(leaveApplied.getStatus());
+        leaveAppliedDTO.setNoOfDays(leaveApplied.getNo_of_days());
+        leaveAppliedDTO.setSubmittedOn(leaveApplied.getSubmitted_on());
+
+        return leaveAppliedDTO;
     }
 }

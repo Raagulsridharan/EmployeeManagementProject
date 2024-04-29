@@ -144,6 +144,24 @@ public class PayrollDAOImpl implements PayrollDAO {
     }
 
     @Override
+    public EmployeePaymentDTO getEmployeeSalaryDetails(int empId) {
+        String query = "select distinct e.id, e.name, d.name as dept, ds.role, ers.annual_salary_pack ,ers.basic_sal_month, ers.tax_reduction_month, ers.net_sal_month \n" +
+                "from Employee e \n" +
+                " join Department d \n" +
+                "\ton e.department.id = d.id\n" +
+                " join EmpRoleSalary ers \n" +
+                "\ton e.id = ers.employee_role_salary.id \n" +
+                " join Designation ds \n" +
+                "\ton ers.designation.id = ds.id\n" +
+                " join Payroll p \n" +
+                "\ton p.empRoleSalary_payroll.id = ers.id where e.id = :id";
+        EmployeePaymentDTO empPayrolls = dataRetrieve.getObjectById(query,empId,EmployeePaymentDTO.class);
+        return empPayrolls;
+    }
+
+    //---------------------------------
+
+    @Override
     public Payroll getPaySlip(int payrollId) {
         Payroll payroll = sessionFactory.getCurrentSession().get(Payroll.class,payrollId);
         //byte[] paySlip = payroll.getPaySlip();

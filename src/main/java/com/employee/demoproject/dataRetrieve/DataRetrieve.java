@@ -21,6 +21,20 @@ public class DataRetrieve {
                 .uniqueResult();
         return count;
     }
+    public Long getCountById(String query, Integer id){
+        try{
+            logger.info("Getting count by id");
+            Long count = (Long) sessionFactory.getCurrentSession()
+                    .createQuery(query)
+                    .setParameter("id",id)
+                    .uniqueResult();
+            return count;
+        }catch (Exception e){
+            logger.error("Error in accessing data for getting count by id. "+e);
+            throw new DataAccessException("Exception data access for getting count",e);
+        }
+
+    }
 
     public <T> List<T> processList(String query,Class<T> clazz) throws DataAccessException{
         try{

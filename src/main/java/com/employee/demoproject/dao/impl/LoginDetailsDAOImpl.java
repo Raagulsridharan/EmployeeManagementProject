@@ -44,14 +44,16 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
     }
 
     @Override
-    public void updatePassword(int id, String password) {
+    public LoginDetails updatePassword(int id, LoginDetailsDTO loginDetailsDTO) {
         LoginDetails login = (LoginDetails) sessionFactory.getCurrentSession()
                 .createQuery("select l from LoginDetails l where l.employee_login.id = :id")
                 .setParameter("id",id)
                 .uniqueResult();
-        login.setPassword(password);
+        login.setPassword(loginDetailsDTO.getPassword());
 
         sessionFactory.getCurrentSession().saveOrUpdate(login);
+
+        return login;
     }
 
     @Override
@@ -69,7 +71,7 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
     }
 
     @Override
-    public void activatingAccount(LoginDetailsDTO loginDetailsDTO) {
+    public LoginDetails activatingAccount(LoginDetailsDTO loginDetailsDTO) {
         LoginDetails loginDetails = sessionFactory.getCurrentSession()
                 .createQuery("SELECT ld \n" +
                         "FROM LoginDetails ld \n" +
@@ -87,6 +89,7 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
 
         sessionFactory.getCurrentSession().merge(employee);
         sessionFactory.getCurrentSession().saveOrUpdate(loginDetails);
+        return loginDetails;
     }
 
     @Override

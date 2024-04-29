@@ -27,8 +27,8 @@ public class LoginDetailsServiceImpl implements LoginDetailsService {
     }
 
     @Override
-    public void updatePassword(int id, String password) {
-        loginDetailsDAO.updatePassword(id,password);
+    public LoginDetailsDTO updatePassword(int id, LoginDetailsDTO loginDetailsDTO) {
+        return mapToDTO(loginDetailsDAO.updatePassword(id,loginDetailsDTO));
     }
 
     @Override
@@ -37,7 +37,14 @@ public class LoginDetailsServiceImpl implements LoginDetailsService {
     }
 
     @Override
-    public void activatingAccount(LoginDetailsDTO loginDetailsDTO) {
-        loginDetailsDAO.activatingAccount(loginDetailsDTO);
+    public LoginDetailsDTO activatingAccount(LoginDetailsDTO loginDetailsDTO) {
+        return mapToDTO(loginDetailsDAO.activatingAccount(loginDetailsDTO));
+    }
+
+    private LoginDetailsDTO mapToDTO(LoginDetails loginDetails){
+        LoginDetailsDTO loginDetailsDTO = new LoginDetailsDTO();
+        loginDetailsDTO.setEmpId(loginDetails.getEmployee_login().getId());
+        loginDetailsDTO.setFlag(loginDetails.getFlag());
+        return loginDetailsDTO;
     }
 }

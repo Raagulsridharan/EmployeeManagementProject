@@ -8,7 +8,7 @@ import com.employee.demoproject.entity.LoginDetails;
 public interface LoginDetailsService {
     LoginDetails createLogin(Employee employee);
     void updateUserName(int id, EmployeeDTO employeeDTO);
-    void updatePassword(int id, String password);
+    LoginDetailsDTO updatePassword(int id, LoginDetailsDTO loginDetailsDTO);
     LoginDetailsDTO employeeLogin(LoginDetailsDTO loginDetailsDTO);
-    void activatingAccount(LoginDetailsDTO loginDetailsDTO);
+    LoginDetailsDTO activatingAccount(LoginDetailsDTO loginDetailsDTO);
 }

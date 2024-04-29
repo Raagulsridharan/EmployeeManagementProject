@@ -78,7 +78,7 @@ public class DesignationController {
      * getting designations count
      * @return
      */
-    @GetMapping("/getDesignationCount")
+    @GetMapping("/count")
     public Long getDesignationCount(){
         return designationService.getDesignationCount();
     }
@@ -88,7 +88,7 @@ public class DesignationController {
 //        return designationService.getDesignationByRole(role);
 //    }
 //
-    @GetMapping("/getUserType/{email}")
+    @GetMapping("/user-type/{email}")
     public ResponseEntity<HttpStatusResponse> getDesignationByEmail(@PathVariable String email){
         return ResponseEntity.ok(new HttpStatusResponse(designationService.getDesignationByEmail(email),HttpStatus.OK.value(),"Getting user type"));
     }

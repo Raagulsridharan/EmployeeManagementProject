@@ -16,6 +16,7 @@ public interface PayrollDAO {
     Payroll createPayroll(int empId);
     Payroll updatePayroll(int payrollId, PayrollDTO payrollDTO);
     PaySlipDTO getPAYSlipContent(Integer salaryId);
+    EmployeePaymentDTO getEmployeeSalaryDetails(int empId);
 
 
     Payroll getPaySlip(int payrollId);
