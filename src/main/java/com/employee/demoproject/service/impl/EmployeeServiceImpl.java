@@ -3,10 +3,12 @@ package com.employee.demoproject.service.impl;
 import com.employee.demoproject.dao.EmployeeDAO;
 import com.employee.demoproject.dto.EmployeeDTO;
 import com.employee.demoproject.dto.LeaveAssignDTO;
+import com.employee.demoproject.entity.Department;
 import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.LoginDetails;
 import com.employee.demoproject.exceptions.BusinessServiceException;
 import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.pagination.FilterOption;
 import com.employee.demoproject.service.EmployeeService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -152,6 +156,20 @@ public class EmployeeServiceImpl implements EmployeeService {
             return employeeDAO.getEmployeeDetailCard(empId);
         }catch (DataServiceException e){
             throw new BusinessServiceException("Exception in getting employee details card in service layer",e);
+        }
+    }
+
+    @Override
+    public List<EmployeeDTO> filterEmployees(FilterOption filterOption) throws BusinessServiceException {
+        try{
+            List<Employee> departmentList = employeeDAO.filterEmployee(filterOption);
+            return Optional.ofNullable(departmentList)
+                    .map(list -> list.stream()
+                            .map(this::mapToDTO)
+                            .collect(Collectors.toList()))
+                    .orElse(null);
+        }catch (DataServiceException e){
+            throw new BusinessServiceException("Exception in service layer for filtering",e);
         }
     }
 

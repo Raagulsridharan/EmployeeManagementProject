@@ -9,6 +9,7 @@ import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.LoginDetails;
 import com.employee.demoproject.exceptions.DataAccessException;
 import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.pagination.FilterOption;
 import com.employee.demoproject.service.DepartmentService;
 import com.employee.demoproject.service.LoginDetailsService;
 import org.apache.log4j.Logger;
@@ -227,6 +228,37 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         }catch (DataAccessException e){
             logger.error("Error in getting employee card in business layer. "+e);
             throw new DataServiceException("Exception in getting employee card in business layer",e);
+        }
+    }
+
+    @Override
+    public List<Employee> filterEmployee(FilterOption filterOption) throws DataServiceException {
+        try {
+            logger.info("Entering the method of fetch employee by filtering");
+            Integer firstResult = (filterOption.getPageNo() * filterOption.getPageSize()) - filterOption.getPageSize();
+
+            StringBuilder queryParam = new StringBuilder("FROM Employee e ");
+            if (filterOption.getSearchKey() != null && !filterOption.getSearchKey().isEmpty()) {
+                queryParam.append(" WHERE e.name LIKE :searchKey1 OR e.email LIKE :searchKey2 OR e.department.name LIKE :searchKey3 ORDER BY e.id DESC");
+            }else{
+                queryParam.append("ORDER BY e.id DESC");
+            }
+
+            Query query = sessionFactory.getCurrentSession().createQuery(queryParam.toString());
+            if (filterOption.getSearchKey() != null && !filterOption.getSearchKey().isEmpty()) {
+                query.setParameter("searchKey1", "%" + filterOption.getSearchKey() + "%")
+                        .setParameter("searchKey2", "%" + filterOption.getSearchKey() + "%")
+                        .setParameter("searchKey3", "%" + filterOption.getSearchKey() + "%");
+            }
+            query.setFirstResult(firstResult);
+            query.setMaxResults(filterOption.getPageSize());
+
+            List<Employee> employeeList = query.list();
+
+            return employeeList;
+        } catch (Exception e) {
+            logger.error("Error found in filter employees"+e);
+            throw new DataServiceException("Exception in accessing the employees for filtering", e);
         }
     }
 }

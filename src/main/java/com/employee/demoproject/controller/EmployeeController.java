@@ -6,8 +6,10 @@ import com.employee.demoproject.endPoints.BaseAPI;
 import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.LoginDetails;
 import com.employee.demoproject.exceptions.BusinessServiceException;
+import com.employee.demoproject.pagination.FilterOption;
 import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.service.EmployeeService;
+import jakarta.validation.Valid;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -114,5 +116,20 @@ public class EmployeeController {
         }else {
             return new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.NO_CONTENT.value(), "Not getting employees details for card"),HttpStatus.NO_CONTENT);
         }
+    }
+
+    /**
+     * fetching departments for pagination
+     *
+     * @param filterOption
+     * @return
+     * @throws BusinessServiceException
+     */
+    @PostMapping("/all")
+    public ResponseEntity<HttpStatusResponse> filterTheDepartment(@RequestBody @Valid FilterOption filterOption) throws BusinessServiceException {
+        return ofNullable(employeeService.filterEmployees(filterOption)).filter(CollectionUtils::isNotEmpty)
+                .map(employeeDTOS -> new ResponseEntity<>
+                        (new HttpStatusResponse(employeeDTOS, HttpStatus.OK.value(), "Employees filtered successfully"), HttpStatus.OK))
+                .orElse(new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.NO_CONTENT.value(), "no data to filter"), HttpStatus.NO_CONTENT));
     }
 }
