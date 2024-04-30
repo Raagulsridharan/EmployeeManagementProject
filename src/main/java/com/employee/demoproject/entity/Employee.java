@@ -35,6 +35,7 @@ public class Employee {
     private List<LoginDetails> loginDetails;
 
     public Employee() {}
+
     public Employee(int id, String name, Date birthday, String gender, long mobile, String email, String address, Department department, String status) {
         this.id = id;
         this.name = name;

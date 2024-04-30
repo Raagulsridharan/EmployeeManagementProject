@@ -81,7 +81,7 @@ public class DepartmentServiceImpl implements DepartmentService {
             logger.info("Fetching department by it's name in service");
             return departmentDAO.getDepartmentByName(name);
         }catch (DataServiceException e){
-            logger.error("Error in servive laye for getting department by it's name. "+e);
+            logger.error("Error in service layer for getting department by it's name. "+e);
             throw new BusinessServiceException("Exception in service layer for getting department by it's name.",e);
         }
 

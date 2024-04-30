@@ -1,17 +1,13 @@
 package com.employee.demoproject.config;
 
 import com.employee.demoproject.dataRetrieve.DataRetrieve;
-import jakarta.persistence.EntityManagerFactory;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
-import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBuilder;
@@ -27,13 +23,9 @@ import java.util.Properties;
 public class SessionFactoryBean {
     @Autowired
     private DataSource dataSource;
+
     @Autowired
     private Environment environment;
-
-//    public SessionFactoryBean(DataSource dataSource, Environment environment) {
-//        this.dataSource = dataSource;
-//        this.environment = environment;
-//    }
 
     @Bean(name = "sessionFactory")
     public SessionFactory getSessionFactory() {

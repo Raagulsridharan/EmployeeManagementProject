@@ -4,6 +4,7 @@ import com.employee.demoproject.dto.EmployeePaymentDTO;
 import com.employee.demoproject.dto.PaySlipDTO;
 import com.employee.demoproject.dto.PayrollDTO;
 import com.employee.demoproject.endPoints.BaseAPI;
+import com.employee.demoproject.exceptions.BusinessServiceException;
 import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.entity.Payroll;
 import com.employee.demoproject.service.PDFExporter;
@@ -32,32 +33,32 @@ public class PayrollController {
     private PayrollService payrollService;
 
     @GetMapping("/{empId}")
-    public ResponseEntity<HttpStatusResponse> getEmployeePayroll(@PathVariable int empId){
-        return ResponseEntity.ok(new HttpStatusResponse(payrollService.getEmployeePayroll(empId), HttpStatus.OK.value(),"Payroll for employee"));
+    public ResponseEntity<HttpStatusResponse> getEmployeePayroll(@PathVariable int empId) throws BusinessServiceException {
+        return new ResponseEntity<>(new HttpStatusResponse(payrollService.getEmployeePayroll(empId), HttpStatus.OK.value(),"Payroll for employee"),HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<HttpStatusResponse> getAllEmployeePayroll(){
-        return ResponseEntity.ok(new HttpStatusResponse(payrollService.getAllEmployeePayroll(), HttpStatus.OK.value(),"Payroll of All the employees"));
+    public ResponseEntity<HttpStatusResponse> getAllEmployeePayroll() throws BusinessServiceException{
+        return new ResponseEntity<>(new HttpStatusResponse(payrollService.getAllEmployeePayroll(), HttpStatus.OK.value(),"Payroll of All the employees"),HttpStatus.OK);
     }
 
     @PostMapping("/{empId}")
-    public ResponseEntity<HttpStatusResponse> makePayment(@PathVariable int empId, @RequestBody PayrollDTO payrollDTO){
-        return ResponseEntity.ok(new HttpStatusResponse(payrollService.makePayment(empId,payrollDTO),HttpStatus.OK.value(), "Successfully payment done"));
+    public ResponseEntity<HttpStatusResponse> makePayment(@PathVariable int empId, @RequestBody PayrollDTO payrollDTO) throws BusinessServiceException{
+        return new ResponseEntity<>(new HttpStatusResponse(payrollService.makePayment(empId,payrollDTO),HttpStatus.OK.value(), "Successfully payment done"),HttpStatus.OK);
     }
 
     @PostMapping("/create/{empId}")
-    public ResponseEntity<HttpStatusResponse> createPayroll(@PathVariable int empId){
-        return ResponseEntity.ok(new HttpStatusResponse(payrollService.createPayroll(empId),HttpStatus.OK.value(),"Payroll created...!"));
+    public ResponseEntity<HttpStatusResponse> createPayroll(@PathVariable int empId) throws BusinessServiceException{
+        return new ResponseEntity<>(new HttpStatusResponse(payrollService.createPayroll(empId),HttpStatus.OK.value(),"Payroll created...!"),HttpStatus.OK);
     }
 
     @PutMapping("/{empId}")
-    public ResponseEntity<HttpStatusResponse> updatePayroll(@PathVariable int empId, @RequestBody PayrollDTO payrollDTO){
-        return ResponseEntity.ok(new HttpStatusResponse(payrollService.updatePayroll(empId,payrollDTO),HttpStatus.OK.value(),"Payroll updated...!"));
+    public ResponseEntity<HttpStatusResponse> updatePayroll(@PathVariable int empId, @RequestBody PayrollDTO payrollDTO) throws BusinessServiceException{
+        return new ResponseEntity<>(new HttpStatusResponse(payrollService.updatePayroll(empId,payrollDTO),HttpStatus.OK.value(),"Payroll updated...!"),HttpStatus.OK);
     }
 
     @GetMapping("/content/{payrollId}")
-    public ResponseEntity<PayrollDTO> getPaySlipContent(@PathVariable Integer payrollId){
+    public ResponseEntity<PayrollDTO> getPaySlipContent(@PathVariable Integer payrollId) throws BusinessServiceException{
         return new ResponseEntity(payrollService.getPAYSlipContent(payrollId),HttpStatus.OK);
     }
 
