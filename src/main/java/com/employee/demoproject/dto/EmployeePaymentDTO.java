@@ -2,6 +2,7 @@ package com.employee.demoproject.dto;
 
 public class EmployeePaymentDTO {
     private Integer id;
+    private Integer empId;
     private String name;
     private String dept;
     private String role;
@@ -13,16 +14,17 @@ public class EmployeePaymentDTO {
     public EmployeePaymentDTO() {
     }
 
-    public EmployeePaymentDTO(Integer id, String name, String dept, String role, Double salaryPack){
+    public EmployeePaymentDTO(Integer id, Integer empId, String name, String dept, String role, Double salaryPack){
         this.id = id;
+        this.empId = empId;
         this.name = name;
         this.dept = dept;
         this.role = role;
         this.salaryPack = salaryPack;
     }
 
-    public EmployeePaymentDTO(Integer id, String name, String dept, String role, Double salaryPack, Double basic_sal_month, Double tax_reduction_month, Double net_sal_month) {
-        this.id = id;
+    public EmployeePaymentDTO( Integer empId, String name, String dept, String role, Double salaryPack, Double basic_sal_month, Double tax_reduction_month, Double net_sal_month) {
+        this.empId = empId;
         this.name = name;
         this.dept = dept;
         this.role = role;
@@ -38,6 +40,14 @@ public class EmployeePaymentDTO {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(Integer empId) {
+        this.empId = empId;
     }
 
     public String getName() {

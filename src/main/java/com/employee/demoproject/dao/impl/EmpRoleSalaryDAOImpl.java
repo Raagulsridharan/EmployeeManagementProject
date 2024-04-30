@@ -32,7 +32,7 @@ public class EmpRoleSalaryDAOImpl implements EmpRoleSalaryDAO {
 
     @Override
     public List<EmployeePaymentDTO> getAllEmpRoleSalary() {
-        String query = "select ers.id, e.name, d.name as dept, ds.role, ers.annual_salary_pack, ers.basic_sal_month, ers.tax_reduction_month, ers.net_sal_month\n" +
+        String query = "select ers.id, e.id, e.name, d.name as dept, ds.role, ers.annual_salary_pack\n" +
                 "from Employee e\n" +
                 "join Department d\n" +
                 "on e.department.id = d.id\n" +
