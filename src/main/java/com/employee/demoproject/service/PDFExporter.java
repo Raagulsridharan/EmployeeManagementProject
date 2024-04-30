@@ -40,6 +40,9 @@ public class PDFExporter {
 
         cell.setPhrase(new Phrase("NetSalary", font));
         table.addCell(cell);
+
+        cell.setPhrase(new Phrase("Month", font));
+        table.addCell(cell);
     }
 
     private void writeTableData(PdfPTable table) {
@@ -48,6 +51,7 @@ public class PDFExporter {
             table.addCell(paySlipDTO.getDeptName());
             table.addCell(paySlipDTO.getDesignation());
             table.addCell(String.valueOf(paySlipDTO.getBasicSalary()));
+            table.addCell(paySlipDTO.getMonth());
     }
 
     public void export(HttpServletResponse response) throws DocumentException, IOException {
@@ -64,9 +68,9 @@ public class PDFExporter {
 
         document.add(p);
 
-        PdfPTable table = new PdfPTable(5);
+        PdfPTable table = new PdfPTable(6);
         table.setWidthPercentage(100f);
-        table.setWidths(new float[] {1.5f, 3.5f, 3.0f, 3.0f, 1.5f});
+        table.setWidths(new float[] {1.5f, 3.5f, 3.0f, 3.0f, 2.0f,3.0f});
         table.setSpacingBefore(10);
 
         writeTableHeader(table);

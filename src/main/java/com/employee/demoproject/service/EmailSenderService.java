@@ -25,7 +25,7 @@ public class EmailSenderService {
         try {
             helper.setTo(toEmail);
             helper.setSubject("Your Login Credentials");
-            helper.setText("Your username: " + toEmail + "\nYour password: " + password+"\nYour Department : "+department.getName());
+            helper.setText("Welcome To EMS\nYour username: " + toEmail + "\nYour password: " + password+"\nYour Department : "+department.getName()+"\nFor Login : http://localhost:4200/login\nPlease login with your credential in above link and activate your account ASAP!\nThanks and Regards\nEmployee Management System.");
             javaMailSender.send(message);
         } catch (MessagingException e) {
             e.printStackTrace();

@@ -17,28 +17,27 @@ public class LeavePolicyController {
     @Autowired
     private LeavePolicyService leavePolicyService;
 
-    @GetMapping("/createLeavePolicy")
-    public String createLeavePolicy(@RequestBody LeavePolicy leavePolicy){
+    @PostMapping
+    public void createLeavePolicy(@RequestBody LeavePolicy leavePolicy){
         leavePolicyService.createLeavePolicy(leavePolicy);
-        return "Successfully leavePolicy created...!";
     }
 
     @GetMapping
     public ResponseEntity<HttpStatusResponse> getAllLeavePolicy(){
-        return ResponseEntity.ok(new HttpStatusResponse(leavePolicyService.getAllLeavePolicy(), HttpStatus.OK.value(), "Fetching All leave types"));
+        return new ResponseEntity<>(new HttpStatusResponse(leavePolicyService.getAllLeavePolicy(), HttpStatus.OK.value(), "Fetching All leave types"),HttpStatus.OK);
     }
 
-    @GetMapping("/getLeavePolicyById/{id}")
+    @GetMapping("/{id}")
     public LeavePolicy getLeavePolicyById(@PathVariable int id){
         return leavePolicyService.getLeavePolicyById(id);
     }
 
-    @GetMapping("/getLeavePolicyByName/{name}")
+    @GetMapping("/by/{name}")
     public LeavePolicy getLeavePolicyByName(@PathVariable String name){
         return leavePolicyService.getLeavePolicyByName(name);
     }
 
-    @GetMapping("/getLeaveTypesCount")
+    @GetMapping("/count")
     public Long getLeaveTypesCount(){
         return leavePolicyService.getLeaveTypesCount();
     }

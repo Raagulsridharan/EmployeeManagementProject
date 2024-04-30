@@ -1,6 +1,7 @@
 package com.employee.demoproject.controller;
 
 import com.employee.demoproject.dto.LeaveAppliedDTO;
+import com.employee.demoproject.endPoints.BaseAPI;
 import com.employee.demoproject.exceptions.BusinessServiceException;
 import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.entity.LeaveApplied;
@@ -13,41 +14,41 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/leaveApplied")
+@RequestMapping(BaseAPI.EMPLOYEE_LEAVE_APPLIED)
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class LeaveAppliedController {
 
     @Autowired
     private LeaveAppliedService leaveAppliedService;
 
-    @GetMapping("/getApprovedLeaveCount")
+    @GetMapping("/count/approved")
     public Long getApprovedLeaveCount(){
         return leaveAppliedService.getApprovedLeaveCount();
     }
 
-    @GetMapping("/getRejectedLeaveCount")
+    @GetMapping("/count/rejected")
     public Long getRejectedLeaveCount(){
         return leaveAppliedService.getRejectedLeaveCount();
     }
 
-    @GetMapping("/getRequestedLeaveCount")
+    @GetMapping("/count/requested")
     public Long getRequestedLeaveCount(){
         return leaveAppliedService.getRequestedLeaveCount();
     }
 
-    @GetMapping("/getAllApprovedLeaves")
+    @GetMapping("/approved")
     public ResponseEntity<HttpStatusResponse> getAllApprovedLeaves(){
-        return ResponseEntity.ok(new HttpStatusResponse(leaveAppliedService.getAllApprovedLeaves(), HttpStatus.OK.value(),"Fetching all approved leaves"));
+        return new ResponseEntity<>(new HttpStatusResponse(leaveAppliedService.getAllApprovedLeaves(), HttpStatus.OK.value(),"Fetching all approved leaves"),HttpStatus.OK);
     }
 
-    @GetMapping("/getAllRejectedLeaves")
+    @GetMapping("/rejected")
     public ResponseEntity<HttpStatusResponse> getAllRejectedLeaves(){
-        return ResponseEntity.ok(new HttpStatusResponse(leaveAppliedService.getAllRejectedLeaves(), HttpStatus.OK.value(),"Fetching all rejected leaves"));
+        return new ResponseEntity<>(new HttpStatusResponse(leaveAppliedService.getAllRejectedLeaves(), HttpStatus.OK.value(),"Fetching all rejected leaves"),HttpStatus.OK);
     }
 
-    @GetMapping("/getAllRequestedLeaves")
+    @GetMapping("/requested")
     public ResponseEntity<HttpStatusResponse> getAllRequestedLeaves(){
-        return ResponseEntity.ok(new HttpStatusResponse(leaveAppliedService.getAllRequestedLeaves(), HttpStatus.OK.value(),"Fetching all requested leaves"));
+        return new ResponseEntity<>(new HttpStatusResponse(leaveAppliedService.getAllRequestedLeaves(), HttpStatus.OK.value(),"Fetching all requested leaves"),HttpStatus.OK);
     }
 
     @GetMapping("/{empId}")
@@ -68,7 +69,6 @@ public class LeaveAppliedController {
     @PutMapping
     public void updateLeaveStatus(@RequestBody LeaveAppliedDTO leaveAppliedDTO){
         leaveAppliedService.updateLeaveStatus(leaveAppliedDTO);
-        //return "Your Leave "+leaveAppliedDTO.getStatus();
     }
 
     @GetMapping("/count/{empId}")

@@ -3,6 +3,7 @@ package com.employee.demoproject.controller;
 import com.employee.demoproject.dto.EmployeePaymentDTO;
 import com.employee.demoproject.dto.PaySlipDTO;
 import com.employee.demoproject.dto.PayrollDTO;
+import com.employee.demoproject.endPoints.BaseAPI;
 import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.entity.Payroll;
 import com.employee.demoproject.service.PDFExporter;
@@ -23,7 +24,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @RestController
-@RequestMapping("/payroll")
+@RequestMapping(BaseAPI.PAYROLL)
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class PayrollController {
 
@@ -45,7 +46,7 @@ public class PayrollController {
         return ResponseEntity.ok(new HttpStatusResponse(payrollService.makePayment(empId,payrollDTO),HttpStatus.OK.value(), "Successfully payment done"));
     }
 
-    @PostMapping("/createPayroll/{empId}")
+    @PostMapping("/create/{empId}")
     public ResponseEntity<HttpStatusResponse> createPayroll(@PathVariable int empId){
         return ResponseEntity.ok(new HttpStatusResponse(payrollService.createPayroll(empId),HttpStatus.OK.value(),"Payroll created...!"));
     }
@@ -55,7 +56,7 @@ public class PayrollController {
         return ResponseEntity.ok(new HttpStatusResponse(payrollService.updatePayroll(empId,payrollDTO),HttpStatus.OK.value(),"Payroll updated...!"));
     }
 
-    @GetMapping("/getPaySlipcontent/{payrollId}")
+    @GetMapping("/content/{payrollId}")
     public ResponseEntity<PayrollDTO> getPaySlipContent(@PathVariable Integer payrollId){
         return new ResponseEntity(payrollService.getPAYSlipContent(payrollId),HttpStatus.OK);
     }
@@ -71,10 +72,13 @@ public class PayrollController {
         response.setHeader(headerKey, headerValue);
 
         PaySlipDTO paySlipDTO = payrollService.getPAYSlipContent(payrollId);
-
-        PDFExporter exporter = new PDFExporter(paySlipDTO);
-        exporter.export(response);
-        return ResponseEntity.ok(new HttpStatusResponse(paySlipDTO,HttpStatus.OK.value(), "Pdf exported"));
+        if(paySlipDTO!=null){
+            PDFExporter exporter = new PDFExporter(paySlipDTO);
+            exporter.export(response);
+            return new ResponseEntity<>(new HttpStatusResponse(paySlipDTO,HttpStatus.OK.value(), "Pdf exported"),HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(new HttpStatusResponse(null,HttpStatus.NO_CONTENT.value(), "Pdf exported"),HttpStatus.NO_CONTENT);
+        }
     }
 
     @GetMapping("detail/{empId}")

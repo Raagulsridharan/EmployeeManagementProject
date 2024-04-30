@@ -17,7 +17,6 @@ public class EmailSenderController {
     private EmailSenderService emailSenderService;
 
     @PostMapping
-//    @CrossOrigin(origins = "http://localhost:4200")
     public ResponseEntity<HttpStatusResponse> sendEmail(@RequestBody LoginDetailsDTO emailRequest){
         emailSenderService.sendEmail(emailRequest.getUsername(),emailRequest.getPassword(),emailRequest.getDeptId());
         System.out.println("Email sent successfully...!");

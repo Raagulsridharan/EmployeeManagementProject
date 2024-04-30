@@ -2,6 +2,7 @@ package com.employee.demoproject.controller;
 
 import com.employee.demoproject.dto.EmpRoleSalaryDTO;
 import com.employee.demoproject.dto.EmployeePaymentDTO;
+import com.employee.demoproject.endPoints.BaseAPI;
 import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.service.EmpRoleSalaryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/empRoleSalary")
+@RequestMapping(BaseAPI.EMPLOYEE_ROLE_SALARY)
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class EmpRoleSalaryController {
 
@@ -25,13 +26,11 @@ public class EmpRoleSalaryController {
     @PostMapping("/{empId}")
     public void createEmpRoleSalary(@PathVariable int empId,@RequestBody EmpRoleSalaryDTO empRoleSalaryDTO){
         empRoleSalaryService.createEmpRoleSalary(empId,empRoleSalaryDTO);
-        //return "Saved...";
     }
 
     @PutMapping("/{empId}")
     public void updateEmpRoleSalary(@PathVariable int empId,@RequestBody EmpRoleSalaryDTO empRoleSalaryDTO){
         empRoleSalaryService.updateEmpRoleSalary(empId,empRoleSalaryDTO);
-        //return "Updated...";
     }
 
     @GetMapping("/{empId}")
