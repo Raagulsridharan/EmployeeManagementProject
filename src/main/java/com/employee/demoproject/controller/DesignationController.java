@@ -1,10 +1,12 @@
 package com.employee.demoproject.controller;
 
+import com.employee.demoproject.dto.DesignationDTO;
 import com.employee.demoproject.endPoints.BaseAPI;
 import com.employee.demoproject.entity.Designation;
 import com.employee.demoproject.exceptions.BusinessServiceException;
 import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.service.DesignationService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,25 +23,34 @@ public class DesignationController {
 
     /**
      * create new designation with salary package
-     * @param designation
+     * @param designationDTO
      * @return
      */
     @PostMapping
-    public ResponseEntity<HttpStatusResponse> createDesignation(@RequestBody Designation designation) throws BusinessServiceException {
-        designationService.createDesignation(designation);
-        return new ResponseEntity<>(new HttpStatusResponse(designation, HttpStatus.CREATED.value(),"Designation successfully created"),HttpStatus.CREATED);    }
+    public ResponseEntity<HttpStatusResponse> createDesignation(@RequestBody @Valid DesignationDTO designationDTO) throws BusinessServiceException {
+        DesignationDTO saved = designationService.createDesignation(designationDTO);
+        if(saved!=null){
+            return new ResponseEntity<>(new HttpStatusResponse(saved, HttpStatus.CREATED.value(),"Designation successfully created"),HttpStatus.CREATED);
+        }else {
+            return new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.BAD_REQUEST.value(),"Designation successfully created"),HttpStatus.BAD_REQUEST);
+        }
+    }
 
     /**
      * update/alter the designation or salary_package with respect to the corresponding id
      * using updated designation object
      * @param id
-     * @param designation
+     * @param designationDTO
      * @return
      */
     @PutMapping("/{id}")
-    public ResponseEntity<HttpStatusResponse> updateDesignation(@PathVariable int id, @RequestBody Designation designation) throws BusinessServiceException{
-        designationService.updateDesignation(id,designation);
-        return new ResponseEntity<>(new HttpStatusResponse(designationService.getDesignationById(id), HttpStatus.OK.value(),"Designation updated"),HttpStatus.OK);
+    public ResponseEntity<HttpStatusResponse> updateDesignation(@PathVariable int id, @RequestBody @Valid DesignationDTO designationDTO) throws BusinessServiceException{
+        DesignationDTO updated = designationService.updateDesignation(id,designationDTO);
+        if(updated!=null){
+            return new ResponseEntity<>(new HttpStatusResponse(updated, HttpStatus.OK.value(),"Designation updated"),HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.BAD_REQUEST.value(),"Designation updated"),HttpStatus.BAD_REQUEST);
+        }
     }
 
     /**

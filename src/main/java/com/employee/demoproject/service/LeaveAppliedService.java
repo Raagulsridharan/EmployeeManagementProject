@@ -5,6 +5,7 @@ import com.employee.demoproject.dto.LeaveAppliedDTO;
 import com.employee.demoproject.entity.LeaveApplied;
 import com.employee.demoproject.exceptions.BusinessServiceException;
 import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.pagination.FilterOption;
 
 import java.util.List;
 
@@ -19,4 +20,5 @@ public interface LeaveAppliedService {
     LeaveAppliedDTO empApplyingLeave(int empId, LeaveAppliedDTO leaveAppliedDTO);
     void updateLeaveStatus(LeaveAppliedDTO leaveAppliedDTO);
     Long getEmployeeLeaveHistoryCount(int empId) throws BusinessServiceException;
+    List<LeaveAppliedDTO> filterLeaveApplied(Integer empId, FilterOption filterOption) throws BusinessServiceException;
 }

@@ -1,12 +1,24 @@
 package com.employee.demoproject.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
+
 public class PayrollDTO {
     private Integer id;
+
+    @NotNull(message = "Employee ID cannot be null")
     private Integer empId;
+
+    @NotBlank(message = "Name cannot be blank")
     private String name;
+
     private Double net_sal_month;
     private String month;
+
+    @PositiveOrZero(message = "Paid salary must be positive or zero")
     private Double paid_salary;
+
     private String description;
     private String status;
 

@@ -5,11 +5,16 @@ import com.employee.demoproject.dataRetrieve.DataRetrieve;
 import com.employee.demoproject.dto.EmpRoleSalaryDTO;
 import com.employee.demoproject.dto.EmployeeDTO;
 import com.employee.demoproject.dto.EmployeePaymentDTO;
+import com.employee.demoproject.entity.Department;
 import com.employee.demoproject.entity.Designation;
 import com.employee.demoproject.entity.EmpRoleSalary;
 import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.Enum.TaxCalculation;
+import com.employee.demoproject.exceptions.DataAccessException;
+import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.pagination.FilterOption;
 import com.employee.demoproject.service.DesignationService;
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +34,8 @@ public class EmpRoleSalaryDAOImpl implements EmpRoleSalaryDAO {
 
     @Autowired
     private DataRetrieve dataRetrieve;
+
+    static Logger logger = Logger.getLogger(EmpRoleSalaryDAOImpl.class);
 
     @Override
     public List<EmployeePaymentDTO> getAllEmpRoleSalary() {
@@ -83,6 +90,19 @@ public class EmpRoleSalaryDAOImpl implements EmpRoleSalaryDAO {
         return employeePaymentDTOList;
     }
 
+    @Override
+    public Long totalRoleSalaryCount() throws DataServiceException {
+        try{
+            logger.info("getting count of EMpRoleSalary");
+            String query = "Select count(*) From EmpRoleSalary";
+            Long count = dataRetrieve.getCount(query);
+            return count;
+        }catch (DataAccessException e){
+            logger.error("Error in getting count of EmpRoleSalary in business layer. "+e);
+            throw new DataServiceException("Exception in data accessing in business layer for getting count of EmpRoleSalary",e);
+        }
+    }
+
     private EmpRoleSalary assignRoleAndSalary(EmpRoleSalary empRoleSalary, EmpRoleSalaryDTO empRoleSalaryDTO){
         Designation designation = designationService.getDesignationById(empRoleSalaryDTO.getRoleId());
         empRoleSalary.setDesignation(designation);
@@ -106,6 +126,36 @@ public class EmpRoleSalaryDAOImpl implements EmpRoleSalaryDAO {
         return empRoleSalary;
     }
 
+    @Override
+    public List<EmpRoleSalary> filterEmpRoleSalary(FilterOption filterOption) throws DataServiceException {
+        try {
+            logger.info("Entering the method of fetch EmpRoleSalary by filtering");
+            Integer firstResult = (filterOption.getPageNo() * filterOption.getPageSize()) - filterOption.getPageSize();
+
+            StringBuilder queryParam = new StringBuilder("FROM EmpRoleSalary ers");
+            if (filterOption.getSearchKey() != null && !filterOption.getSearchKey().isEmpty()) {
+                queryParam.append(" WHERE ers.employee_role_salary.name LIKE :searchKey1 OR ers.employee_role_salary.department.name LIKE :searchKey2 OR ers.designation.role LIKE :searchKey3");
+            }
+
+            Query query = sessionFactory.getCurrentSession().createQuery(queryParam.toString());
+            if (filterOption.getSearchKey() != null && !filterOption.getSearchKey().isEmpty()) {
+                query.setParameter("searchKey1", "%" + filterOption.getSearchKey() + "%")
+                        .setParameter("searchKey2", "%" + filterOption.getSearchKey() + "%")
+                        .setParameter("searchKey3", "%" + filterOption.getSearchKey() + "%");
+            }
+            query.setFirstResult(firstResult);
+            query.setMaxResults(filterOption.getPageSize());
+
+            List<EmpRoleSalary> empRoleSalaryList = query.list();
+
+            return empRoleSalaryList;
+        } catch (Exception e) {
+            logger.error("Error found in filter EmpRoleSalary. "+e);
+            throw new DataServiceException("Exception in accessing the EmpRoleSalary for filtering", e);
+        }
+    }
+
+
     private static double calculateTax(double salary) {
         for (TaxCalculation slab : TaxCalculation.values()) {
             if (salary >= slab.getLowerLimit() && salary <= slab.getUpperLimit()) {
@@ -114,4 +164,6 @@ public class EmpRoleSalaryDAOImpl implements EmpRoleSalaryDAO {
         }
         return 0;
     }
+
+
 }

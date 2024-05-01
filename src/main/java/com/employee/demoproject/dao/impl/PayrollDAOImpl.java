@@ -6,11 +6,16 @@ import com.employee.demoproject.dto.EmployeePaymentDTO;
 import com.employee.demoproject.dto.PaySlipDTO;
 import com.employee.demoproject.dto.PayrollDTO;
 import com.employee.demoproject.entity.EmpRoleSalary;
+import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.Payroll;
+import com.employee.demoproject.exceptions.DataAccessException;
+import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.pagination.FilterOption;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +35,8 @@ public class PayrollDAOImpl implements PayrollDAO {
 
     @Autowired
     private DataRetrieve dataRetrieve;
+
+    static Logger logger = Logger.getLogger(PayrollDAOImpl.class);
 
     @Override
     public List<PayrollDTO> getEmployeePayroll(int empId) {
@@ -159,6 +166,55 @@ public class PayrollDAOImpl implements PayrollDAO {
         return empPayrolls;
     }
 
+    @Override
+    public Long totalPayrollCount() throws DataServiceException {
+        try {
+            logger.info("Business layer for getting count of total payroll.");
+            String query = "SELECT COUNT(*)\n" +
+                    "FROM (\n" +
+                    "    SELECT COUNT(*) AS payroll_count\n" +
+                    "    FROM Payroll\n" +
+                    "    GROUP BY empRoleSalary_payroll\n" +
+                    ") AS subquery_result";
+            Long count = dataRetrieve.getCount(query);
+            return count;
+        }catch (DataAccessException e){
+            logger.error("Error in Business layer for getting count of total payroll. "+e);
+            throw new DataServiceException("Exception in Getting total payroll count",e);
+        }
+    }
+
+    @Override
+    public List<Payroll> filterPayroll(FilterOption filterOption) throws DataServiceException {
+        try {
+            logger.info("Entering the method of fetch payroll by filtering");
+            Integer firstResult = (filterOption.getPageNo() * filterOption.getPageSize()) - filterOption.getPageSize();
+
+            StringBuilder queryParam = new StringBuilder("FROM Payroll p ");
+            if (filterOption.getSearchKey() != null && !filterOption.getSearchKey().isEmpty()) {
+                queryParam.append(" WHERE p.empRoleSalary_payroll.employee_role_salary.name LIKE :searchKey1 OR p.empRoleSalary_payroll.employee_role_salary.department.name LIKE :searchKey2 OR p.empRoleSalary_payroll.designation.role LIKE :searchKey3");
+            }
+
+            Query query = sessionFactory.getCurrentSession().createQuery(queryParam.toString());
+            if (filterOption.getSearchKey() != null && !filterOption.getSearchKey().isEmpty()) {
+                query.setParameter("searchKey1", "%" + filterOption.getSearchKey() + "%")
+                        .setParameter("searchKey2", "%" + filterOption.getSearchKey() + "%")
+                        .setParameter("searchKey3", "%" + filterOption.getSearchKey() + "%");
+            }
+            query.setFirstResult(firstResult);
+            query.setMaxResults(filterOption.getPageSize());
+
+            List<Payroll> payrolls = query.list();
+
+            return payrolls;
+        } catch (Exception e) {
+            logger.error("Error found in filter payroll"+e);
+            throw new DataServiceException("Exception in accessing the payroll for filtering", e);
+        }
+    }
+
+
+
     //---------------------------------
 
     @Override
@@ -205,6 +261,8 @@ public class PayrollDAOImpl implements PayrollDAO {
         }
 
     }
+
+
 
 
 }

@@ -1,7 +1,10 @@
 package com.employee.demoproject.dto;
 
+import jakarta.validation.constraints.NotNull;
+
 public class DepartmentDTO {
     private Integer id;
+    @NotNull
     private String name;
     public DepartmentDTO(){}
     public DepartmentDTO(Integer id, String name){

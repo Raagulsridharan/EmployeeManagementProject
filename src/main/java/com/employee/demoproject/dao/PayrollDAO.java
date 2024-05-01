@@ -4,6 +4,8 @@ import com.employee.demoproject.dto.EmployeePaymentDTO;
 import com.employee.demoproject.dto.PaySlipDTO;
 import com.employee.demoproject.dto.PayrollDTO;
 import com.employee.demoproject.entity.Payroll;
+import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.pagination.FilterOption;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -17,6 +19,8 @@ public interface PayrollDAO {
     Payroll updatePayroll(int payrollId, PayrollDTO payrollDTO);
     PaySlipDTO getPAYSlipContent(Integer salaryId);
     EmployeePaymentDTO getEmployeeSalaryDetails(int empId);
+    Long totalPayrollCount() throws DataServiceException;
+    List<Payroll> filterPayroll(FilterOption filterOption) throws DataServiceException;
 
 
     Payroll getPaySlip(int payrollId);

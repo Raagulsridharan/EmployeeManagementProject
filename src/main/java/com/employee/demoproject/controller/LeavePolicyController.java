@@ -1,6 +1,7 @@
 package com.employee.demoproject.controller;
 
 import com.employee.demoproject.endPoints.BaseAPI;
+import com.employee.demoproject.exceptions.BusinessServiceException;
 import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.entity.LeavePolicy;
 import com.employee.demoproject.service.LeavePolicyService;
@@ -17,28 +18,33 @@ public class LeavePolicyController {
     @Autowired
     private LeavePolicyService leavePolicyService;
 
-    @PostMapping
-    public void createLeavePolicy(@RequestBody LeavePolicy leavePolicy){
-        leavePolicyService.createLeavePolicy(leavePolicy);
-    }
-
+    /**
+     * getting all leave policy
+     * @return
+     * @throws BusinessServiceException
+     */
     @GetMapping
-    public ResponseEntity<HttpStatusResponse> getAllLeavePolicy(){
+    public ResponseEntity<HttpStatusResponse> getAllLeavePolicy() throws BusinessServiceException {
         return new ResponseEntity<>(new HttpStatusResponse(leavePolicyService.getAllLeavePolicy(), HttpStatus.OK.value(), "Fetching All leave types"),HttpStatus.OK);
     }
 
+    @PostMapping
+    public void createLeavePolicy(@RequestBody LeavePolicy leavePolicy) throws BusinessServiceException{
+        leavePolicyService.createLeavePolicy(leavePolicy);
+    }
+
     @GetMapping("/{id}")
-    public LeavePolicy getLeavePolicyById(@PathVariable int id){
+    public LeavePolicy getLeavePolicyById(@PathVariable int id) throws BusinessServiceException{
         return leavePolicyService.getLeavePolicyById(id);
     }
 
     @GetMapping("/by/{name}")
-    public LeavePolicy getLeavePolicyByName(@PathVariable String name){
+    public LeavePolicy getLeavePolicyByName(@PathVariable String name) throws BusinessServiceException{
         return leavePolicyService.getLeavePolicyByName(name);
     }
 
     @GetMapping("/count")
-    public Long getLeaveTypesCount(){
+    public Long getLeaveTypesCount() throws BusinessServiceException{
         return leavePolicyService.getLeaveTypesCount();
     }
 }

@@ -15,13 +15,34 @@ public class DataRetrieve {
 
     static Logger logger = Logger.getLogger(DataRetrieve.class);
 
-    public Long getCount(String query){
-        Long count = (Long) sessionFactory.getCurrentSession()
-                .createQuery(query)
-                .uniqueResult();
-        return count;
+    /**
+     * getting count of given query
+     * @param query
+     * @return
+     * @throws DataAccessException
+     */
+    public Long getCount(String query) throws DataAccessException{
+        try {
+            logger.info("Getting count");
+            Long count = (Long) sessionFactory.getCurrentSession()
+                    .createQuery(query)
+                    .uniqueResult();
+            return count;
+        }catch (Exception e){
+            logger.error("Error in getting count");
+            throw new DataAccessException("Exception data access for getting count");
+        }
+
     }
-    public Long getCountById(String query, Integer id){
+
+    /**
+     * getting count for given query with the id
+     * @param query
+     * @param id
+     * @return
+     * @throws DataAccessException
+     */
+    public Long getCountById(String query, Integer id) throws DataAccessException{
         try{
             logger.info("Getting count by id");
             Long count = (Long) sessionFactory.getCurrentSession()
@@ -36,6 +57,14 @@ public class DataRetrieve {
 
     }
 
+    /**
+     * getting list wit respectable class
+     * @param query
+     * @param clazz
+     * @param <T>
+     * @return
+     * @throws DataAccessException
+     */
     public <T> List<T> processList(String query,Class<T> clazz) throws DataAccessException{
         try{
             logger.info("Initialise retrieving data for '"+clazz+"' this class");
@@ -48,17 +77,47 @@ public class DataRetrieve {
         }
     }
 
-    public <T> List<T> getListById(String query,Integer id,Class<T> clazz) {
-        Query<T> hibernateQuery = sessionFactory.getCurrentSession()
-                .createQuery(query, clazz)
-                .setParameter("id",id);
-        return hibernateQuery.getResultList();
+    /**
+     * getting list with respectable class using id
+     * @param query
+     * @param id
+     * @param clazz
+     * @param <T>
+     * @return
+     * @throws DataAccessException
+     */
+    public <T> List<T> getListById(String query,Integer id,Class<T> clazz) throws DataAccessException{
+        try {
+            logger.info("Entering in data access layer");
+            Query<T> hibernateQuery = sessionFactory.getCurrentSession()
+                    .createQuery(query, clazz)
+                    .setParameter("id",id);
+            return hibernateQuery.getResultList();
+        }catch (Exception e){
+            logger.error("Error in data access layer");
+            throw new DataAccessException("Exception in data access",e);
+        }
     }
 
-    public <T> T getObjectById(String query, Integer id, Class<T> clazz){
-        Query<T> hibernateQuery = sessionFactory.getCurrentSession()
-                .createQuery(query, clazz)
-                .setParameter("id",id);
-        return hibernateQuery.uniqueResult();
+    /**
+     * getting object of respectable class using id
+     * @param query
+     * @param id
+     * @param clazz
+     * @param <T>
+     * @return
+     * @throws DataAccessException
+     */
+    public <T> T getObjectById(String query, Integer id, Class<T> clazz) throws DataAccessException{
+        try {
+            logger.info("Entering in data access");
+            Query<T> hibernateQuery = sessionFactory.getCurrentSession()
+                    .createQuery(query, clazz)
+                    .setParameter("id",id);
+            return hibernateQuery.uniqueResult();
+        }catch (Exception e){
+            logger.error("Error in data access");
+            throw new DataAccessException("Exception in data access",e);
+        }
     }
 }

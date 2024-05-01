@@ -9,8 +9,10 @@ import com.employee.demoproject.entity.LeaveApplied;
 import com.employee.demoproject.entity.LeavePolicy;
 import com.employee.demoproject.exceptions.DataAccessException;
 import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.pagination.FilterOption;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -142,6 +144,39 @@ public class LeaveAppliedDAOImpl implements LeaveAppliedDAO {
         }catch (DataAccessException e){
             logger.error("Error in getting employee leave history count in business layer. "+e);
             throw new DataServiceException("Exception in getting employee leave history count in business layer",e);
+        }
+    }
+
+    @Override
+    public List<LeaveApplied> filterLeaveApplied(Integer empId, FilterOption filterOption) throws DataServiceException {
+        try {
+            logger.info("Entering the method of fetch employee leave applied by filtering");
+            Integer firstResult = (filterOption.getPageNo() * filterOption.getPageSize()) - filterOption.getPageSize();
+
+            StringBuilder queryParam = new StringBuilder("FROM LeaveApplied la Where la.employee_leave_applied.id = :id ");
+            if (filterOption.getSearchKey() != null && !filterOption.getSearchKey().isEmpty()) {
+                queryParam.append("and la.status LIKE :searchKey1 OR la.leavePolicy.leave_types LIKE :searchKey2 ORDER BY la.id DESC");
+            }else{
+                queryParam.append("ORDER BY la.id DESC");
+            }
+
+            Query query = sessionFactory.getCurrentSession().createQuery(queryParam.toString());
+            if (filterOption.getSearchKey() != null && !filterOption.getSearchKey().isEmpty()) {
+                query.setParameter("id", empId)
+                        .setParameter("searchKey1", "%" + filterOption.getSearchKey() + "%")
+                        .setParameter("searchKey2", "%" + filterOption.getSearchKey() + "%");
+            }else {
+                query.setParameter("id",empId);
+            }
+            query.setFirstResult(firstResult);
+            query.setMaxResults(filterOption.getPageSize());
+
+            List<LeaveApplied> leaveAppliedList = query.list();
+
+            return leaveAppliedList;
+        } catch (Exception e) {
+            logger.error("Error found in filter employee leave applied. "+e);
+            throw new DataServiceException("Exception in accessing the employee leave applied for filtering", e);
         }
     }
 }

@@ -1,16 +1,28 @@
 package com.employee.demoproject.dto;
 
 import com.itextpdf.text.Image;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 
 public class PaySlipDTO {
     private Integer empId;
     private String empName;
     private String deptName;
     private String designation;
+
+    @PositiveOrZero(message = "Annual salary pack must be positive or zero")
     private Double annualSalaryPack;
+
+    @PositiveOrZero(message = "Basic salary must be positive or zero")
     private Double basicSalary;
+
+    @PositiveOrZero(message = "Tax reduction must be positive or zero")
     private Double taxReduction;
+
+    @PositiveOrZero(message = "Net salary must be positive or zero")
     private Double netSalary;
+
     private Integer salaryId;
     private String month;
 

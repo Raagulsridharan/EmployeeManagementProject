@@ -1,16 +1,31 @@
 package com.employee.demoproject.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+
 import java.sql.Date;
 
 public class EmployeeDTO {
     private int id;
     private Date birthday;
+
+    @NotNull(message = "Employee name cannot be null")
     private String emp_name;
     private String gender;
+
+    @Pattern(regexp = "\\d{10}", message = "Mobile number must be 10 digits")
     private Long mobile;
+
+    @NotNull(message = "Email cannot be null")
+    @Email(message = "Invalid email format")
     private String email;
+
     private String address;
+
+    @NotNull(message = "Department ID cannot be null")
     private Integer departmentId;
+
     private String department;
 
     public EmployeeDTO() {}

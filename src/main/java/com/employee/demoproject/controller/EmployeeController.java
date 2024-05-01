@@ -25,6 +25,12 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    /**
+     * save employees for new
+     * @param employeeDTO
+     * @return
+     * @throws BusinessServiceException
+     */
     @PostMapping
     public ResponseEntity<HttpStatusResponse> saveEmployee(@RequestBody EmployeeDTO employeeDTO) throws BusinessServiceException {
         LoginDetails loginDetails = employeeService.createEmployee(employeeDTO);
@@ -35,6 +41,13 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * updating existing employee using id
+     * @param empId
+     * @param employeeDTO
+     * @return
+     * @throws BusinessServiceException
+     */
     @PutMapping("/{empId}")
     public ResponseEntity<HttpStatusResponse> updateEmployee(@PathVariable int empId, @RequestBody EmployeeDTO employeeDTO) throws BusinessServiceException {
         EmployeeDTO updatedEmployee = employeeService.updateEmployee(empId,employeeDTO);
@@ -45,6 +58,11 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * getting all employee
+     * @return
+     * @throws BusinessServiceException
+     */
     @GetMapping
     public ResponseEntity<HttpStatusResponse> getAllEmployee() throws BusinessServiceException{
         return ofNullable(employeeService.getAllEmployee()).filter(CollectionUtils::isNotEmpty)
@@ -53,6 +71,12 @@ public class EmployeeController {
                 .orElse(new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.NOT_FOUND.value(), "No records found"), HttpStatus.NOT_FOUND));
     }
 
+    /**
+     * getting employee by id
+     * @param empId
+     * @return
+     * @throws BusinessServiceException
+     */
     @GetMapping("/{empId}")
     public ResponseEntity<HttpStatusResponse> getEmployeeById(@PathVariable int empId) throws BusinessServiceException {
         EmployeeDTO employeeDTO = employeeService.getEmployeeById(empId);
@@ -63,6 +87,12 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * getting all employees by department for role assigning
+     * @param deptId
+     * @return
+     * @throws BusinessServiceException
+     */
     @GetMapping("/role-assign/{deptId}")
     public ResponseEntity<HttpStatusResponse> getAllEmployeeByDeptForRoleAssign(@PathVariable int deptId) throws BusinessServiceException {
         //return new ResponseEntity<>(new HttpStatusResponse(employeeService.getAllEmployeeByDeptForRoleAssign(deptId),HttpStatus.OK.value(),"Fetching employees by department for role assigning"),HttpStatus.OK);
@@ -73,6 +103,12 @@ public class EmployeeController {
 
     }
 
+    /**
+     * getting all employees by department for payroll assigning
+     * @param deptId
+     * @return
+     * @throws BusinessServiceException
+     */
     @GetMapping("/payroll/{deptId}")
     public ResponseEntity<HttpStatusResponse> getAllEmployeeByDeptForPayroll(@PathVariable int deptId) throws BusinessServiceException {
         //return new ResponseEntity<>(new HttpStatusResponse(employeeService.getAllEmployeeByDeptForPayroll(deptId),HttpStatus.OK.value(),"Fetching employees by department for payroll"),HttpStatus.OK);
@@ -83,6 +119,12 @@ public class EmployeeController {
 
     }
 
+    /**
+     * getting all employees by department for leave assigning
+     * @param deptId
+     * @return
+     * @throws BusinessServiceException
+     */
     @GetMapping("/leave-assign/{deptId}")
     public ResponseEntity<HttpStatusResponse> getAllEmployeeByDeptForLeaveAssign(@PathVariable int deptId) throws BusinessServiceException {
         //return new ResponseEntity<>(new HttpStatusResponse(employeeService.getAllEmployeeByDeptForLeaveAssign(deptId),HttpStatus.OK.value(),"Fetching employees by department for leave assigning"),HttpStatus.OK);
@@ -93,21 +135,12 @@ public class EmployeeController {
 
     }
 
-    @GetMapping("/count")
-    public Long getEmployeeCount() throws BusinessServiceException {
-        Long count = employeeService.getEmpCount();
-        if(count!=null){
-            return employeeService.getEmpCount();
-        }else {
-            return null;
-        }
-    }
-
-    @DeleteMapping("/{empId}")
-    public void deleteEmployee(@PathVariable int empId) throws BusinessServiceException {
-        employeeService.deleteEmployee(empId);
-    }
-
+    /**
+     * getting details of employee for card showing
+     * @param empId
+     * @return
+     * @throws BusinessServiceException
+     */
     @GetMapping("/card/{empId}")
     public ResponseEntity<HttpStatusResponse> employeeDetailCard(@PathVariable Integer empId) throws BusinessServiceException {
         LeaveAssignDTO leaveAssignDTO = employeeService.getEmployeeDetailCard(empId);
@@ -131,5 +164,20 @@ public class EmployeeController {
                 .map(employeeDTOS -> new ResponseEntity<>
                         (new HttpStatusResponse(employeeDTOS, HttpStatus.OK.value(), "Employees filtered successfully"), HttpStatus.OK))
                 .orElse(new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.NO_CONTENT.value(), "no data to filter"), HttpStatus.NO_CONTENT));
+    }
+
+    @GetMapping("/count")
+    public Long getEmployeeCount() throws BusinessServiceException {
+        Long count = employeeService.getEmpCount();
+        if(count!=null){
+            return employeeService.getEmpCount();
+        }else {
+            return null;
+        }
+    }
+
+    @DeleteMapping("/{empId}")
+    public void deleteEmployee(@PathVariable int empId) throws BusinessServiceException {
+        employeeService.deleteEmployee(empId);
     }
 }

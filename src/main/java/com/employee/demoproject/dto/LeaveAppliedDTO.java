@@ -1,15 +1,33 @@
 package com.employee.demoproject.dto;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+
 import java.sql.Date;
 
 public class LeaveAppliedDTO {
     private Integer id;
+
+    @NotNull(message = "Employee ID is required")
     private Integer empId;
+
+    @NotNull(message = "Leave type is required")
     private Integer leaveType;
+
+    @Size(max = 255, message = "Note must be less than 255 characters")
     private String note;
+
+    @NotNull(message = "Number of days is required")
+    @Positive(message = "Number of days must be positive")
     private Integer noOfDays;
+
+    @NotNull(message = "From date is required")
     private Date fromDate;
+
+    @NotNull(message = "To date is required")
     private Date toDate;
+
     private String status;
     private Date submittedOn;
 

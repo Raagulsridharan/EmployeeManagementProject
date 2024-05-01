@@ -2,6 +2,8 @@ package com.employee.demoproject.dao.impl;
 
 import com.employee.demoproject.dao.DesignationDAO;
 import com.employee.demoproject.entity.Designation;
+import com.employee.demoproject.exceptions.DataServiceException;
+import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,19 +17,52 @@ public class DesignationDAOImpl implements DesignationDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
+    static Logger logger = Logger.getLogger(DesignationDAOImpl.class);
+
+    /**
+     * Creates a new designation.
+     *
+     * @param designation The designation object to be created.
+     * @return The newly created designation object.
+     * @throws DataServiceException If an error occurs while creating the designation in the data service layer.
+     */
     @Override
-    public void createDesignation(Designation designation) {
-        sessionFactory.getCurrentSession().persist(designation);
-        System.out.println("Designation created...!!!");
+    public Designation createDesignation(Designation designation) throws DataServiceException{
+        try {
+            logger.info("Entering to save the designation");
+            sessionFactory.getCurrentSession().persist(designation);
+            System.out.println("Designation created...!!!");
+            return designation;
+        }catch (Exception e){
+            logger.error("Error in in Dao layer to save designation. "+e);
+            throw new DataServiceException("Exception in Dao layer to save designation",e);
+        }
+
     }
 
+    /**
+     * Updates an existing designation with the given ID.
+     *
+     * @param id The ID of the designation to update.
+     * @param designation The updated designation object containing new data.
+     * @return The updated designation object.
+     * @throws DataServiceException If an error occurs while updating the designation in the data service layer.
+     */
     @Override
-    public void updateDesignation(int id, Designation designation) {
-        Designation updateDesignation = sessionFactory.getCurrentSession().get(Designation.class,id);
-        updateDesignation.setRole(designation.getRole());
-        updateDesignation.setSalary_package(designation.getSalary_package());
-        sessionFactory.getCurrentSession().saveOrUpdate(updateDesignation);
-        System.out.println("Designation updated...!!!");
+    public Designation updateDesignation(int id, Designation designation) throws DataServiceException{
+        try {
+            logger.info("Entering to update designation in DAO layer");
+            Designation updateDesignation = sessionFactory.getCurrentSession().get(Designation.class,id);
+            updateDesignation.setRole(designation.getRole());
+            updateDesignation.setSalary_package(designation.getSalary_package());
+            sessionFactory.getCurrentSession().saveOrUpdate(updateDesignation);
+            System.out.println("Designation updated...!!!");
+            return updateDesignation;
+        }catch (Exception e){
+            logger.error("Error in in updating designation...in DAO layer. "+e);
+            throw new DataServiceException("Exception in updating designation...in DAO layer",e);
+        }
+
     }
 
     @Override

@@ -5,8 +5,8 @@ import com.employee.demoproject.entity.Designation;
 import java.util.List;
 
 public interface DesignationDAO {
-    void createDesignation(Designation designation);
-    void updateDesignation(int id, Designation designation);
+    Designation createDesignation(Designation designation);
+    Designation updateDesignation(int id, Designation designation);
     List<Designation> getAllDesignation();
     Designation getDesignationById(int id);
     Designation getDesignationByRole(String role);

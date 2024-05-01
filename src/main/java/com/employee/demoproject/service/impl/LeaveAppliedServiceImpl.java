@@ -5,6 +5,7 @@ import com.employee.demoproject.dto.LeaveAppliedDTO;
 import com.employee.demoproject.entity.LeaveApplied;
 import com.employee.demoproject.exceptions.BusinessServiceException;
 import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.pagination.FilterOption;
 import com.employee.demoproject.service.LeaveAppliedService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -81,6 +84,22 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
         }catch (DataServiceException e) {
             logger.error("Error in service layer for getting employee history count. " + e);
             throw new BusinessServiceException("Exception in service layer for getting employee history count", e);
+        }
+    }
+
+    @Override
+    public List<LeaveAppliedDTO> filterLeaveApplied(Integer empId, FilterOption filterOption) throws BusinessServiceException {
+        try {
+            logger.info("Entering the method of filtering employee leave applied");
+            List<LeaveApplied> leaveAppliedList = leaveAppliedDAO.filterLeaveApplied(empId,filterOption);
+            return Optional.ofNullable(leaveAppliedList)
+                    .map(list -> list.stream()
+                            .map(this::mapToDTO)
+                            .collect(Collectors.toList()))
+                    .orElse(null);
+        }catch (DataServiceException e){
+            logger.error("Error in service layer for filtering the employee leave applied. "+e);
+            throw new BusinessServiceException("Exception in service layer for filtering the employee leave applied",e);
         }
     }
 
