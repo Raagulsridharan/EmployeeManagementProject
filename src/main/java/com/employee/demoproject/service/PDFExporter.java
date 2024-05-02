@@ -50,7 +50,7 @@ public class PDFExporter {
             table.addCell(paySlipDTO.getEmpName());
             table.addCell(paySlipDTO.getDeptName());
             table.addCell(paySlipDTO.getDesignation());
-            table.addCell(String.valueOf(paySlipDTO.getBasicSalary()));
+            table.addCell(String.valueOf(paySlipDTO.getNetSalary()));
             table.addCell(paySlipDTO.getMonth());
     }
 

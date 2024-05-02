@@ -24,6 +24,7 @@ public class EmailSenderService {
         MimeMessageHelper helper = new MimeMessageHelper(message);
         try {
             helper.setTo(toEmail);
+
             helper.setSubject("Your Login Credentials");
             helper.setText("Welcome To EMS\n\nYour username: " + toEmail + "\nYour password: " + password+"\nYour Department : "+department.getName()+
                     "\nFor Login : http://localhost:4200/login\nPlease login with your credential in above link and activate your account ASAP!" +
