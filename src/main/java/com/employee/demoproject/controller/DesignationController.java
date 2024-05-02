@@ -25,6 +25,7 @@ public class DesignationController {
      * create new designation with salary package
      * @param designationDTO
      * @return
+     * @throws BusinessServiceException
      */
     @PostMapping
     public ResponseEntity<HttpStatusResponse> createDesignation(@RequestBody @Valid DesignationDTO designationDTO) throws BusinessServiceException {
@@ -42,6 +43,7 @@ public class DesignationController {
      * @param id
      * @param designationDTO
      * @return
+     * @throws BusinessServiceException
      */
     @PutMapping("/{id}")
     public ResponseEntity<HttpStatusResponse> updateDesignation(@PathVariable int id, @RequestBody @Valid DesignationDTO designationDTO) throws BusinessServiceException{
@@ -56,9 +58,10 @@ public class DesignationController {
     /**
      * retrieving all the designations and salary package
      * @return
+     * @throws BusinessServiceException
      */
     @GetMapping
-    public ResponseEntity<HttpStatusResponse> getAllDesignation(){
+    public ResponseEntity<HttpStatusResponse> getAllDesignation() throws BusinessServiceException{
         List<Designation> designationList = designationService.getAllDesignation();
         if(designationList!=null){
             return new ResponseEntity<>(new HttpStatusResponse(designationList,HttpStatus.OK.value(),"Designation retrieved Successfully"),HttpStatus.OK);
@@ -72,9 +75,10 @@ public class DesignationController {
      * retrieving single designation and it's salary package
      * @param id
      * @return
+     * @throws BusinessServiceException
      */
     @GetMapping("/{id}")
-    public ResponseEntity<HttpStatusResponse> getDesignationById(@PathVariable int id){
+    public ResponseEntity<HttpStatusResponse> getDesignationById(@PathVariable int id) throws BusinessServiceException{
         Designation designation = designationService.getDesignationById(id);
         if(designation!=null){
             return new ResponseEntity<>(new HttpStatusResponse(designation,HttpStatus.OK.value(),"Department retrieved Successfully"),HttpStatus.OK);
@@ -85,9 +89,10 @@ public class DesignationController {
     /**
      * getting designations count
      * @return
+     * @throws BusinessServiceException
      */
     @GetMapping("/count")
-    public Long getDesignationCount(){
+    public Long getDesignationCount() throws BusinessServiceException{
         return designationService.getDesignationCount();
     }
 
@@ -96,8 +101,15 @@ public class DesignationController {
 //        return designationService.getDesignationByRole(role);
 //    }
 //
+
+    /**
+     * get designation by email
+     * @param email
+     * @return
+     * @throws BusinessServiceException
+     */
     @GetMapping("/user-type/{email}")
-    public ResponseEntity<HttpStatusResponse> getDesignationByEmail(@PathVariable String email){
+    public ResponseEntity<HttpStatusResponse> getDesignationByEmail(@PathVariable String email) throws BusinessServiceException{
         return new ResponseEntity<>(new HttpStatusResponse(designationService.getDesignationByEmail(email),HttpStatus.OK.value(),"Getting user type"),HttpStatus.OK);
     }
 }

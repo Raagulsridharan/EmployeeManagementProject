@@ -38,6 +38,14 @@ public class PayrollController {
     @Autowired
     private PayrollService payrollService;
 
+    /**
+     * exporting to pdf format with the salary details
+     * @param payrollId
+     * @param response
+     * @return
+     * @throws DocumentException
+     * @throws IOException
+     */
     @GetMapping("/exportPDF/{payrollId}")
     public ResponseEntity<HttpStatusResponse> exportToPDF(@PathVariable Integer payrollId, HttpServletResponse response) throws DocumentException, IOException {
         response.setContentType("application/pdf");
@@ -58,6 +66,11 @@ public class PayrollController {
         }
     }
 
+    /**
+     * getting total payroll count
+     * @return
+     * @throws BusinessServiceException
+     */
     @GetMapping("/count")
     public ResponseEntity<HttpStatusResponse> totalPayrollCount() throws BusinessServiceException {
         Long count = payrollService.totalPayrollCount();
@@ -68,6 +81,12 @@ public class PayrollController {
         }
     }
 
+    /**
+     * getting all payroll using filter option
+     * @param filterOption
+     * @return
+     * @throws BusinessServiceException
+     */
     @PostMapping("/all")
     public ResponseEntity<HttpStatusResponse> filterPayroll(@RequestBody @Valid FilterOption filterOption) throws BusinessServiceException {
         return ofNullable(payrollService.filterPayroll(filterOption)).filter(CollectionUtils::isNotEmpty)
@@ -76,13 +95,24 @@ public class PayrollController {
                 .orElse(new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.NO_CONTENT.value(), "no data to filter"), HttpStatus.NO_CONTENT));
     }
 
+    /**
+     * fetching employee salary details with the help of empId
+     * @param empId
+     * @return
+     * @throws BusinessServiceException
+     */
     @GetMapping("detail/{empId}")
-    public ResponseEntity<HttpStatusResponse> employeeSalaryDetails(@PathVariable Integer empId){
+    public ResponseEntity<HttpStatusResponse> employeeSalaryDetails(@PathVariable Integer empId) throws BusinessServiceException{
         EmployeePaymentDTO employeePaymentDTO = payrollService.getEmployeeSalaryDetails(empId);
         return new ResponseEntity<>(new HttpStatusResponse(employeePaymentDTO,HttpStatus.OK.value(),"Employee salary details Fetched"),HttpStatus.OK);
     }
 
-
+    /**
+     * getting employee payroll using empId
+     * @param empId
+     * @return
+     * @throws BusinessServiceException
+     */
     @GetMapping("/{empId}")
     public ResponseEntity<HttpStatusResponse> getEmployeePayroll(@PathVariable int empId) throws BusinessServiceException {
         return new ResponseEntity<>(new HttpStatusResponse(payrollService.getEmployeePayroll(empId), HttpStatus.OK.value(),"Payroll for employee"),HttpStatus.OK);

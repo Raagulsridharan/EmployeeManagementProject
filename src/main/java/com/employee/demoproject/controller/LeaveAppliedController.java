@@ -7,6 +7,7 @@ import com.employee.demoproject.pagination.FilterOption;
 import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.entity.LeaveApplied;
 import com.employee.demoproject.service.LeaveAppliedService;
+import jakarta.validation.Valid;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,7 +50,7 @@ public class LeaveAppliedController {
      * @throws BusinessServiceException
      */
     @PostMapping("/all/{empId}")
-    public ResponseEntity<HttpStatusResponse> filterLeaveApplied(@PathVariable Integer empId, @RequestBody FilterOption filterOption) throws BusinessServiceException {
+    public ResponseEntity<HttpStatusResponse> filterLeaveApplied(@PathVariable Integer empId, @RequestBody @Valid FilterOption filterOption) throws BusinessServiceException {
         return ofNullable(leaveAppliedService.filterLeaveApplied(empId,filterOption)).filter(CollectionUtils::isNotEmpty)
                 .map(leaveAppliedDTOS -> new ResponseEntity<>
                         (new HttpStatusResponse(leaveAppliedDTOS, HttpStatus.OK.value(), "Successfully Getting the employee leave applied"), HttpStatus.OK))
