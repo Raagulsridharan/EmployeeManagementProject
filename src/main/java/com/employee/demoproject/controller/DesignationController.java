@@ -7,12 +7,15 @@ import com.employee.demoproject.exceptions.BusinessServiceException;
 import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.service.DesignationService;
 import jakarta.validation.Valid;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static java.util.Optional.ofNullable;
 
 @RestController
 @RequestMapping(BaseAPI.DESIGNATION)
@@ -111,5 +114,13 @@ public class DesignationController {
     @GetMapping("/user-type/{email}")
     public ResponseEntity<HttpStatusResponse> getDesignationByEmail(@PathVariable String email) throws BusinessServiceException{
         return new ResponseEntity<>(new HttpStatusResponse(designationService.getDesignationByEmail(email),HttpStatus.OK.value(),"Getting user type"),HttpStatus.OK);
+    }
+
+    @GetMapping("/by-department/{deptId}")
+    public ResponseEntity<HttpStatusResponse> fetchDesignationByDepartment(@PathVariable Integer deptId) throws BusinessServiceException{
+        return ofNullable(designationService.getRolesByDepartment(deptId)).filter(CollectionUtils::isNotEmpty)
+                .map(designationDTOS -> new ResponseEntity<>
+                        (new HttpStatusResponse(designationDTOS, HttpStatus.OK.value(), "Designations getting successfully by department"), HttpStatus.OK))
+                .orElse(new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.NO_CONTENT.value(), "no records found"), HttpStatus.NO_CONTENT));
     }
 }

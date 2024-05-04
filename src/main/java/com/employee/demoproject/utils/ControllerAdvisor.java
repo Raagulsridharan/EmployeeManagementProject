@@ -38,7 +38,7 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         try {
             error = mapper.readValue(jsonObject.toString(), Object.class);
         } catch (IOException e) {
-            // exception occurs
+            return "An error occurred while parsing the error response.";
         }
         return error;
     }

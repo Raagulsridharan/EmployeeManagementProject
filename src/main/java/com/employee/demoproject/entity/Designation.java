@@ -5,13 +5,17 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-@Table(name = "designations")
+@Table(name = "designations",uniqueConstraints = {@UniqueConstraint(columnNames = {"role", "departmentId"})})
 public class Designation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     private String role;
     private String salary_package;
+
+    @ManyToOne
+    @JoinColumn(name = "departmentId")
+    private Department department;
 
     @OneToMany(mappedBy = "designation")
     private List<EmpRoleSalary> empRoleSalary;
@@ -19,17 +23,18 @@ public class Designation {
     public Designation() {
     }
 
-    public Designation(int id, String role, String salary_package) {
+    public Designation(Integer id, String role, String salary_package, Department department) {
         this.id = id;
         this.role = role;
         this.salary_package = salary_package;
+        this.department = department;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -47,5 +52,13 @@ public class Designation {
 
     public void setSalary_package(String salary_package) {
         this.salary_package = salary_package;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 }

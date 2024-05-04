@@ -1,7 +1,9 @@
 package com.employee.demoproject.dao.impl;
 
 import com.employee.demoproject.dao.DesignationDAO;
+import com.employee.demoproject.dataRetrieve.DataRetrieve;
 import com.employee.demoproject.entity.Designation;
+import com.employee.demoproject.exceptions.DataAccessException;
 import com.employee.demoproject.exceptions.DataServiceException;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
@@ -16,6 +18,9 @@ public class DesignationDAOImpl implements DesignationDAO {
 
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Autowired
+    private DataRetrieve dataRetrieve;
 
     static Logger logger = Logger.getLogger(DesignationDAOImpl.class);
 
@@ -108,5 +113,18 @@ public class DesignationDAOImpl implements DesignationDAO {
                                     .uniqueResult();
         String role  = String.valueOf(obj);
         return role;
+    }
+
+    @Override
+    public List<Designation> getRolesByDepartment(Integer deptId) throws DataServiceException {
+        try {
+            logger.info("Fetching roles by department!");
+            String query = "From Designation ds Where ds.department.id=:id";
+            List<Designation> designations = dataRetrieve.getListById(query,deptId,Designation.class);
+            return designations;
+        }catch (DataAccessException e){
+            logger.error("Error in accessing designations in DAO, "+e);
+            throw new DataServiceException("Exception in fetching designations by department.",e);
+        }
     }
 }

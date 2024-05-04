@@ -101,7 +101,7 @@ public class EmployeeController {
         return ofNullable(employeeService.getAllEmployeeByDeptForRoleAssign(deptId)).filter(CollectionUtils::isNotEmpty)
                 .map(employeeDTO -> new ResponseEntity<>
                         (new HttpStatusResponse(employeeDTO, HttpStatus.OK.value(), "Successfully Getting Employees for Role assign"), HttpStatus.OK))
-                .orElse(new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.NOT_FOUND.value(), "No records found"), HttpStatus.NOT_FOUND));
+                .orElse(new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.NO_CONTENT.value(), "No records found"), HttpStatus.NO_CONTENT));
 
     }
 
@@ -117,7 +117,7 @@ public class EmployeeController {
         return ofNullable(employeeService.getAllEmployeeByDeptForPayroll(deptId)).filter(CollectionUtils::isNotEmpty)
                 .map(employeeDTO -> new ResponseEntity<>
                         (new HttpStatusResponse(employeeDTO, HttpStatus.OK.value(), "Successfully Getting Employees for Payroll"), HttpStatus.OK))
-                .orElse(new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.NOT_FOUND.value(), "No records found"), HttpStatus.NOT_FOUND));
+                .orElse(new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.NO_CONTENT.value(), "No records found"), HttpStatus.NO_CONTENT));
 
     }
 
@@ -133,7 +133,7 @@ public class EmployeeController {
         return ofNullable(employeeService.getAllEmployeeByDeptForLeaveAssign(deptId)).filter(CollectionUtils::isNotEmpty)
                 .map(employeeDTO -> new ResponseEntity<>
                         (new HttpStatusResponse(employeeDTO, HttpStatus.OK.value(), "Successfully Getting Employees for Leave assign"), HttpStatus.OK))
-                .orElse(new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.NOT_FOUND.value(), "No records found"), HttpStatus.NOT_FOUND));
+                .orElse(new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.NO_CONTENT.value(), "No records found"), HttpStatus.NO_CONTENT));
 
     }
 

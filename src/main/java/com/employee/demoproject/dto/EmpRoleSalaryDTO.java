@@ -3,6 +3,7 @@ package com.employee.demoproject.dto;
 public class EmpRoleSalaryDTO {
     private int id;
     private String emp_name;
+    private Integer departmentId;
     private String department;
     private String role;
     private String annual_package;
@@ -12,9 +13,10 @@ public class EmpRoleSalaryDTO {
 
     public EmpRoleSalaryDTO(){}
 
-    public EmpRoleSalaryDTO(int id, String emp_name, String department, String role, String annual_package) {
+    public EmpRoleSalaryDTO(int id, String emp_name, Integer departmentId, String department, String role, String annual_package) {
         this.id = id;
         this.emp_name = emp_name;
+        this.departmentId = departmentId;
         this.department = department;
         this.role = role;
         this.annual_package = annual_package;
@@ -39,6 +41,14 @@ public class EmpRoleSalaryDTO {
 
     public void setEmp_name(String emp_name) {
         this.emp_name = emp_name;
+    }
+
+    public Integer getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Integer departmentId) {
+        this.departmentId = departmentId;
     }
 
     public String getDepartment() {

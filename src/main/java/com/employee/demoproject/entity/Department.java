@@ -17,6 +17,9 @@ public class Department {
     @OneToMany(mappedBy = "department")
     private List<Employee> employeeList;
 
+    @OneToMany(mappedBy = "department")
+    private List<Designation> designations;
+
     public Department() {}
     public Department(int id, String name) {
         this.id = id;

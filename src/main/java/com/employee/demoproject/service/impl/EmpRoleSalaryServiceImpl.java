@@ -78,6 +78,7 @@ public class EmpRoleSalaryServiceImpl implements EmpRoleSalaryService {
         return new EmpRoleSalaryDTO(
                 empRoleSalary.getEmployee_role_salary().getId(),
                 empRoleSalary.getEmployee_role_salary().getName(),
+                empRoleSalary.getEmployee_role_salary().getDepartment().getId(),
                 empRoleSalary.getEmployee_role_salary().getDepartment().getName(),
                 empRoleSalary.getDesignation().getRole(),
                 String.valueOf(empRoleSalary.getAnnual_salary_pack())

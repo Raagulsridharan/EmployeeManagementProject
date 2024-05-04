@@ -1,7 +1,9 @@
 package com.employee.demoproject.service.impl;
 
+import com.employee.demoproject.dao.DepartmentDAO;
 import com.employee.demoproject.dao.DesignationDAO;
 import com.employee.demoproject.dto.DesignationDTO;
+import com.employee.demoproject.entity.Department;
 import com.employee.demoproject.entity.Designation;
 import com.employee.demoproject.exceptions.BusinessServiceException;
 import com.employee.demoproject.exceptions.DataServiceException;
@@ -12,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -19,6 +23,9 @@ public class DesignationServiceImpl implements DesignationService {
 
     @Autowired
     private DesignationDAO designationDAO;
+
+    @Autowired
+    private DepartmentDAO departmentDAO;
 
     static Logger logger =  Logger.getLogger(DesignationServiceImpl.class);
 
@@ -36,7 +43,7 @@ public class DesignationServiceImpl implements DesignationService {
             return mapToDTO(designationDAO.createDesignation(mapToEntity(designationDTO)));
         }catch (DataServiceException e){
             logger.error("Error in Service layer to save the designation. "+e);
-            throw new BusinessServiceException("Exception in Service layer to save the designation",e);
+            throw new BusinessServiceException("Duplicate Entry !!!",e);
         }
 
     }
@@ -85,10 +92,30 @@ public class DesignationServiceImpl implements DesignationService {
         return designationDAO.getDesignationByEmail(email);
     }
 
+    @Override
+    public List<DesignationDTO> getRolesByDepartment(Integer deptId) throws BusinessServiceException {
+        try {
+            logger.info("Entering the service for fetching designations by department");
+            List<Designation> designations = designationDAO.getRolesByDepartment(deptId);
+            return Optional.ofNullable(designations)
+                    .map(list -> list.stream()
+                            .map(this::mapToDTO)
+                            .collect(Collectors.toList()))
+                    .orElse(null);
+        }catch (DataServiceException e){
+            logger.error("Error in fetching designation by department in service"+e);
+            throw new BusinessServiceException("Exception in fetching designation by department in service",e);
+        }
+    }
+
     private DesignationDTO mapToDTO(Designation designation){
         DesignationDTO designationDTO = new DesignationDTO();
+        if(designation.getId()!=null){
+            designationDTO.setId(designation.getId());
+        }
         designationDTO.setRole(designation.getRole());
         designationDTO.setSalary_package(designation.getSalary_package());
+        designationDTO.setDepartmentId(designation.getDepartment().getId());
         return designationDTO;
     }
 
@@ -96,6 +123,8 @@ public class DesignationServiceImpl implements DesignationService {
         Designation designation = new Designation();
         designation.setRole(designationDTO.getRole());
         designation.setSalary_package(designationDTO.getSalary_package());
+        Department department = departmentDAO.getDepartmentById(designationDTO.getDepartmentId());
+        designation.setDepartment(department);
         return designation;
     }
 }
