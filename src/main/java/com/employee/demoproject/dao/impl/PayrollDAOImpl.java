@@ -190,7 +190,7 @@ public class PayrollDAOImpl implements PayrollDAO {
             logger.info("Entering the method of fetch payroll by filtering");
             Integer firstResult = (filterOption.getPageNo() * filterOption.getPageSize()) - filterOption.getPageSize();
 
-            StringBuilder queryParam = new StringBuilder("FROM Payroll p ");
+            StringBuilder queryParam = new StringBuilder("SELECT p FROM Payroll p ");
             if (filterOption.getSearchKey() != null && !filterOption.getSearchKey().isEmpty()) {
                 queryParam.append(" WHERE p.empRoleSalary_payroll.employee_role_salary.name LIKE :searchKey1 OR p.empRoleSalary_payroll.employee_role_salary.department.name LIKE :searchKey2 OR p.empRoleSalary_payroll.designation.role LIKE :searchKey3");
             }

@@ -2,12 +2,14 @@ package com.employee.demoproject.controller;
 
 import com.employee.demoproject.dto.EmployeeDTO;
 import com.employee.demoproject.dto.LeaveAssignDTO;
+import com.employee.demoproject.dto.LoginDetailsDTO;
 import com.employee.demoproject.endPoints.BaseAPI;
 import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.LoginDetails;
 import com.employee.demoproject.exceptions.BusinessServiceException;
 import com.employee.demoproject.pagination.FilterOption;
 import com.employee.demoproject.responce.HttpStatusResponse;
+import com.employee.demoproject.service.EmailSenderService;
 import com.employee.demoproject.service.EmployeeService;
 import jakarta.validation.Valid;
 import org.apache.commons.collections4.CollectionUtils;
@@ -33,9 +35,9 @@ public class EmployeeController {
      */
     @PostMapping
     public ResponseEntity<HttpStatusResponse> saveEmployee(@RequestBody EmployeeDTO employeeDTO) throws BusinessServiceException {
-        LoginDetails loginDetails = employeeService.createEmployee(employeeDTO);
-        if(loginDetails!=null){
-            return new ResponseEntity<>(new HttpStatusResponse(loginDetails,HttpStatus.CREATED.value(), "Successfully employee created"),HttpStatus.OK);
+        LoginDetailsDTO loginDetailsDTO = employeeService.createEmployee(employeeDTO);
+        if(loginDetailsDTO!=null){
+            return new ResponseEntity<>(new HttpStatusResponse(loginDetailsDTO,HttpStatus.CREATED.value(), "Successfully employee created"),HttpStatus.OK);
         }else{
             return new ResponseEntity<>(new HttpStatusResponse(null,HttpStatus.BAD_REQUEST.value(), "Employee not created"),HttpStatus.BAD_REQUEST);
         }

@@ -5,6 +5,10 @@ import com.employee.demoproject.dto.EmployeeDTO;
 import com.employee.demoproject.dto.LoginDetailsDTO;
 import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.LoginDetails;
+import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.service.EmailSenderService;
+import org.apache.log4j.Logger;
+import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -19,17 +23,28 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
     @Autowired
     private SessionFactory sessionFactory;
 
+    @Autowired
+    private EmailSenderService emailSenderService;
+
+    static Logger logger = Logger.getLogger(LoginDetailsDAOImpl.class);
+
     @Override
-    public LoginDetails createLogin(Employee employee) {
-        LoginDetails loginDetails = new LoginDetails();
-        loginDetails.setUsername(employee.getEmail());
-        loginDetails.setPassword(generatePassword());
-        loginDetails.setFlag(0);
-        loginDetails.setEmployee_login(employee);
+    public LoginDetails createLogin(Employee employee) throws DataServiceException{
+        try {
+            LoginDetails loginDetails = new LoginDetails();
+            loginDetails.setUsername(employee.getEmail());
+            loginDetails.setPassword(generatePassword());
+            loginDetails.setFlag(0);
+            loginDetails.setEmployee_login(employee);
 
-        sessionFactory.getCurrentSession().persist(loginDetails);
+            sessionFactory.getCurrentSession().persist(loginDetails);
 
-        return loginDetails;
+            emailSenderService.sendEmail(loginDetails.getUsername(),loginDetails.getPassword(),loginDetails.getEmployee_login().getDepartment().getId());
+            System.out.println("************************[ Email Sent ]******************************");
+            return loginDetails;
+        }catch (HibernateException e){
+            throw new DataServiceException("Exception in saving login details",e);
+        }
     }
 
     @Override
@@ -57,17 +72,22 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
     }
 
     @Override
-    public LoginDetailsDTO employeeLogin(LoginDetailsDTO loginDetailsDTO) {
+    public LoginDetails employeeLogin(LoginDetails login) throws DataServiceException{
+        try {
+            logger.info("Finding the username and password");
             LoginDetails loginDetails = sessionFactory.getCurrentSession()
                     .createQuery("SELECT ld \n" +
                             "FROM LoginDetails ld \n" +
                             "WHERE CAST(ld.username AS binary) = CAST(:username AS binary) \n" +
                             "AND CAST(ld.password AS binary) = CAST(:password AS binary)",LoginDetails.class)
-                    .setParameter("username",loginDetailsDTO.getUsername())
-                    .setParameter("password",loginDetailsDTO.getPassword())
+                    .setParameter("username",login.getUsername())
+                    .setParameter("password",login.getPassword())
                     .uniqueResult();
-            LoginDetailsDTO loginDetailsDTO1 = new LoginDetailsDTO(loginDetails.getEmployee_login().getId(),loginDetails.getFlag());
-            return loginDetailsDTO1;
+            return loginDetails;
+        }catch (Exception e){
+            logger.error("Not found the username and password. "+e);
+            throw new DataServiceException("Exception to found the username and password",e);
+        }
     }
 
     @Override

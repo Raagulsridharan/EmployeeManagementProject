@@ -83,10 +83,10 @@ public class PayrollServiceImpl implements PayrollService {
                 return null;
             }
 
-            Set<Integer> addedEmpIds = new HashSet<>(); // HashSet to keep track of added empIds
+            Set<Integer> addedEmpIds = new HashSet<>();
             return payrolls.stream()
                     .map(p -> mapToDTO(p, addedEmpIds))
-                    .filter(Objects::nonNull) // Remove null DTOs
+                    .filter(Objects::nonNull)
                     .collect(Collectors.toList());
         } catch (DataServiceException e) {
             throw new BusinessServiceException("Exception in service layer for filtering payroll", e);

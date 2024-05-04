@@ -1,6 +1,7 @@
 package com.employee.demoproject.dao.impl;
 
 import com.employee.demoproject.dao.EmployeeDAO;
+import com.employee.demoproject.dao.LoginDetailsDAO;
 import com.employee.demoproject.dataRetrieve.DataRetrieve;
 import com.employee.demoproject.dto.EmployeeDTO;
 import com.employee.demoproject.dto.LeaveAssignDTO;
@@ -34,30 +35,22 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     private LoginDetailsService loginDetailsService;
 
     @Autowired
+    private LoginDetailsDAO loginDetailsDAO;
+
+    @Autowired
     private DataRetrieve dataRetrieve;
 
     static Logger logger = Logger.getLogger(EmployeeDAOImpl.class);
 
     @Override
-    public LoginDetails createEmployee(EmployeeDTO employeeDTO) throws DataServiceException{
+    public LoginDetails createEmployee(Employee employee) throws DataServiceException{
         try{
             logger.info("creating employee in business layer.");
-            Employee employee = new Employee();
-            employee.setName(employeeDTO.getEmp_name());
-            employee.setBirthday(employeeDTO.getBirthday());
-            employee.setGender(employeeDTO.getGender());
-            employee.setMobile(employeeDTO.getMobile());
-            employee.setEmail(employeeDTO.getEmail());
-            employee.setAddress(employeeDTO.getAddress());
 
-            Integer departmentId = employeeDTO.getDepartmentId();
-            Department department = departmentService.getDepartmentById(departmentId);
-            employee.setDepartment(department);
             employee.setStatus("Pending");
-
             sessionFactory.getCurrentSession().persist(employee);
 
-            LoginDetails loginDetails = loginDetailsService.createLogin(employee);
+            LoginDetails loginDetails = loginDetailsDAO.createLogin(employee);
 
             System.out.println("Employee created...!!!");
 

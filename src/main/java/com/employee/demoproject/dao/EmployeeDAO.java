@@ -11,7 +11,7 @@ import com.employee.demoproject.pagination.FilterOption;
 import java.util.List;
 
 public interface EmployeeDAO {
-    LoginDetails createEmployee(EmployeeDTO employeeDTO) throws DataServiceException;
+    LoginDetails createEmployee(Employee employee) throws DataServiceException;
     Employee updateEmployee(int empId,EmployeeDTO employeeDTO) throws DataServiceException;
     List<Employee> getAllEmployee() throws DataServiceException;
     Employee getEmployeeById(int empId) throws DataServiceException;

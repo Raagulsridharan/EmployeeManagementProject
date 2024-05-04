@@ -1,6 +1,7 @@
 package com.employee.demoproject.dto;
 
 
+import com.employee.demoproject.entity.Employee;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -21,6 +22,7 @@ public class LoginDetailsDTO {
 
     private Integer flag;
     private Date activatedOn;
+    private Employee employee;
 
     @NotNull(message = "Employee ID is required")
     @Positive(message = "Employee ID must be positive")
@@ -29,6 +31,7 @@ public class LoginDetailsDTO {
     @NotNull(message = "Department ID is required")
     @Positive(message = "Department ID must be positive")
     private Integer deptId;
+
     public LoginDetailsDTO(){}
 
     public LoginDetailsDTO(Integer id, String username, String password, Integer flag, Date activatedOn, Integer empId) {
@@ -110,5 +113,13 @@ public class LoginDetailsDTO {
 
     public void setDeptId(Integer deptId) {
         this.deptId = deptId;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

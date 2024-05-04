@@ -57,7 +57,12 @@ public class LoginDetailsController {
      * @throws BusinessServiceException
      */
     @PostMapping
-    public LoginDetailsDTO employeeLogin(@RequestBody LoginDetailsDTO loginDetailsDTO) throws BusinessServiceException{
-        return loginDetailsService.employeeLogin(loginDetailsDTO);
+    public ResponseEntity<HttpStatusResponse> employeeLogin(@RequestBody LoginDetailsDTO loginDetailsDTO) throws BusinessServiceException{
+        LoginDetailsDTO loginDTO = loginDetailsService.employeeLogin(loginDetailsDTO);
+        if(loginDTO!=null){
+            return new ResponseEntity<>(new HttpStatusResponse(loginDTO,HttpStatus.OK.value(), "Login successfully"),HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.NOT_FOUND.value(), "Username or password not valid"),HttpStatus.NOT_FOUND);
+        }
     }
 }

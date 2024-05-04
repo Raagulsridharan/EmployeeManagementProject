@@ -1,8 +1,10 @@
 package com.employee.demoproject.service.impl;
 
+import com.employee.demoproject.dao.DepartmentDAO;
 import com.employee.demoproject.dao.EmployeeDAO;
 import com.employee.demoproject.dto.EmployeeDTO;
 import com.employee.demoproject.dto.LeaveAssignDTO;
+import com.employee.demoproject.dto.LoginDetailsDTO;
 import com.employee.demoproject.entity.Department;
 import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.LoginDetails;
@@ -27,16 +29,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private EmployeeDAO employeeDAO;
 
+    @Autowired
+    private DepartmentDAO departmentDAO;
+
     static Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
 
     @Override
-    public LoginDetails createEmployee(EmployeeDTO employeeDTO) throws BusinessServiceException{
+    public LoginDetailsDTO createEmployee(EmployeeDTO employeeDTO) throws BusinessServiceException{
         try{
             logger.info("Creating employee in service");
-            return employeeDAO.createEmployee(employeeDTO);
+            return mapToLoginDTO(employeeDAO.createEmployee(mapToEntity(employeeDTO)));
         }catch (DataServiceException ex){
             logger.error("Error while creating employee in service. "+ex);
-            throw new BusinessServiceException("Error saving employee data", ex);
+            throw new BusinessServiceException("Employee already exists!", ex);
         }
     }
 
@@ -185,5 +190,33 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeDTO.setDepartmentId(employee.getDepartment().getId());
         employeeDTO.setDepartment(employee.getDepartment().getName());
         return employeeDTO;
+    }
+
+    private Employee mapToEntity(EmployeeDTO employeeDTO){
+        Employee employee = new Employee();
+        employee.setName(employeeDTO.getEmp_name());
+        employee.setGender(employeeDTO.getGender());
+        employee.setEmail(employeeDTO.getEmail());
+        employee.setMobile(employeeDTO.getMobile());
+        employee.setBirthday(employeeDTO.getBirthday());
+        employee.setAddress(employeeDTO.getAddress());
+        Department department = departmentDAO.getDepartmentById(employeeDTO.getDepartmentId());
+        employee.setDepartment(department);
+        return employee;
+    }
+
+    private LoginDetailsDTO mapToLoginDTO(LoginDetails loginDetails){
+        LoginDetailsDTO loginDetailsDTO = new LoginDetailsDTO();
+        loginDetailsDTO.setId(loginDetails.getId());
+        loginDetailsDTO.setUsername(loginDetails.getUsername());
+        loginDetailsDTO.setPassword(loginDetails.getPassword());
+        loginDetailsDTO.setFlag(loginDetails.getFlag());
+        loginDetailsDTO.setDeptId(loginDetails.getEmployee_login().getDepartment().getId());
+        if(loginDetails.getActivated_on()!=null){
+            loginDetailsDTO.setActivatedOn(loginDetails.getActivated_on());
+        }
+        loginDetailsDTO.setEmployee(loginDetails.getEmployee_login());
+        loginDetailsDTO.setEmpId(loginDetails.getEmployee_login().getId());
+        return loginDetailsDTO;
     }
 }
