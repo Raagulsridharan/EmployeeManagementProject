@@ -4,6 +4,7 @@ import com.employee.demoproject.dao.PayrollDAO;
 import com.employee.demoproject.dto.EmployeePaymentDTO;
 import com.employee.demoproject.dto.PaySlipDTO;
 import com.employee.demoproject.dto.PayrollDTO;
+import com.employee.demoproject.entity.EmpRoleSalary;
 import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.Payroll;
 import com.employee.demoproject.exceptions.BusinessServiceException;
@@ -45,8 +46,12 @@ public class PayrollServiceImpl implements PayrollService {
     }
 
     @Override
-    public Payroll createPayroll(int empId) {
-        return payrollDAO.createPayroll(empId);
+    public PayrollDTO createPayroll(int empId) throws BusinessServiceException{
+        try {
+            return mapToDTO(payrollDAO.createPayroll(empId));
+        }catch (DataServiceException e){
+            throw new BusinessServiceException("Already Paid for this month !",e);
+        }
     }
 
     @Override
@@ -78,14 +83,14 @@ public class PayrollServiceImpl implements PayrollService {
     @Override
     public List<EmployeePaymentDTO> filterPayroll(FilterOption filterOption) throws BusinessServiceException {
         try {
-            List<Payroll> payrolls = payrollDAO.filterPayroll(filterOption);
+            List<EmpRoleSalary> payrolls = payrollDAO.filterPayroll(filterOption);
             if (payrolls == null || payrolls.isEmpty()) {
                 return null;
             }
 
             Set<Integer> addedEmpIds = new HashSet<>();
             return payrolls.stream()
-                    .map(p -> mapToDTO(p, addedEmpIds))
+                    .map(p -> mapToDTOEmployeePaymentDTO(p, addedEmpIds))
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
         } catch (DataServiceException e) {
@@ -109,41 +114,34 @@ public class PayrollServiceImpl implements PayrollService {
         payrollDAO.generatePaySlip();
     }
 
-
-//    private PaySlipDTO mapToDTO(Payroll payroll){
-//        PaySlipDTO paySlipDTO = new PaySlipDTO();
-//
-//        paySlipDTO.setEmpId(payroll.getEmpRoleSalary_payroll().getEmployee_role_salary().getId());
-//        paySlipDTO.setEmpName(payroll.getEmpRoleSalary_payroll().getEmployee_role_salary().getName());
-//        paySlipDTO.setDeptName(payroll.getEmpRoleSalary_payroll().getEmployee_role_salary().getDepartment().getName());
-//        paySlipDTO.setDesignation(payroll.getEmpRoleSalary_payroll().getDesignation().getRole());
-//        paySlipDTO.setAnnualSalaryPack(payroll.getEmpRoleSalary_payroll().getAnnual_salary_pack());
-//        paySlipDTO.setBasicSalary(payroll.getEmpRoleSalary_payroll().getBasic_sal_month());
-//        paySlipDTO.setTaxReduction(payroll.getEmpRoleSalary_payroll().getTax_reduction_month());
-//        paySlipDTO.setNetSalary(payroll.getEmpRoleSalary_payroll().getNet_sal_month());
-//        paySlipDTO.setSalaryId(payroll.getEmpRoleSalary_payroll().getId());
-//        paySlipDTO.setMonth(payroll.getMonth());
-//
-//        return paySlipDTO;
-//    }
-
-    private EmployeePaymentDTO mapToDTO(Payroll payroll, Set<Integer> addedEmpIds) {
-        int empId = payroll.getEmpRoleSalary_payroll().getEmployee_role_salary().getId();
+    private EmployeePaymentDTO mapToDTOEmployeePaymentDTO(EmpRoleSalary payroll, Set<Integer> addedEmpIds) {
+        int empId = payroll.getEmployee_role_salary().getId();
         if (addedEmpIds.contains(empId)) {
-            // If empId already added, return null
             return null;
         }
-        addedEmpIds.add(empId); // Add empId to set
+        addedEmpIds.add(empId);
 
         EmployeePaymentDTO employeePaymentDTO = new EmployeePaymentDTO();
         employeePaymentDTO.setEmpId(empId);
-        employeePaymentDTO.setName(payroll.getEmpRoleSalary_payroll().getEmployee_role_salary().getName());
-        employeePaymentDTO.setDept(payroll.getEmpRoleSalary_payroll().getEmployee_role_salary().getDepartment().getName());
-        employeePaymentDTO.setRole(payroll.getEmpRoleSalary_payroll().getDesignation().getRole());
-        employeePaymentDTO.setBasic_sal_month(payroll.getEmpRoleSalary_payroll().getBasic_sal_month());
-        employeePaymentDTO.setTax_reduction_month(payroll.getEmpRoleSalary_payroll().getTax_reduction_month());
-        employeePaymentDTO.setNet_sal_month(payroll.getEmpRoleSalary_payroll().getNet_sal_month());
+        employeePaymentDTO.setName(payroll.getEmployee_role_salary().getName());
+        employeePaymentDTO.setDept(payroll.getEmployee_role_salary().getDepartment().getName());
+        employeePaymentDTO.setRole(payroll.getDesignation().getRole());
+        employeePaymentDTO.setBasic_sal_month(payroll.getBasic_sal_month());
+        employeePaymentDTO.setTax_reduction_month(payroll.getTax_reduction_month());
+        employeePaymentDTO.setNet_sal_month(payroll.getNet_sal_month());
 
         return employeePaymentDTO;
     }
+     private PayrollDTO mapToDTO(Payroll payroll){
+        PayrollDTO payrollDTO = new PayrollDTO();
+        payrollDTO.setId(payroll.getId());
+        payrollDTO.setEmpId(payroll.getEmpRoleSalary_payroll().getEmployee_role_salary().getId());
+        payrollDTO.setName(payroll.getEmpRoleSalary_payroll().getEmployee_role_salary().getName());
+        payrollDTO.setMonth(payroll.getMonth());
+        payrollDTO.setPaid_salary(payroll.getPaid_salary());
+        payrollDTO.setDescription(payroll.getDescription());
+        payrollDTO.setNet_sal_month(payroll.getEmpRoleSalary_payroll().getNet_sal_month());
+        payrollDTO.setStatus(payroll.getStatus());
+        return payrollDTO;
+     }
 }

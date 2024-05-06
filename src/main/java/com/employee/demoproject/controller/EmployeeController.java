@@ -60,6 +60,16 @@ public class EmployeeController {
         }
     }
 
+    @PutMapping("/update/{empId}")
+    public ResponseEntity<HttpStatusResponse> updateEmployeeDepartment(@PathVariable int empId, @RequestBody EmployeeDTO employeeDTO) throws BusinessServiceException {
+        EmployeeDTO updatedEmployee = employeeService.updateEmployeeDepartment(empId,employeeDTO);
+        if(updatedEmployee != null){
+            return new ResponseEntity<>(new HttpStatusResponse(updatedEmployee,HttpStatus.OK.value(),"Employee Department Successfully updated"),HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(new HttpStatusResponse(null,HttpStatus.NO_CONTENT.value(),"Error in Employee Department update method"),HttpStatus.NO_CONTENT);
+        }
+    }
+
     /**
      * getting all employee
      * @return

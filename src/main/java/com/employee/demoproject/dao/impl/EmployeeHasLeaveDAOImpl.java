@@ -17,6 +17,8 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -145,7 +147,21 @@ public class EmployeeHasLeaveDAOImpl implements EmployeeHasLeaveDAO {
             }
             query.setFirstResult(firstResult);
             query.setMaxResults(filterOption.getPageSize());
-            List<LeaveAssignDTO> leaveAssignDTOS = query.list();
+            List<Object[]> results = query.list();
+            List<LeaveAssignDTO> leaveAssignDTOS = new ArrayList<>();
+            for (Object[] result : results) {
+                LeaveAssignDTO dto = new LeaveAssignDTO(
+                        (Integer) result[0],
+                        (String) result[1],
+                        (String) result[2],
+                        (String) result[3],
+                        (Date) result[4]
+                );
+                leaveAssignDTOS.add(dto);
+            }
+            for(LeaveAssignDTO leaveAssignDTO: leaveAssignDTOS){
+                leaveAssignDTO.setTotalCount(totalEmployeeHasLeave());
+            }
             return leaveAssignDTOS;
         }catch (DataAccessException e){
             logger.error("Error in business layer for filtering Employee has leave. "+e);

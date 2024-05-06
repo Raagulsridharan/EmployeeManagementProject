@@ -70,7 +70,7 @@ public class LeaveAppliedController {
         if(leave!=null){
             return new ResponseEntity<>(new HttpStatusResponse(leave,HttpStatus.OK.value(),"Successfully Leave Applied"),HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(new HttpStatusResponse(null,HttpStatus.BAD_REQUEST.value(),"Error in Leave Applied from controller"),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new HttpStatusResponse(null,HttpStatus.OK.value(),"Insufficient Days to Apply"),HttpStatus.OK);
         }
     }
 

@@ -25,11 +25,14 @@ public class EmployeeDTO {
 
     @NotNull(message = "Department ID cannot be null")
     private Integer departmentId;
+    private Integer roleId;
+    private Double salaryPack;
 
     private String department;
+    private Long totalCount;
 
     public EmployeeDTO() {}
-    public EmployeeDTO(Integer id, String emp_name,Date birthday, String gender, Long mobile, String email, String address, Integer departmentId,String department) {
+    public EmployeeDTO(Integer id, String emp_name,Date birthday, String gender, Long mobile, String email, String address, Integer departmentId,String department, Long totalCount) {
         this.id = id;
         this.emp_name = emp_name;
         this.birthday = birthday;
@@ -39,6 +42,7 @@ public class EmployeeDTO {
         this.address = address;
         this.departmentId = departmentId;
         this.department = department;
+        this.totalCount = totalCount;
     }
     public EmployeeDTO(String emp_name,Date birthday, String gender, Long mobile, String email, String address, String department) {
         this.emp_name = emp_name;
@@ -61,6 +65,12 @@ public class EmployeeDTO {
         this.mobile = mobile;
         this.address = address;
         this.departmentId = departmentId;
+    }
+
+    public EmployeeDTO(Integer departmentId, Integer roleId, Double salaryPack){
+        this.departmentId = departmentId;
+        this.roleId = roleId;
+        this.salaryPack = salaryPack;
     }
 
     public int getId() {
@@ -127,12 +137,36 @@ public class EmployeeDTO {
         this.departmentId = departmentId;
     }
 
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
+
+    public Double getSalaryPack() {
+        return salaryPack;
+    }
+
+    public void setSalaryPack(Double salaryPack) {
+        this.salaryPack = salaryPack;
+    }
+
     public String getDepartment() {
         return department;
     }
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    public Long getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(Long totalCount) {
+        this.totalCount = totalCount;
     }
 
     @Override

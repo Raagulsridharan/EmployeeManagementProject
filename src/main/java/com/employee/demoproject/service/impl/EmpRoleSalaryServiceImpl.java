@@ -81,7 +81,8 @@ public class EmpRoleSalaryServiceImpl implements EmpRoleSalaryService {
                 empRoleSalary.getEmployee_role_salary().getDepartment().getId(),
                 empRoleSalary.getEmployee_role_salary().getDepartment().getName(),
                 empRoleSalary.getDesignation().getRole(),
-                String.valueOf(empRoleSalary.getAnnual_salary_pack())
+                String.valueOf(empRoleSalary.getAnnual_salary_pack()),
+                empRoleSalaryDAO.totalRoleSalaryCount()
         );
     }
 }

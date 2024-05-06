@@ -130,7 +130,12 @@ public class PayrollController {
 
     @PostMapping("/create/{empId}")
     public ResponseEntity<HttpStatusResponse> createPayroll(@PathVariable int empId) throws BusinessServiceException{
-        return new ResponseEntity<>(new HttpStatusResponse(payrollService.createPayroll(empId),HttpStatus.OK.value(),"Payroll created...!"),HttpStatus.OK);
+        PayrollDTO payrollDTO = payrollService.createPayroll(empId);
+        if(payrollDTO!=null){
+            return new ResponseEntity<>(new HttpStatusResponse(payrollDTO,HttpStatus.OK.value(),"Payroll created...!"),HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>(new HttpStatusResponse(null,HttpStatus.NO_CONTENT.value(),"Payroll not created...!"),HttpStatus.NO_CONTENT);
+        }
     }
 
     @PutMapping("/{empId}")

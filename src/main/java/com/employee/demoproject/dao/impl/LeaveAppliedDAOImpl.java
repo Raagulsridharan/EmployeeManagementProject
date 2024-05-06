@@ -82,34 +82,55 @@ public class LeaveAppliedDAOImpl implements LeaveAppliedDAO {
     }
 
     @Override
-    public LeaveApplied empApplyingLeave(int empId, LeaveAppliedDTO leaveAppliedDTO) {
-        LeaveApplied leaveApplied  = sessionFactory.getCurrentSession()
-                .createQuery("FROM LeaveApplied l WHERE l.status =:status AND l.employee_leave_applied.id = :empId AND :fromDate BETWEEN l.from_date AND l.to_date",LeaveApplied.class)
-                .setParameter("status","requested")
-                .setParameter("empId",empId)
-                .setParameter("fromDate",leaveAppliedDTO.getFromDate())
-                .uniqueResult();
-        if(leaveApplied==null){
-            leaveApplied = new LeaveApplied();
-            Employee employee = sessionFactory.getCurrentSession().get(Employee.class,empId);
-            LeavePolicy leavePolicy = sessionFactory.getCurrentSession().get(LeavePolicy.class,leaveAppliedDTO.getLeaveType());
-            long daysBetween = ChronoUnit.DAYS.between(leaveAppliedDTO.getFromDate().toLocalDate(), leaveAppliedDTO.getToDate().toLocalDate());
-            int daysBetweenAsInt = Math.toIntExact(daysBetween); // Convert long to int
-            Integer noOfDays = Integer.valueOf(daysBetweenAsInt); // Create Integer object from int value
+    public LeaveApplied empApplyingLeave(int empId, LeaveAppliedDTO leaveAppliedDTO) throws DataServiceException{
+        try {
+            logger.info("Entering leave apply");
+            LeaveApplied leaveApplied  = sessionFactory.getCurrentSession()
+                    .createQuery("FROM LeaveApplied l WHERE l.status =:status " +
+                            "AND l.employee_leave_applied.id = :empId " +
+                            "AND l.from_date >= :fromDate AND l.to_date <= :toDate ",LeaveApplied.class)
+                    .setParameter("status","Requested")
+                    .setParameter("empId",empId)
+                    .setParameter("fromDate",leaveAppliedDTO.getFromDate())
+                    .setParameter("toDate",leaveAppliedDTO.getToDate())
+                    .uniqueResult();
+            if(leaveApplied == null){
+                leaveApplied = new LeaveApplied();
+                Employee employee = sessionFactory.getCurrentSession().get(Employee.class,empId);
+                LeavePolicy leavePolicy = sessionFactory.getCurrentSession().get(LeavePolicy.class,leaveAppliedDTO.getLeaveType());
+                EmployeeHasLeave employeeHasLeave = sessionFactory.getCurrentSession()
+                        .createQuery("From EmployeeHasLeave e Where e.employee_has_leave.id = :empId And e.leavePolicy.id = :leaveId",EmployeeHasLeave.class)
+                        .setParameter("empId",empId)
+                        .setParameter("leaveId",leaveAppliedDTO.getLeaveType())
+                        .getSingleResult();
+                Integer days = employeeHasLeave.getNo_of_days();
 
-            leaveApplied.setEmployee_leave_applied(employee);
-            leaveApplied.setLeavePolicy(leavePolicy);
-            leaveApplied.setNote(leaveAppliedDTO.getNote());
-            leaveApplied.setFrom_date(leaveAppliedDTO.getFromDate());
-            leaveApplied.setTo_date(leaveAppliedDTO.getToDate());
-            leaveApplied.setNo_of_days(noOfDays+1);
-            leaveApplied.setStatus("Requested");
-            leaveApplied.setSubmitted_on(Date.valueOf(LocalDate.now()));
+                long daysBetween = ChronoUnit.DAYS.between(leaveAppliedDTO.getFromDate().toLocalDate(), leaveAppliedDTO.getToDate().toLocalDate());
+                int daysBetweenAsInt = Math.toIntExact(daysBetween); // Convert long to int
+                Integer noOfDays = Integer.valueOf(daysBetweenAsInt); // Create Integer object from int value
 
-            sessionFactory.getCurrentSession().persist(leaveApplied);
-            return leaveApplied;
-        }else{
-            return null;
+                if(days>=(noOfDays+1)){
+                    System.out.println(days+" days");
+                    leaveApplied.setEmployee_leave_applied(employee);
+                    leaveApplied.setLeavePolicy(leavePolicy);
+                    leaveApplied.setNote(leaveAppliedDTO.getNote());
+                    leaveApplied.setFrom_date(leaveAppliedDTO.getFromDate());
+                    leaveApplied.setTo_date(leaveAppliedDTO.getToDate());
+                    leaveApplied.setNo_of_days(noOfDays+1);
+                    leaveApplied.setStatus("Requested");
+                    leaveApplied.setSubmitted_on(Date.valueOf(LocalDate.now()));
+
+                    sessionFactory.getCurrentSession().persist(leaveApplied);
+                    return leaveApplied;
+                }else {
+                    return null;
+                }
+            }else{
+                return leaveApplied;
+            }
+        }catch (Exception e){
+            logger.error("Error in leave apply");
+            throw new DataServiceException("Exception in applying leave",e);
         }
     }
 

@@ -104,6 +104,7 @@ public class EmpRoleSalaryDAOImpl implements EmpRoleSalaryDAO {
     }
 
     private EmpRoleSalary assignRoleAndSalary(EmpRoleSalary empRoleSalary, EmpRoleSalaryDTO empRoleSalaryDTO){
+        DecimalFormat decimalFormat = new DecimalFormat("0.00");
         Designation designation = designationService.getDesignationById(empRoleSalaryDTO.getRoleId());
         empRoleSalary.setDesignation(designation);
 
@@ -112,16 +113,18 @@ public class EmpRoleSalaryDAOImpl implements EmpRoleSalaryDAO {
         empRoleSalary.setAnnual_salary_pack(salaryPack);
 
         Double salary = salaryPack*100000;
+
         Double monthlyTaxReduction = calculateTax(salary)/12;
-        empRoleSalary.setTax_reduction_month(monthlyTaxReduction);
+        Double formattedResult2 = Double.parseDouble(decimalFormat.format(monthlyTaxReduction));
+        empRoleSalary.setTax_reduction_month(formattedResult2);
 
         Double basicSalaryMonth = salary/12;
-        DecimalFormat decimalFormat = new DecimalFormat("0.00");
-        Double formattedResult = Double.parseDouble(decimalFormat.format(basicSalaryMonth));
-        empRoleSalary.setBasic_sal_month(formattedResult);
+        Double formattedResult1 = Double.parseDouble(decimalFormat.format(basicSalaryMonth));
+        empRoleSalary.setBasic_sal_month(formattedResult1);
 
-        Double netSalary = formattedResult-monthlyTaxReduction;
-        empRoleSalary.setNet_sal_month(netSalary);
+        Double netSalary = formattedResult1-monthlyTaxReduction;
+        Double formattedResult3 = Double.parseDouble(decimalFormat.format(netSalary));
+        empRoleSalary.setNet_sal_month(formattedResult3);
 
         return empRoleSalary;
     }

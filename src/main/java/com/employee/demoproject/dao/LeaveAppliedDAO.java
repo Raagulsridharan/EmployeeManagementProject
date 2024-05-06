@@ -15,7 +15,7 @@ public interface LeaveAppliedDAO {
     List<LeaveApplied> getAllRejectedLeaves();
     List<LeaveApplied> getAllRequestedLeaves();
     List<LeaveApplied> getLeaveHistoryBYEmployee(int empId);
-    LeaveApplied empApplyingLeave(int empId, LeaveAppliedDTO leaveAppliedDTO);
+    LeaveApplied empApplyingLeave(int empId, LeaveAppliedDTO leaveAppliedDTO) throws DataServiceException;
     void updateLeaveStatus(LeaveAppliedDTO leaveAppliedDTO);
     Long getEmployeeLeaveHistoryCount(int empId) throws DataServiceException;
     List<LeaveApplied> filterLeaveApplied(Integer empId, FilterOption filterOption) throws DataServiceException;

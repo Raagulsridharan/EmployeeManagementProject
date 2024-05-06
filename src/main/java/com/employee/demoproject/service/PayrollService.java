@@ -16,7 +16,7 @@ public interface PayrollService {
     List<PayrollDTO> getEmployeePayroll(int empId);
     List<EmployeePaymentDTO> getAllEmployeePayroll();
     Payroll makePayment(int empId, PayrollDTO payrollDTO);
-    Payroll createPayroll(int empId);
+    PayrollDTO createPayroll(int empId) throws BusinessServiceException;
     Payroll updatePayroll(int empId, PayrollDTO payrollDTO);
     PaySlipDTO getPAYSlipContent(Integer payrollId);
     EmployeePaymentDTO getEmployeeSalaryDetails(int empId);

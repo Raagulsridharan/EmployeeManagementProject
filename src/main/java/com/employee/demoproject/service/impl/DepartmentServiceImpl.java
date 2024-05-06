@@ -118,6 +118,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         DepartmentDTO departmentDTO = new DepartmentDTO();
         departmentDTO.setId(department.getId());
         departmentDTO.setName(department.getName());
+        departmentDTO.setTotalCount(departmentDAO.getDepartmentCount());
         return departmentDTO;
     }
 

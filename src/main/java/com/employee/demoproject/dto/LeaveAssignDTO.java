@@ -8,6 +8,7 @@ public class LeaveAssignDTO {
     private String department;
     private String role;
     private Date activatedOn;
+    private Long totalCount;
 
     public LeaveAssignDTO() {
     }
@@ -18,6 +19,15 @@ public class LeaveAssignDTO {
         this.department = department;
         this.role = role;
         this.activatedOn = activatedOn;
+    }
+
+    public LeaveAssignDTO(Integer id, String empName, String department, String role, Date activatedOn, Long totalCount) {
+        this.id = id;
+        this.empName = empName;
+        this.department = department;
+        this.role = role;
+        this.activatedOn = activatedOn;
+        this.totalCount = totalCount;
     }
 
     public Integer getId() {
@@ -58,5 +68,13 @@ public class LeaveAssignDTO {
 
     public void setActivatedOn(Date activatedOn) {
         this.activatedOn = activatedOn;
+    }
+
+    public Long getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(Long totalCount) {
+        this.totalCount = totalCount;
     }
 }

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name = "payroll")
+@Table(name = "payroll",uniqueConstraints = {@UniqueConstraint(columnNames = {"salary_id", "month"})})
 public class Payroll {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

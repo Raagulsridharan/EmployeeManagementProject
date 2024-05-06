@@ -13,6 +13,7 @@ import java.util.List;
 public interface EmployeeDAO {
     LoginDetails createEmployee(Employee employee) throws DataServiceException;
     Employee updateEmployee(int empId,EmployeeDTO employeeDTO) throws DataServiceException;
+    Employee updateEmployeeDepartment(int empId,EmployeeDTO employeeDTO) throws DataServiceException;
     List<Employee> getAllEmployee() throws DataServiceException;
     Employee getEmployeeById(int empId) throws DataServiceException;
     List<Employee> getAllEmployeeByDeptForRoleAssign(int deptId) throws DataServiceException;

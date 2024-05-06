@@ -11,15 +11,18 @@ public class EmpRoleSalaryDTO {
     private int roleId;
     private Double salaryPack;
 
+    private Long totalCount;
+
     public EmpRoleSalaryDTO(){}
 
-    public EmpRoleSalaryDTO(int id, String emp_name, Integer departmentId, String department, String role, String annual_package) {
+    public EmpRoleSalaryDTO(int id, String emp_name, Integer departmentId, String department, String role, String annual_package, Long totalCount) {
         this.id = id;
         this.emp_name = emp_name;
         this.departmentId = departmentId;
         this.department = department;
         this.role = role;
         this.annual_package = annual_package;
+        this.totalCount = totalCount;
     }
 
     public EmpRoleSalaryDTO(int roleId, Double salaryPack){
@@ -89,5 +92,13 @@ public class EmpRoleSalaryDTO {
 
     public void setSalaryPack(Double salaryPack) {
         this.salaryPack = salaryPack;
+    }
+
+    public Long getTotalCount() {
+        return totalCount;
+    }
+
+    public void setTotalCount(Long totalCount) {
+        this.totalCount = totalCount;
     }
 }

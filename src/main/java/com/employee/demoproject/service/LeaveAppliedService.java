@@ -17,7 +17,7 @@ public interface LeaveAppliedService {
     List<LeaveApplied> getAllRejectedLeaves();
     List<LeaveApplied> getAllRequestedLeaves();
     List<LeaveApplied> getLeaveHistoryBYEmployee(int empId);
-    LeaveAppliedDTO empApplyingLeave(int empId, LeaveAppliedDTO leaveAppliedDTO);
+    LeaveAppliedDTO empApplyingLeave(int empId, LeaveAppliedDTO leaveAppliedDTO) throws BusinessServiceException;
     void updateLeaveStatus(LeaveAppliedDTO leaveAppliedDTO);
     Long getEmployeeLeaveHistoryCount(int empId) throws BusinessServiceException;
     List<LeaveAppliedDTO> filterLeaveApplied(Integer empId, FilterOption filterOption) throws BusinessServiceException;

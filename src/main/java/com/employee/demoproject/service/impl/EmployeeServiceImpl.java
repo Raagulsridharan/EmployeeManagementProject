@@ -58,6 +58,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public EmployeeDTO updateEmployeeDepartment(int empId, EmployeeDTO employeeDTO) throws BusinessServiceException {
+        try {
+            logger.info("Entering to update the employee department in service");
+            return mapToDTO(employeeDAO.updateEmployeeDepartment(empId,employeeDTO));
+        }catch (DataServiceException e){
+            logger.error("Error in update the employee department");
+            throw new BusinessServiceException("Exception in update employee department in service",e);
+        }
+    }
+
+    @Override
     public List<EmployeeDTO> getAllEmployee() throws BusinessServiceException{
         try{
             logger.info("getting all employees in service layer. ");
@@ -189,6 +200,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeDTO.setBirthday(employee.getBirthday());
         employeeDTO.setDepartmentId(employee.getDepartment().getId());
         employeeDTO.setDepartment(employee.getDepartment().getName());
+        employeeDTO.setTotalCount(employeeDAO.getTotalEmployeeCount());
         return employeeDTO;
     }
 

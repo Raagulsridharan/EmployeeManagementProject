@@ -1,8 +1,10 @@
 package com.employee.demoproject.dao.impl;
 
+import com.employee.demoproject.dao.EmpRoleSalaryDAO;
 import com.employee.demoproject.dao.EmployeeDAO;
 import com.employee.demoproject.dao.LoginDetailsDAO;
 import com.employee.demoproject.dataRetrieve.DataRetrieve;
+import com.employee.demoproject.dto.EmpRoleSalaryDTO;
 import com.employee.demoproject.dto.EmployeeDTO;
 import com.employee.demoproject.dto.LeaveAssignDTO;
 import com.employee.demoproject.entity.Department;
@@ -36,6 +38,9 @@ public class EmployeeDAOImpl implements EmployeeDAO {
 
     @Autowired
     private LoginDetailsDAO loginDetailsDAO;
+
+    @Autowired
+    private EmpRoleSalaryDAO  empRoleSalaryDAO;
 
     @Autowired
     private DataRetrieve dataRetrieve;
@@ -85,6 +90,26 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             throw new DataServiceException("Exception in update employee in business layer",e);
         }
 
+    }
+
+    @Override
+    public Employee updateEmployeeDepartment(int empId, EmployeeDTO employeeDTO) throws DataServiceException {
+        try {
+            logger.info("Entering to update employee department");
+            Employee updateEmployee = sessionFactory.getCurrentSession().get(Employee.class,empId);
+            Department department = departmentService.getDepartmentById(employeeDTO.getDepartmentId());
+            updateEmployee.setDepartment(department);
+            sessionFactory.getCurrentSession().saveOrUpdate(updateEmployee);
+
+            EmpRoleSalaryDTO empRoleSalaryDTO = new EmpRoleSalaryDTO(employeeDTO.getRoleId(),employeeDTO.getSalaryPack());
+
+            empRoleSalaryDAO.updateEmpRoleSalary(empId,empRoleSalaryDTO);
+
+            return updateEmployee;
+        }catch (Exception e){
+            logger.error("Error in updating employee department");
+            throw new DataServiceException("Exception in updating employee department in DAO",e);
+        }
     }
 
     @Override

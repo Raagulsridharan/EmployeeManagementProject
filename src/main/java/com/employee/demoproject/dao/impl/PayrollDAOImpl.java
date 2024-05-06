@@ -74,22 +74,25 @@ public class PayrollDAOImpl implements PayrollDAO {
     }
 
     @Override
-    public Payroll makePayment(int empId, PayrollDTO payrollDTO) {
+    public Payroll makePayment(int empId, PayrollDTO payrollDTO) throws DataServiceException{
+        try {
+            String query =  "from EmpRoleSalary ers\n" +
+                    "where ers.employee_role_salary.id = :id";
+            EmpRoleSalary empRoleSalary = dataRetrieve.getObjectById(query,empId,EmpRoleSalary.class);
 
-        String query =  "from EmpRoleSalary ers\n" +
-                        "where ers.employee_role_salary.id = :id";
-        EmpRoleSalary empRoleSalary = dataRetrieve.getObjectById(query,empId,EmpRoleSalary.class);
+            Payroll payroll = new Payroll();
+            payroll.setEmpRoleSalary_payroll(empRoleSalary);
+            payroll.setMonth(payrollDTO.getMonth());
+            payroll.setPaid_salary(empRoleSalary.getNet_sal_month());
+            payroll.setDescription(payrollDTO.getDescription());
+            payroll.setStatus("Paid");
 
-        Payroll payroll = new Payroll();
-        payroll.setEmpRoleSalary_payroll(empRoleSalary);
-        payroll.setMonth(payrollDTO.getMonth());
-        payroll.setPaid_salary(empRoleSalary.getNet_sal_month());
-        payroll.setDescription(payrollDTO.getDescription());
-        payroll.setStatus("Paid");
-
-        sessionFactory.getCurrentSession().save(payroll);
-        System.out.println("Salary credited...");
-        return payroll;
+            sessionFactory.getCurrentSession().save(payroll);
+            System.out.println("Salary credited...");
+            return payroll;
+        }catch (DataAccessException e){
+            throw new DataServiceException("Exception in adding payment ",e);
+        }
     }
 
     @Override
@@ -102,7 +105,10 @@ public class PayrollDAOImpl implements PayrollDAO {
         payroll.setEmpRoleSalary_payroll(empRoleSalary);
 
         LocalDate currentDate = LocalDate.now();
-        String month = currentDate.getMonth().toString() +","+ String.valueOf(currentDate.getYear());
+        String m = currentDate.getMonth().toString();
+               m = m.substring(0, 1).toUpperCase() + m.substring(1).toLowerCase();
+        String y = String.valueOf(currentDate.getYear());
+        String month = m+", "+ y;
         payroll.setMonth(month);
 
         payroll.setPaid_salary(0.00);
@@ -185,12 +191,12 @@ public class PayrollDAOImpl implements PayrollDAO {
     }
 
     @Override
-    public List<Payroll> filterPayroll(FilterOption filterOption) throws DataServiceException {
+    public List<EmpRoleSalary> filterPayroll(FilterOption filterOption) throws DataServiceException {
         try {
             logger.info("Entering the method of fetch payroll by filtering");
             Integer firstResult = (filterOption.getPageNo() * filterOption.getPageSize()) - filterOption.getPageSize();
 
-            StringBuilder queryParam = new StringBuilder("SELECT p FROM Payroll p ");
+            StringBuilder queryParam = new StringBuilder("SELECT Distinct p.empRoleSalary_payroll FROM Payroll p ");
             if (filterOption.getSearchKey() != null && !filterOption.getSearchKey().isEmpty()) {
                 queryParam.append(" WHERE p.empRoleSalary_payroll.employee_role_salary.name LIKE :searchKey1 OR p.empRoleSalary_payroll.employee_role_salary.department.name LIKE :searchKey2 OR p.empRoleSalary_payroll.designation.role LIKE :searchKey3");
             }
@@ -204,7 +210,7 @@ public class PayrollDAOImpl implements PayrollDAO {
             query.setFirstResult(firstResult);
             query.setMaxResults(filterOption.getPageSize());
 
-            List<Payroll> payrolls = query.list();
+            List<EmpRoleSalary> payrolls = query.list();
 
             return payrolls;
         } catch (Exception e) {

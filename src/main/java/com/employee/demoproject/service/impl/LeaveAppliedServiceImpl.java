@@ -61,10 +61,15 @@ public class LeaveAppliedServiceImpl implements LeaveAppliedService {
     }
 
     @Override
-    public LeaveAppliedDTO empApplyingLeave(int empId, LeaveAppliedDTO leaveAppliedDTO) {
+    public LeaveAppliedDTO empApplyingLeave(int empId, LeaveAppliedDTO leaveAppliedDTO) throws BusinessServiceException{
         try{
             logger.info("Leave applying in service");
-            return mapToDTO(leaveAppliedDAO.empApplyingLeave(empId,leaveAppliedDTO));
+            LeaveApplied leave = leaveAppliedDAO.empApplyingLeave(empId,leaveAppliedDTO);
+            if(leave!=null){
+                return mapToDTO(leave);
+            }else {
+                return null;
+            }
         }catch (DataServiceException e){
             logger.error("Error in leave apply from service. "+e);
             throw new BusinessServiceException("Exception in service layer in leave apply.",e);
