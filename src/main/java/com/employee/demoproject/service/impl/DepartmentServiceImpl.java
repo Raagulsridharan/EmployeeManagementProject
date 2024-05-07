@@ -5,6 +5,7 @@ import com.employee.demoproject.dto.DepartmentDTO;
 import com.employee.demoproject.entity.Department;
 import com.employee.demoproject.exceptions.BusinessServiceException;
 import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.exceptions.HttpClientException;
 import com.employee.demoproject.pagination.FilterOption;
 import com.employee.demoproject.service.DepartmentService;
 import org.apache.log4j.Logger;
@@ -25,13 +26,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     static Logger logger = Logger.getLogger(DepartmentServiceImpl.class);
 
     @Override
-    public DepartmentDTO createDepartment(DepartmentDTO departmentDTO) throws BusinessServiceException{
+    public DepartmentDTO createDepartment(DepartmentDTO departmentDTO) throws BusinessServiceException, HttpClientException {
         try{
             logger.info("Entering the create department in service");
             return mapToDTO(departmentDAO.createDepartment(departmentDTO.getName()));
         }catch (DataServiceException e){
             logger.error("Error in create department in service. "+e);
-            throw new BusinessServiceException("Exception in service layer for updating department",e);
+            throw new BusinessServiceException(e.getMessage(),e);
         }
     }
 

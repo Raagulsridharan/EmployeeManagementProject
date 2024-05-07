@@ -2524,3 +2524,100 @@
 2024-05-02 11:00:57 INFO  PayrollDAOImpl:172 - Business layer for getting count of total payroll.
 2024-05-02 11:00:57 INFO  DataRetrieve:26 - Getting count
 2024-05-02 11:00:57 INFO  DataRetrieve:70 - Initialise retrieving data for 'class com.employee.demoproject.entity.Department' this class
+2024-05-06 11:26:31 INFO  DesignationServiceImpl:98 - Entering the service for fetching designations by department
+2024-05-06 11:26:31 INFO  DesignationDAOImpl:121 - Fetching roles by department!
+2024-05-06 11:26:31 INFO  DataRetrieve:91 - Entering in data access layer
+2024-05-06 11:27:19 ERROR EmployeeDAOImpl:110 - Error in updating employee department
+2024-05-06 11:27:19 ERROR EmployeeServiceImpl:66 - Error in update the employee department
+2024-05-06 11:28:10 INFO  DepartmentServiceImpl:52 - getting all department in service.
+2024-05-06 11:28:10 INFO  DepartmentDAOImpl:60 - All departments will retrieving!
+2024-05-06 11:28:10 INFO  DataRetrieve:70 - Initialise retrieving data for 'class com.employee.demoproject.entity.Department' this class
+2024-05-06 11:57:44 INFO  EmployeeDAOImpl:255 - Entering the method of fetch employee by filtering
+2024-05-06 11:58:21 INFO  DepartmentServiceImpl:52 - getting all department in service.
+2024-05-06 11:58:21 INFO  DepartmentDAOImpl:60 - All departments will retrieving!
+2024-05-06 11:58:21 INFO  DataRetrieve:70 - Initialise retrieving data for 'class com.employee.demoproject.entity.Department' this class
+2024-05-06 11:58:32 ERROR EmployeeDAOImpl:110 - Error in updating employee department
+2024-05-06 11:58:32 ERROR EmployeeServiceImpl:66 - Error in update the employee department
+2024-05-06 11:59:06 INFO  DepartmentServiceImpl:52 - getting all department in service.
+2024-05-06 11:59:06 INFO  DepartmentDAOImpl:60 - All departments will retrieving!
+2024-05-06 11:59:06 INFO  DataRetrieve:70 - Initialise retrieving data for 'class com.employee.demoproject.entity.Department' this class
+2024-05-06 11:59:06 INFO  EmpRoleSalaryDAOImpl:96 - getting count of EMpRoleSalary
+2024-05-06 11:59:06 INFO  DataRetrieve:26 - Getting count
+2024-05-06 11:59:06 INFO  DepartmentDAOImpl:100 - Entering Department count method...
+2024-05-06 12:00:29 INFO  DepartmentServiceImpl:52 - getting all department in service.
+2024-05-06 12:00:29 INFO  DepartmentDAOImpl:60 - All departments will retrieving!
+2024-05-06 12:00:29 INFO  DataRetrieve:70 - Initialise retrieving data for 'class com.employee.demoproject.entity.Department' this class
+2024-05-06 12:02:19 INFO  DepartmentServiceImpl:52 - getting all department in service.
+2024-05-06 12:02:19 INFO  DepartmentDAOImpl:60 - All departments will retrieving!
+2024-05-06 12:02:19 INFO  DataRetrieve:70 - Initialise retrieving data for 'class com.employee.demoproject.entity.Department' this class
+2024-05-06 12:08:36 INFO  EmployeeDAOImpl:204 - Getting employees count in business layer
+2024-05-06 12:08:36 INFO  DataRetrieve:26 - Getting count
+2024-05-06 12:09:05 INFO  EmployeeDAOImpl:204 - Getting employees count in business layer
+2024-05-06 12:09:05 INFO  DataRetrieve:26 - Getting count
+2024-05-06 12:13:30 INFO  LeaveAppliedDAOImpl:161 - Getting employee leave history count
+2024-05-06 12:13:30 INFO  DataRetrieve:47 - Getting count by id
+2024-05-06 12:13:30 INFO  LeavePolicyDAOImpl:67 - Fetching employee leave policy
+2024-05-06 12:13:30 INFO  LeaveAppliedDAOImpl:161 - Getting employee leave history count
+2024-05-06 12:13:30 INFO  DataRetrieve:47 - Getting count by id
+2024-05-06 12:13:30 INFO  LeavePolicyDAOImpl:67 - Fetching employee leave policy
+2024-05-06 12:16:41 INFO  LeaveAppliedServiceImpl:66 - Leave applying in service
+2024-05-06 12:16:41 INFO  LeaveAppliedDAOImpl:87 - Entering leave apply
+2024-05-06 12:17:58 INFO  LeavePolicyDAOImpl:67 - Fetching employee leave policy
+2024-05-06 12:17:58 INFO  DataRetrieve:91 - Entering in data access layer
+2024-05-06 12:17:58 INFO  LeaveAppliedServiceImpl:87 - Getting employee history count by id in service layer
+2024-05-06 12:19:00 INFO  LeaveAppliedServiceImpl:87 - Getting employee history count by id in service layer
+2024-05-06 12:19:00 INFO  LeaveAppliedDAOImpl:161 - Getting employee leave history count
+2024-05-06 12:19:00 INFO  DataRetrieve:47 - Getting count by id
+2024-05-06 12:19:00 INFO  DataRetrieve:91 - Entering in data access layer
+2024-05-06 12:19:54 INFO  EmployeeDAOImpl:231 - Getting employee details card...
+2024-05-06 12:19:54 INFO  DataRetrieve:113 - Entering in data access
+2024-05-06 12:19:54 INFO  DataRetrieve:113 - Entering in data access
+2024-05-06 12:19:54 INFO  DataRetrieve:91 - Entering in data access layer
+2024-05-06 12:20:54 INFO  LeaveAppliedServiceImpl:87 - Getting employee history count by id in service layer
+2024-05-06 12:20:54 INFO  LeaveAppliedDAOImpl:161 - Getting employee leave history count
+2024-05-06 12:20:54 INFO  DataRetrieve:47 - Getting count by id
+2024-05-06 12:20:54 INFO  DataRetrieve:91 - Entering in data access layer
+2024-05-06 12:24:30 INFO  LeaveAppliedDAOImpl:161 - Getting employee leave history count
+2024-05-06 12:24:30 INFO  DataRetrieve:47 - Getting count by id
+2024-05-06 12:24:30 INFO  DataRetrieve:91 - Entering in data access layer
+2024-05-06 12:24:40 INFO  EmployeeServiceImpl:149 - Getting employees count in service layer.
+2024-05-06 12:24:40 INFO  DepartmentDAOImpl:100 - Entering Department count method...
+2024-05-06 12:26:18 INFO  DepartmentServiceImpl:93 - Getting department count in service
+2024-05-06 12:26:18 INFO  DepartmentDAOImpl:100 - Entering Department count method...
+2024-05-06 12:26:18 INFO  DataRetrieve:26 - Getting count
+2024-05-06 12:30:48 INFO  LeavePolicyServiceImpl:61 - Entering to fetch employee leave type
+2024-05-06 12:30:48 INFO  LeavePolicyDAOImpl:67 - Fetching employee leave policy
+2024-05-06 12:30:48 INFO  LeaveAppliedServiceImpl:87 - Getting employee history count by id in service layer
+2024-05-06 12:30:59 INFO  EmployeeServiceImpl:149 - Getting employees count in service layer.
+2024-05-06 12:30:59 INFO  EmployeeDAOImpl:204 - Getting employees count in business layer
+2024-05-06 12:30:59 INFO  DataRetrieve:26 - Getting count
+2024-05-06 12:34:55 ERROR DesignationDAOImpl:42 - Error in in Dao layer to save designation. org.hibernate.exception.ConstraintViolationException: could not execute statement [Duplicate entry 'Trainee Engineer II' for key 'designations.role_UNIQUE'] [insert into designations (departmentId,role,salary_package) values (?,?,?)]
+2024-05-06 12:34:55 ERROR DesignationServiceImpl:45 - Error in Service layer to save the designation. com.employee.demoproject.exceptions.DataServiceException: Exception in Dao layer to save designation
+2024-05-06 12:35:00 INFO  DepartmentServiceImpl:52 - getting all department in service.
+2024-05-06 12:35:00 INFO  DepartmentDAOImpl:60 - All departments will retrieving!
+2024-05-06 12:35:00 INFO  DataRetrieve:70 - Initialise retrieving data for 'class com.employee.demoproject.entity.Department' this class
+2024-05-06 12:38:53 ERROR DepartmentDAOImpl:36 - Error in creating department...org.hibernate.exception.ConstraintViolationException: could not execute statement [Duplicate entry 'New Department' for key 'department.name_UNIQUE'] [insert into department (name) values (?)]
+2024-05-06 12:38:53 ERROR DepartmentServiceImpl:33 - Error in create department in service. com.employee.demoproject.exceptions.DataServiceException: Exception in Creating department
+2024-05-06 12:39:09 INFO  DepartmentDAOImpl:114 - Entering the method of fetch department by filtering
+2024-05-06 13:00:37 INFO  DepartmentServiceImpl:52 - getting all department in service.
+2024-05-06 13:00:37 INFO  DepartmentDAOImpl:60 - All departments will retrieving!
+2024-05-06 13:00:37 INFO  DataRetrieve:70 - Initialise retrieving data for 'class com.employee.demoproject.entity.Department' this class
+2024-05-06 13:00:39 INFO  DepartmentServiceImpl:52 - getting all department in service.
+2024-05-06 13:00:39 INFO  DepartmentDAOImpl:60 - All departments will retrieving!
+2024-05-06 13:00:39 INFO  EmpRoleSalaryServiceImpl:64 - Entering the service layer for fetching EmpRoleSalary
+2024-05-06 13:00:39 INFO  EmpRoleSalaryDAOImpl:135 - Entering the method of fetch EmpRoleSalary by filtering
+2024-05-06 13:00:50 INFO  DepartmentServiceImpl:52 - getting all department in service.
+2024-05-06 13:00:50 INFO  DepartmentDAOImpl:60 - All departments will retrieving!
+2024-05-06 13:00:50 INFO  EmpRoleSalaryServiceImpl:64 - Entering the service layer for fetching EmpRoleSalary
+2024-05-06 13:00:50 INFO  DataRetrieve:70 - Initialise retrieving data for 'class com.employee.demoproject.entity.Department' this class
+2024-05-06 13:00:51 INFO  DepartmentServiceImpl:52 - getting all department in service.
+2024-05-06 13:00:51 INFO  DepartmentDAOImpl:60 - All departments will retrieving!
+2024-05-06 13:00:51 INFO  EmpRoleSalaryServiceImpl:64 - Entering the service layer for fetching EmpRoleSalary
+2024-05-06 13:00:51 INFO  EmpRoleSalaryDAOImpl:135 - Entering the method of fetch EmpRoleSalary by filtering
+2024-05-06 14:23:53 ERROR EmployeeDAOImpl:64 - Error in creating employee in business layer. org.hibernate.exception.ConstraintViolationException: could not execute statement [Duplicate entry 'aadhi@yopmail.com' for key 'employee.email_UNIQUE'] [insert into employee (address,birthday,dept_id,email,gender,mobile,name,status) values (?,?,?,?,?,?,?,?)]
+2024-05-06 14:23:53 ERROR EmployeeServiceImpl:43 - Error while creating employee in service. com.employee.demoproject.exceptions.DataServiceException: Exception in creating employee in business layer.
+2024-05-06 14:24:00 INFO  EmployeeServiceImpl:40 - Creating employee in service
+2024-05-06 14:24:00 INFO  DepartmentDAOImpl:73 - Initialize the getting department by it's ID.
+2024-05-06 14:24:00 ERROR EmployeeDAOImpl:64 - Error in creating employee in business layer. org.hibernate.exception.ConstraintViolationException: could not execute statement [Duplicate entry 'aadhi@yopmail.com' for key 'employee.email_UNIQUE'] [insert into employee (address,birthday,dept_id,email,gender,mobile,name,status) values (?,?,?,?,?,?,?,?)]
+2024-05-06 14:24:00 ERROR EmployeeServiceImpl:43 - Error while creating employee in service. com.employee.demoproject.exceptions.DataServiceException: Exception in creating employee in business layer.
+2024-05-06 14:24:21 INFO  EmployeeDAOImpl:255 - Entering the method of fetch employee by filtering

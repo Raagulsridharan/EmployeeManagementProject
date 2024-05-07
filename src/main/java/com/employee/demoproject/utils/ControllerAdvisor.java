@@ -2,6 +2,7 @@ package com.employee.demoproject.utils;
 
 import com.employee.demoproject.exceptions.BusinessServiceException;
 import com.employee.demoproject.exceptions.CustomErrorResponse;
+import com.employee.demoproject.exceptions.HttpClientException;
 import com.employee.demoproject.responce.HttpStatusResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
@@ -47,6 +48,12 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     public ResponseEntity<CustomErrorResponse> handleMyCustomException(BusinessServiceException ex) {
         CustomErrorResponse errorResponse = new CustomErrorResponse(ex.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         return new ResponseEntity<>(errorResponse,HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(value = HttpClientException.class)
+    public ResponseEntity<HttpStatusResponse> handleHttpClientException(HttpClientException ex) {
+//        CustomErrorResponse errorResponse = new CustomErrorResponse(ex.getMessage(),HttpStatus.CONFLICT);
+        return new ResponseEntity<>(new HttpStatusResponse(ex.getStatusCode(), ex.getMessage()),HttpStatus.CONFLICT);
     }
 
 }

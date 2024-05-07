@@ -7,6 +7,12 @@ public class HttpStatusResponse {
 
     public HttpStatusResponse() {
     }
+
+    public HttpStatusResponse(Integer statusCode, String description) {
+        this.statusCode = statusCode;
+        this.description = description;
+    }
+
     public HttpStatusResponse(Object data, Integer statusCode, String description){
         this.data = data;
         this.statusCode = statusCode;

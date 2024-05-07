@@ -5,11 +5,14 @@ import com.employee.demoproject.dataRetrieve.DataRetrieve;
 import com.employee.demoproject.entity.Department;
 import com.employee.demoproject.exceptions.DataAccessException;
 import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.exceptions.HttpClientException;
 import com.employee.demoproject.pagination.FilterOption;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,7 +28,7 @@ public class DepartmentDAOImpl implements DepartmentDAO {
     static Logger logger = Logger.getLogger(DepartmentDAOImpl.class);
 
     @Override
-    public Department createDepartment(String name) throws DataServiceException {
+    public Department createDepartment(String name) throws DataServiceException, HttpClientException {
         try {
             logger.info("Create Department initialized...");
             Department department = new Department();
@@ -34,7 +37,12 @@ public class DepartmentDAOImpl implements DepartmentDAO {
             return department;
         } catch (Exception e) {
             logger.error("Error in creating department..." + e);
-            throw new DataServiceException("Exception in Creating department", e);
+            if(e instanceof ConstraintViolationException && e.getMessage().contains("Duplicate entry")){
+                throw new HttpClientException("Department name " + name + " already exists", HttpStatus.CONFLICT.value());
+            } else{
+                throw new DataServiceException(e.getMessage(), e);
+            }
+
         }
     }
 

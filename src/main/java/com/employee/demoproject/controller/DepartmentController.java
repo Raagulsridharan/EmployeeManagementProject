@@ -4,6 +4,7 @@ import com.employee.demoproject.dto.DepartmentDTO;
 import com.employee.demoproject.endPoints.BaseAPI;
 import com.employee.demoproject.entity.Department;
 import com.employee.demoproject.exceptions.BusinessServiceException;
+import com.employee.demoproject.exceptions.HttpClientException;
 import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.pagination.FilterOption;
 import com.employee.demoproject.service.DepartmentService;
@@ -43,7 +44,7 @@ public class DepartmentController {
      * @return
      */
     @PostMapping
-    public ResponseEntity<HttpStatusResponse> saveDepartment(@RequestBody DepartmentDTO departmentDTO) throws BusinessServiceException {
+    public ResponseEntity<HttpStatusResponse> saveDepartment(@RequestBody DepartmentDTO departmentDTO) throws BusinessServiceException, HttpClientException {
         DepartmentDTO createdDepartment = departmentService.createDepartment(departmentDTO);
         if (createdDepartment != null) {
             return new ResponseEntity<>(new HttpStatusResponse(createdDepartment, HttpStatus.CREATED.value(), "Successfully department created"), HttpStatus.CREATED);
