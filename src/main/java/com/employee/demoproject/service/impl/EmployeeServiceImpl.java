@@ -11,6 +11,7 @@ import com.employee.demoproject.entity.LoginDetails;
 import com.employee.demoproject.exceptions.BusinessServiceException;
 import com.employee.demoproject.exceptions.DataServiceException;
 import com.employee.demoproject.pagination.FilterOption;
+import com.employee.demoproject.service.EmailSenderService;
 import com.employee.demoproject.service.EmployeeService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +33,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Autowired
     private DepartmentDAO departmentDAO;
 
+    @Autowired
+    private EmailSenderService emailSenderService;
+
     static Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
 
     @Override
     public LoginDetailsDTO createEmployee(EmployeeDTO employeeDTO) throws BusinessServiceException{
         try{
             logger.info("Creating employee in service");
-            return mapToLoginDTO(employeeDAO.createEmployee(mapToEntity(employeeDTO)));
+            LoginDetails loginDetails = employeeDAO.createEmployee(mapToEntity(employeeDTO));
+            return mapToLoginDTO(loginDetails);
         }catch (DataServiceException ex){
             logger.error("Error while creating employee in service. "+ex);
             throw new BusinessServiceException("Employee already exists!", ex);

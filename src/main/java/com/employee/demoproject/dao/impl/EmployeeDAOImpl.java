@@ -72,15 +72,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         try{
             logger.info("Employee updating..!");
             Employee updateEmployee = sessionFactory.getCurrentSession().get(Employee.class,empId);
-//            updateEmployee.setName(employeeDTO.getEmp_name());
             updateEmployee.setMobile(employeeDTO.getMobile());
-//            updateEmployee.setEmail(employeeDTO.getEmail());
             updateEmployee.setAddress(employeeDTO.getAddress());
 
             Department department = departmentService.getDepartmentById(employeeDTO.getDepartmentId());
             updateEmployee.setDepartment(department);
-
-//            loginDetailsService.updateUserName(empId,employeeDTO);
 
             sessionFactory.getCurrentSession().saveOrUpdate(updateEmployee);
 

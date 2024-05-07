@@ -39,8 +39,8 @@ public class LoginDetailsDAOImpl implements LoginDetailsDAO {
 
             sessionFactory.getCurrentSession().persist(loginDetails);
 
-            emailSenderService.sendEmail(loginDetails.getUsername(),loginDetails.getPassword(),loginDetails.getEmployee_login().getDepartment().getId());
-            System.out.println("************************[ Email Sent ]******************************");
+//            emailSenderService.sendEmail(loginDetails.getUsername(),loginDetails.getPassword(),loginDetails.getEmployee_login().getDepartment().getId());
+//            System.out.println("************************[ Email Sent ]******************************");
             return loginDetails;
         }catch (HibernateException e){
             throw new DataServiceException("Exception in saving login details",e);

@@ -27,6 +27,10 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private EmailSenderService emailSenderService;
+
+
     /**
      * save employees for new
      * @param employeeDTO
@@ -37,6 +41,8 @@ public class EmployeeController {
     public ResponseEntity<HttpStatusResponse> saveEmployee(@RequestBody EmployeeDTO employeeDTO) throws BusinessServiceException {
         LoginDetailsDTO loginDetailsDTO = employeeService.createEmployee(employeeDTO);
         if(loginDetailsDTO!=null){
+            emailSenderService.sendEmail(loginDetailsDTO.getUsername(),loginDetailsDTO.getPassword(),loginDetailsDTO.getDeptId());
+            System.out.println("************************[ Email Sent ]******************************");
             return new ResponseEntity<>(new HttpStatusResponse(loginDetailsDTO,HttpStatus.CREATED.value(), "Successfully employee created"),HttpStatus.OK);
         }else{
             return new ResponseEntity<>(new HttpStatusResponse(null,HttpStatus.BAD_REQUEST.value(), "Employee not created"),HttpStatus.BAD_REQUEST);
@@ -60,6 +66,13 @@ public class EmployeeController {
         }
     }
 
+    /**
+     * updating employee with department and role/salary
+     * @param empId
+     * @param employeeDTO
+     * @return
+     * @throws BusinessServiceException
+     */
     @PutMapping("/update/{empId}")
     public ResponseEntity<HttpStatusResponse> updateEmployeeDepartment(@PathVariable int empId, @RequestBody EmployeeDTO employeeDTO) throws BusinessServiceException {
         EmployeeDTO updatedEmployee = employeeService.updateEmployeeDepartment(empId,employeeDTO);
