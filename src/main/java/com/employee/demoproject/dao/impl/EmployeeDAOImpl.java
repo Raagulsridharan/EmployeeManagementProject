@@ -12,14 +12,17 @@ import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.LoginDetails;
 import com.employee.demoproject.exceptions.DataAccessException;
 import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.exceptions.HttpClientException;
 import com.employee.demoproject.pagination.FilterOption;
 import com.employee.demoproject.service.DepartmentService;
 import com.employee.demoproject.service.LoginDetailsService;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -48,7 +51,7 @@ public class EmployeeDAOImpl implements EmployeeDAO {
     static Logger logger = Logger.getLogger(EmployeeDAOImpl.class);
 
     @Override
-    public LoginDetails createEmployee(Employee employee) throws DataServiceException{
+    public LoginDetails createEmployee(Employee employee) throws DataServiceException, HttpClientException {
         try{
             logger.info("creating employee in business layer.");
 
@@ -62,7 +65,11 @@ public class EmployeeDAOImpl implements EmployeeDAO {
             return loginDetails;
         }catch (Exception e){
             logger.error("Error in creating employee in business layer. "+e);
-            throw new DataServiceException("Exception in creating employee in business layer. ",e);
+            if(e instanceof ConstraintViolationException && e.getMessage().contains("Duplicate entry")){
+                throw new HttpClientException("Employee "+ employee.getEmail()+" is  already exists", HttpStatus.CONFLICT.value());
+            } else{
+                throw new DataServiceException(e.getMessage(), e);
+            }
         }
     }
 

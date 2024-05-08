@@ -7,6 +7,7 @@ import com.employee.demoproject.endPoints.BaseAPI;
 import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.LoginDetails;
 import com.employee.demoproject.exceptions.BusinessServiceException;
+import com.employee.demoproject.exceptions.HttpClientException;
 import com.employee.demoproject.pagination.FilterOption;
 import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.service.EmailSenderService;
@@ -38,7 +39,7 @@ public class EmployeeController {
      * @throws BusinessServiceException
      */
     @PostMapping
-    public ResponseEntity<HttpStatusResponse> saveEmployee(@RequestBody EmployeeDTO employeeDTO) throws BusinessServiceException {
+    public ResponseEntity<HttpStatusResponse> saveEmployee(@RequestBody EmployeeDTO employeeDTO) throws BusinessServiceException, HttpClientException {
         LoginDetailsDTO loginDetailsDTO = employeeService.createEmployee(employeeDTO);
         if(loginDetailsDTO!=null){
             emailSenderService.sendEmail(loginDetailsDTO.getUsername(),loginDetailsDTO.getPassword(),loginDetailsDTO.getDeptId());

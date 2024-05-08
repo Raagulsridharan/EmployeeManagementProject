@@ -112,9 +112,10 @@ public class DepartmentController {
      */
     @PostMapping("/all")
     public ResponseEntity<HttpStatusResponse> filterTheDepartment(@RequestBody @Valid FilterOption filterOption) throws BusinessServiceException {
-        return ofNullable(departmentService.filterDepartment(filterOption)).filter(CollectionUtils::isNotEmpty)
-                .map(departmentDTOS -> new ResponseEntity<>
-                        (new HttpStatusResponse(departmentDTOS, HttpStatus.OK.value(), "Departments filtered successfully"), HttpStatus.OK))
+        return ofNullable(departmentService.filterDepartment(filterOption))
+                .filter(CollectionUtils::isNotEmpty)
+                .map(departmentDTOS ->
+                        new ResponseEntity<>(new HttpStatusResponse(departmentDTOS, HttpStatus.OK.value(), "Departments filtered successfully"), HttpStatus.OK))
                 .orElse(new ResponseEntity<>(new HttpStatusResponse(null, HttpStatus.NO_CONTENT.value(), "no data to filter"), HttpStatus.NO_CONTENT));
     }
 

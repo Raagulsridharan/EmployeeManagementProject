@@ -6,12 +6,13 @@ import com.employee.demoproject.entity.Department;
 import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.LoginDetails;
 import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.exceptions.HttpClientException;
 import com.employee.demoproject.pagination.FilterOption;
 
 import java.util.List;
 
 public interface EmployeeDAO {
-    LoginDetails createEmployee(Employee employee) throws DataServiceException;
+    LoginDetails createEmployee(Employee employee) throws DataServiceException, HttpClientException;
     Employee updateEmployee(int empId,EmployeeDTO employeeDTO) throws DataServiceException;
     Employee updateEmployeeDepartment(int empId,EmployeeDTO employeeDTO) throws DataServiceException;
     List<Employee> getAllEmployee() throws DataServiceException;

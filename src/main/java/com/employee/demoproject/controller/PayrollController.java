@@ -5,6 +5,7 @@ import com.employee.demoproject.dto.PaySlipDTO;
 import com.employee.demoproject.dto.PayrollDTO;
 import com.employee.demoproject.endPoints.BaseAPI;
 import com.employee.demoproject.exceptions.BusinessServiceException;
+import com.employee.demoproject.exceptions.HttpClientException;
 import com.employee.demoproject.pagination.FilterOption;
 import com.employee.demoproject.responce.HttpStatusResponse;
 import com.employee.demoproject.entity.Payroll;
@@ -124,8 +125,13 @@ public class PayrollController {
     }
 
     @PostMapping("/{empId}")
-    public ResponseEntity<HttpStatusResponse> makePayment(@PathVariable int empId, @RequestBody PayrollDTO payrollDTO) throws BusinessServiceException{
-        return new ResponseEntity<>(new HttpStatusResponse(payrollService.makePayment(empId,payrollDTO),HttpStatus.OK.value(), "Successfully payment done"),HttpStatus.OK);
+    public ResponseEntity<HttpStatusResponse> makePayment(@PathVariable int empId, @RequestBody PayrollDTO payrollDTO) throws BusinessServiceException, HttpClientException {
+        PayrollDTO payroll = payrollService.makePayment(empId,payrollDTO);
+        if(payroll!=null){
+            return new ResponseEntity<>(new HttpStatusResponse(payroll,HttpStatus.OK.value(), "Successfully payment done"),HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(new HttpStatusResponse(null,HttpStatus.NO_CONTENT.value(), "Successfully payment done"),HttpStatus.NO_CONTENT);
+        }
     }
 
     @PostMapping("/create/{empId}")

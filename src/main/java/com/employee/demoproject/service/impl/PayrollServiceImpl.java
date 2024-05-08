@@ -9,6 +9,7 @@ import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.Payroll;
 import com.employee.demoproject.exceptions.BusinessServiceException;
 import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.exceptions.HttpClientException;
 import com.employee.demoproject.pagination.FilterOption;
 import com.employee.demoproject.service.PayrollService;
 import org.apache.log4j.Logger;
@@ -41,8 +42,14 @@ public class PayrollServiceImpl implements PayrollService {
     }
 
     @Override
-    public Payroll makePayment(int empId, PayrollDTO payrollDTO) {
-        return payrollDAO.makePayment(empId, payrollDTO);
+    public PayrollDTO makePayment(int empId, PayrollDTO payrollDTO) throws BusinessServiceException, HttpClientException{
+        try {
+            logger.info("Entering to payment");
+            return mapToDTO(payrollDAO.makePayment(empId, payrollDTO));
+        }catch (DataServiceException e){
+            logger.error("Error in payment, "+e);
+            throw new BusinessServiceException(e.getMessage(),e);
+        }
     }
 
     @Override

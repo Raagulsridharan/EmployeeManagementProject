@@ -10,6 +10,7 @@ import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.LoginDetails;
 import com.employee.demoproject.exceptions.BusinessServiceException;
 import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.exceptions.HttpClientException;
 import com.employee.demoproject.pagination.FilterOption;
 import com.employee.demoproject.service.EmailSenderService;
 import com.employee.demoproject.service.EmployeeService;
@@ -39,14 +40,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     static Logger logger = Logger.getLogger(EmployeeServiceImpl.class);
 
     @Override
-    public LoginDetailsDTO createEmployee(EmployeeDTO employeeDTO) throws BusinessServiceException{
+    public LoginDetailsDTO createEmployee(EmployeeDTO employeeDTO) throws BusinessServiceException, HttpClientException {
         try{
             logger.info("Creating employee in service");
             LoginDetails loginDetails = employeeDAO.createEmployee(mapToEntity(employeeDTO));
             return mapToLoginDTO(loginDetails);
         }catch (DataServiceException ex){
             logger.error("Error while creating employee in service. "+ex);
-            throw new BusinessServiceException("Employee already exists!", ex);
+            throw new BusinessServiceException(ex.getMessage(),ex);
         }
     }
 

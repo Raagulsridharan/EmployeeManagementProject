@@ -10,6 +10,7 @@ import com.employee.demoproject.entity.Employee;
 import com.employee.demoproject.entity.Payroll;
 import com.employee.demoproject.exceptions.DataAccessException;
 import com.employee.demoproject.exceptions.DataServiceException;
+import com.employee.demoproject.exceptions.HttpClientException;
 import com.employee.demoproject.pagination.FilterOption;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
@@ -17,8 +18,10 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -74,7 +77,7 @@ public class PayrollDAOImpl implements PayrollDAO {
     }
 
     @Override
-    public Payroll makePayment(int empId, PayrollDTO payrollDTO) throws DataServiceException{
+    public Payroll makePayment(int empId, PayrollDTO payrollDTO) throws DataServiceException, HttpClientException {
         try {
             String query =  "from EmpRoleSalary ers\n" +
                     "where ers.employee_role_salary.id = :id";
@@ -87,11 +90,15 @@ public class PayrollDAOImpl implements PayrollDAO {
             payroll.setDescription(payrollDTO.getDescription());
             payroll.setStatus("Paid");
 
-            sessionFactory.getCurrentSession().save(payroll);
+            sessionFactory.getCurrentSession().persist(payroll);
             System.out.println("Salary credited...");
             return payroll;
-        }catch (DataAccessException e){
-            throw new DataServiceException("Exception in adding payment ",e);
+        }catch (Exception e){
+            if(e instanceof ConstraintViolationException && e.getMessage().contains("Duplicate entry")){
+                throw new HttpClientException("Already paid for "+payrollDTO.getMonth(), HttpStatus.CONFLICT.value());
+            } else{
+                throw new DataServiceException(e.getMessage(), e);
+            }
         }
     }
 

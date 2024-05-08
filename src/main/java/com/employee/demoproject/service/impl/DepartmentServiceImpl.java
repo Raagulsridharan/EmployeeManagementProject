@@ -104,9 +104,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<DepartmentDTO> filterDepartment(FilterOption filterOption) throws BusinessServiceException{
         try{
             List<Department> departmentList = departmentDAO.filterDepartment(filterOption);
+            Long totalCount = departmentDAO.getDepartmentCount();
             return Optional.ofNullable(departmentList)
                     .map(list -> list.stream()
-                            .map(this::mapToDTO)
+                            .map(department -> mapToDTOWithCount(department, totalCount))
                             .collect(Collectors.toList()))
                     .orElse(null);
         }catch (DataServiceException e){
@@ -115,6 +116,13 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     }
 
+    private DepartmentDTO mapToDTOWithCount(Department department, Long totalCount) {
+        DepartmentDTO departmentDTO = new DepartmentDTO();
+        departmentDTO.setId(department.getId());
+        departmentDTO.setName(department.getName());
+        departmentDTO.setTotalCount(totalCount);
+        return departmentDTO;
+    }
     private DepartmentDTO mapToDTO(Department department) {
         DepartmentDTO departmentDTO = new DepartmentDTO();
         departmentDTO.setId(department.getId());
